@@ -44,7 +44,21 @@ function getProductsPoller(){
   }, 1500)
 }
 
-getProductsPoller();
+// getProductsPoller();
+
+
+getProductBook('BTC-USD')
+
+
+// publicClient.getProductHistoricRates(
+//   'BTC-USD',
+//   { granularity: 3600 },
+//   (error, response, rates) => {
+//     console.log(error)
+//     console.log(response)
+//     console.log(rates)
+//   }
+// );
 
 
 // publicClient.getProducts((error, response, data) => {
