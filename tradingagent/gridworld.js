@@ -57,15 +57,15 @@ class Gridworld extends StateMachine {
 
   init(size) {
     this.actions = [
-    new Action('⬆️', 0),
-    new Action('⬇️', 1),
-    new Action('⬅️', 2),
-    new Action('➡️', 3),
-    new Action('⬆️', 5),
-    new Action('⬇️', 6),
-    new Action('⬅️', 7),
-    new Action('➡️', 8),
-    new Action('➡️', 9),
+    new Action('buyETH️', 0),
+    new Action('buyBTC️', 1),
+    new Action('buyLTC️', 2),
+    new Action('buyBCH️', 3),
+    new Action('sellETH️', 5),
+    new Action('sellBTC️', 6),
+    new Action('sellLTC️', 7),
+    new Action('sellBCH️', 8),
+    new Action('HODL', 9),
     ];
 
     // States
@@ -89,7 +89,7 @@ class Gridworld extends StateMachine {
         // sellBTC()
         // sellLTC()
         // sellBCH()
-        // hold position
+        // HODL
 
 
         // i ⬆️ j (and it doesn't go in the negatives)
