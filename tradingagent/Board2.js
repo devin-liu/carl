@@ -6,7 +6,7 @@
 
 
 
-// amount = min(10% of account, order size)
+// quantity = min(10% of account, order size)
 
 
 // Step left(sell)
@@ -18,10 +18,10 @@
 
 
 class Position {
-  constructor(symbol, price, amount, id) {
+  constructor(symbol, price, quantity, id) {
     this.symbol = symbol;
     this.price = price;
-    this.amount = amount;
+    this.quantity = quantity;
     this.id = id;
   }
 }
@@ -29,23 +29,48 @@ class Position {
 
 class Agent {
   constructor(symbol) {
-    this.positions = [];
+    this.buys = [];
+    this.sells = [];
     this.lastVWAP = 0;
+    this.profit = 0;
   }
 
 
-  getVWAP() {
-    const totalAmount = this.positions.map(position => position.amount);
-    return this.positions.map(position => position.price*(position.amount/totalAmount));
+  getTotalQuantity(positions) {
+    return positions.reduce((a,b) => a.quantity + b.quantity);
   }
 
-  buy(price, amount) {
-    this.positions.push(new Position(this.symbol, price, amount))
+  getTotalPositionPrice(positions) {
+    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price)
   }
 
-  sell() {
-    this.lastVWAP = this.getVWAP(this.positions);
-    this.positions = [];
+  getVWAP(positions) {
+    const totalAmount = this.getTotalQuantity(positions);
+    const quantitys = positions.map(position => position.price*(position.quantity/totalAmount));
+    return quantitys.reduce((a,b) => a + b);
+  }
+
+  buy(price, quantity) {
+    this.buys.push(new Position(this.symbol, price, quantity));
+  }
+
+  sell(price, quantity) {
+    this.sells.push(new Position(this.symbol, price, quantity));
+  }
+
+  clearBalance() {
+    this.buys = [];
+    this.sells = [];
+  }
+
+  calculateProfit() {
+    const cost = this.getTotalPositionPrice(this.buys);
+    const revenue = this.getTotalPositionPrice(this.sells);
+    return revenue - cost;
+  }
+
+  setLastVWAP() {
+    this.lastVWAP = this.getVWAP(this.buys);
   }
 
 }
@@ -63,3 +88,6 @@ class Agent {
 // -> fc-4 (4 actions)
 
 // current State S = 10x1x10 stack of last 10 orderbooks
+
+// avoid training from batches of consecutive samples
+// use experience replay
