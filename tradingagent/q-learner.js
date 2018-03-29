@@ -55,10 +55,12 @@ class QLearner {
       this.Q[key] = {};
       for (let a in stateActions){
         const stateAction = stateActions[a];
-        // console.log(stateAction)
-        this.Q[key][stateAction.action.name] = stateAction.action.reward;
+        console.log(stateAction)
+        this.Q[key][stateAction.action.name] = stateAction.reward;
       }
     }
+
+    console.log(this.Q)
   }
 
 
