@@ -48,10 +48,10 @@ class StateMachine {
     this.profit = 0;
   }
 
-  addStateAction(state, action, reward) {
-    let transitionsForState = this.stateActions[state.id] || {};
-    stateActionsForState[this.actions[action].name] = new StateAction(this.states[state.id], this.actions[action], reward || 0);
-    this.stateActions[state.id] = stateActionsForState;
+  addStateAction(stateId, action, reward) {
+    let transitionsForState = this.stateActions[stateId] || {};
+    stateActionsForState[this.actions[action].name] = new StateAction(this.states[stateId], this.actions[action], reward || 0);
+    this.stateActions[stateId] = stateActionsForState;
   }
 
   takeStep(state, action) {
@@ -68,7 +68,7 @@ class StateMachine {
 
 
   getStepReward(actionName) {
-    if(actionName === '')
+
 
   }
 
@@ -104,6 +104,41 @@ class StateMachine {
     const totalAmount = this.getTotalQuantity(positions);
     const quantitys = positions.map(position => position.price*(position.quantity/totalAmount));
     return quantitys.reduce((a,b) => a + b);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  buy(price, quantity) {
+    this.buys.push(new Position(this.symbol, price, quantity));
+  }
+
+  sell(price, quantity) {
+    this.sells.push(new Position(this.symbol, price, quantity));
+  }
+
+  clearBalance() {
+    this.buys = [];
+    this.sells = [];
+  }
+
+  calculateProfit() {
+    const cost = this.getTotalPositionPrice(this.buys);
+    const revenue = this.getTotalPositionPrice(this.sells);
+    return revenue - cost;
+  }
+
+  setLastVWAP() {
+    this.lastVWAP = this.getVWAP(this.buys);
   }
 
 }

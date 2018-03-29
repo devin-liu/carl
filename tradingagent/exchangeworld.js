@@ -53,8 +53,9 @@ class ExchangeWorld extends StateMachine {
 
 
   init(oneSideWidth) {
-    this.actions = ONECOINACTIONS;
-
+    this.actions = ONECOINACTIONS.map((action, index) => {
+      return new Action(action, index);
+    });
 
     // States
     for (let i = 0; i < BOOKCOMBINATIONS.length; i++) {

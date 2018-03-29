@@ -17,37 +17,15 @@
 // add to position
 
 
-class Position {
-  constructor(symbol, price, quantity, id) {
-    this.symbol = symbol;
-    this.price = price;
-    this.quantity = quantity;
-    this.id = id;
-  }
-}
+
 
 
 class Agent {
   constructor(symbol) {
-    this.buys = [];
-    this.sells = [];
-    this.lastVWAP = 0;
-    this.profit = 0;
+
   }
 
-  getTotalQuantity(positions) {
-    return positions.reduce((a,b) => a.quantity + b.quantity);
-  }
 
-  getTotalPositionPrice(positions) {
-    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
-  }
-
-  getVWAP(positions) {
-    const totalAmount = this.getTotalQuantity(positions);
-    const quantitys = positions.map(position => position.price*(position.quantity/totalAmount));
-    return quantitys.reduce((a,b) => a + b);
-  }
 
   buy(price, quantity) {
     this.buys.push(new Position(this.symbol, price, quantity));
