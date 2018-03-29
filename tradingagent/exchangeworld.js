@@ -1,5 +1,7 @@
 const { StateMachine } = require('./state-machine');
 
+const { ONECOINACTIONS } = require('./defaults.js');
+
 // This is a particular kind of state machine, which is
 // a grid that lets you move in all directions.
 class ExchangeWorld extends StateMachine {
@@ -55,23 +57,7 @@ class ExchangeWorld extends StateMachine {
   }
 
   init(size) {
-    const allCoinActions = [
-      new Action('buyETH️', 0),
-      new Action('buyBTC️', 1),
-      new Action('buyLTC️', 2),
-      new Action('buyBCH️', 3),
-      new Action('sellETH️', 5),
-      new Action('sellBTC️', 6),
-      new Action('sellLTC️', 7),
-      new Action('sellBCH️', 8),
-      new Action('HODL️', 9),
-    ];
-    const justBTCActions = [
-      new Action('buyBTC️', 1),
-      new Action('sellBTC️', 2),
-      new Action('HODL️', 3),
-    ];
-    this.actions = justBTCActions;
+    this.actions = ONECOINACTIONS;
 
 
 
