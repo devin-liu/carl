@@ -32,18 +32,18 @@ class StateMachine {
   constructor(states, actions) {
     this.states = states || [];
     this.actions = actions || [];
-    this.transitions = {};
+    this.stateActions = {};
   }
 
   addStateAction(state, action, reward) {
-    let transitionsForState = this.transitions[state] || {};
-    transitionsForState[this.actions[action].name] = new StateAction(this.states[state], this.actions[action], reward || 0);
-    this.transitions[state] = transitionsForState;
+    let transitionsForState = this.stateActions[state] || {};
+    stateActionsForState[this.actions[action].name] = new StateAction(this.states[state], this.actions[action], reward || 0);
+    this.stateActions[state] = stateActionsForState;
   }
 
   takeStep(state, action) {
     // Can this state take this action?
-    const transition = this.transitions[state][action];
+    const transition = this.stateActions[state][action];
     if (transition) {
       //console.log(`${transition.state.name} ${action} ${transition.toState.name}`);
       state = transition.toState.id;
@@ -53,9 +53,13 @@ class StateMachine {
     return state;
   }
 
+  getNextState(state) {
+
+  }
+
   takeRandomStep(state) {
     // Pick a random action from the available ones
-    const availableStateActions = this.transitions[state];
+    const availableStateActions = this.stateActions[state];
     const availableActions = Object.keys(availableStateActions)
     const action = availableActions[this.pickRandomNumber(availableActions.length)];
     return this.takeStep(state, action);

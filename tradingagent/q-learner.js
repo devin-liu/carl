@@ -37,10 +37,10 @@ class QLearner {
     // goal state. You want random numbers so that you
     // don't accidentally bias the "prior" knowledge.
     for (let s = 0; s < this.world.states.length; s++) {
-      const transitions = this.world.transitions[s];
+      const stateActions = this.world.stateActions[s];
       this.Q[s] = {};
-      for (let a in transitions) {
-        const transition = transitions[a]
+      for (let a in stateActions) {
+        const transition = stateActions[a]
         // Goal state?
         if (transition.toState.id === this.world.goalState) {
           this.Q[s][transition.action.id] = 0;
@@ -76,7 +76,7 @@ class QLearner {
 
     // Take the action A, and get a reward R and the next state S'.
     const actionName = this.world.actions[bestAction].name;
-    const transition = this.world.transitions[state][actionName];
+    const transition = this.world.stateActions[state][actionName];
 
     // Update the value function according to this formula:
     // Q(S, A) = Q(S, A) + α[R + γ max_a Q(S', a) − Q(S, A)]

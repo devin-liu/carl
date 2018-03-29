@@ -44,28 +44,21 @@ class ExchangeWorld extends StateMachine {
       const bestAction = this.policy[this.currentState];
       const actionName = this.actions[bestAction].name;
       this.currentState = this.takeStep(this.currentState, actionName);
-    } else {
-      this.currentState = this.takeRandomStep(this.currentState);
+      this.currentState = this.getNextState();
     }
 
-    // if (this.currentState === this.goalState) {
-    //   this.score++;
-    //   // Start in a random state to make it interesting.
-    //   this.currentState = this.pickRandomState();
-    // }
   }
+
+
 
   init(oneSideWidth) {
     this.actions = ONECOINACTIONS;
     let totalCombinations = getNumberOfCombinations(oneSideWidth*2);
 
-
     // States
-    for (let i = 0; i < totalCombinations; i++) {
-      this.states.push(new State(`s${i}`, i));
+    for (let i = 0; i < oneSideWidth*2; i++) {
+      this.states[id] = new State(`s${i}`, i);
     }
-
-
 
 
     for (let i = 0; i < this.states.length; i++) {
