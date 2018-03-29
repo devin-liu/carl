@@ -2,9 +2,11 @@
  * State, actions, transitions
  ******************************/
 class State {
-  constructor(name, id) {
+  constructor(name, id, buyBook, sellBook) {
     this.name = name;
     this.id = id;
+    this.buyBook = buyBook;
+    this.sellBook = sellBook;
   }
 }
 
@@ -15,11 +17,10 @@ class Action {
   }
 }
 
-class Transition {
-   constructor(fromState, action, toState, reward = 0) {
+class StateAction {
+   constructor(state, action, reward = 0) {
      this.action = action;
-     this.fromState = fromState;
-     this.toState = toState;
+     this.state = state;
      this.reward = reward;
    }
 }
@@ -32,20 +33,19 @@ class StateMachine {
     this.states = states || [];
     this.actions = actions || [];
     this.transitions = {};
-    this.goalState = 0;
   }
 
-  addTransition(fromState, toState, action, reward) {
-    let transitionsForState = this.transitions[fromState] || {};
-    transitionsForState[this.actions[action].name] = new Transition(this.states[fromState], this.actions[action], this.states[toState], reward || 0);
-    this.transitions[fromState] = transitionsForState;
+  addStateAction(state, action, reward) {
+    let transitionsForState = this.transitions[state] || {};
+    transitionsForState[this.actions[action].name] = new StateAction(this.states[state], this.actions[action], reward || 0);
+    this.transitions[state] = transitionsForState;
   }
 
   takeStep(state, action) {
     // Can this state take this action?
     const transition = this.transitions[state][action];
     if (transition) {
-      //console.log(`${transition.fromState.name} ${action} ${transition.toState.name}`);
+      //console.log(`${transition.state.name} ${action} ${transition.toState.name}`);
       state = transition.toState.id;
     } else {
       console.log(`${this.states[state].name} ${action}🚫`);
@@ -55,8 +55,8 @@ class StateMachine {
 
   takeRandomStep(state) {
     // Pick a random action from the available ones
-    const availableTransitions = this.transitions[state];
-    const availableActions = Object.keys(availableTransitions)
+    const availableStateActions = this.transitions[state];
+    const availableActions = Object.keys(availableStateActions)
     const action = availableActions[this.pickRandomNumber(availableActions.length)];
     return this.takeStep(state, action);
   }
@@ -74,5 +74,5 @@ module.exports = {
   StateMachine,
   State,
   Action,
-  Transition
+  StateAction
 };

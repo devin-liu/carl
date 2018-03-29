@@ -19,7 +19,13 @@ const ONECOINACTIONS = [
   new Action('CLEAR', 3),
 ]
 
+
+function getNumberOfCombinations(width) {
+  return 2**width;
+}
+
 module.exports = {
   ALLCOINACTIONS,
-  ONECOINACTIONS
+  ONECOINACTIONS,
+  getNumberOfCombinations,
 }
