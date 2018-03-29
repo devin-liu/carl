@@ -78,14 +78,22 @@ class ExchangeWorld extends StateMachine {
 
   }
 
-  getTradeQty(actionName) {
-    return Math.random()*10;
+  getTradeQuantity(actionName) {
+    // return Math.random()*10;
     const maxRiskCash = this.getMaxRiskCash();
     if(actionName === 'BUY'){
       const price = this.getTradePrice(actionName);
       return Math.min((maxRiskCash / price), this.getAskQuantity());
     }
     if(actionName === 'SELL'){
+      // console.log(this.getBidQuantity(), this.getTotalQuantity(this.buys))
+      // if(this.getTotalQuantity(this.buys) === NaN){
+      //   console.log(this.buys)
+      // }
+      // if(this.getBidQuantity() === NaN){
+      //   console.log(this.buys)
+      // }
+
       return Math.min(this.getBidQuantity(), this.getTotalQuantity(this.buys));
     }
     if(actionName === 'HODL'){
@@ -105,8 +113,8 @@ class ExchangeWorld extends StateMachine {
     }
   }
 
-  getStepReward(actionName, qty) {
-    return Math.random()*10;
+  getStepReward(actionName, quantity) {
+    // return Math.random()*10;
     if(actionName === 'BUY'){
       // last VWAP = 500
       // new price = 400
@@ -119,19 +127,22 @@ class ExchangeWorld extends StateMachine {
       // new price = 600
       // return amount over last VWAP
       // normalize
-      return ((this.this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
+      return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
     }
     if(actionName === 'HODL'){
       return 0;
     }
     if(actionName === 'CLEAR'){
-
+      return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
     }
   }
 
   calculateProfit() {
+    console.log(this.sells)
     const cost = this.getTotalPositionPrice(this.buys);
     const revenue = this.getTotalPositionPrice(this.sells);
+    // console.log(this.buys)
+    // console.log(this.sells)
     return revenue - cost;
   }
 
@@ -146,10 +157,15 @@ class ExchangeWorld extends StateMachine {
   }
 
   getTotalQuantity(positions) {
+    // console.log('check in ttl qty')
+    // console.log(positions)
+    if(!positions || positions.length === 0) return 0;
+    if(positions.length === 1)  return positions[0].quantity;
     return positions.reduce((a,b) => a.quantity + b.quantity);
   }
 
   getTotalPositionPrice(positions) {
+    if(!positions || positions.length === 0) return 0;
     return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
   }
 

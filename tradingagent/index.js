@@ -7,7 +7,7 @@ const agent = new QLearner(world);
 
 
 function train() {
-  agent.train(1000);
+  agent.train(10);
   world.policy = agent.policy();
   // print profit
   // console.log()

@@ -26,11 +26,10 @@ class StateAction {
 
 
 class Position {
-  constructor(symbol, price, quantity, id) {
+  constructor(symbol, price, quantity) {
     this.symbol = symbol;
     this.price = price;
     this.quantity = quantity;
-    this.id = id;
   }
 }
 
@@ -44,8 +43,8 @@ class StateMachine {
     this.stateActions = {};
     this.buys = [];
     this.sells = [];
-    this.marketBids = [];
-    this.marketAsks = [];
+    this.marketBids = [{price: 500, quantity: 10}];
+    this.marketAsks = [{price: 500, quantity: 10}];
     this.lastVWAP = 0;
     this.profit = 0;
     this.cash = 100;
@@ -92,19 +91,25 @@ class StateMachine {
   }
 
   addSellPosition(price, quantity) {
+    // console.log(price, quantity)
     this.sells.push(new Position(this.symbol, price, quantity));
   }
 
-  takeStep(state, action) {
-    // Can this state take this action?
-    const transition = this.stateActions[state.id][action];
-    if (transition) {
-      //console.log(`${transition.state.id} ${action} ${transition.toState.name}`);
-      state = transition.toState.id;
-    } else {
-      console.log(`${this.states[state.id]} ${action}🚫`);
+  takeStep(actionName, quantity) {
+    if(actionName === 'BUY'){
+      this.addBuyPosition(this.getAskPrice(), quantity);
     }
-    return state;
+    if(actionName === 'SELL'){
+      this.addSellPosition(this.getBidPrice(), quantity);
+
+    }
+    if(actionName === 'HODL'){
+      return 0;
+    }
+    if(actionName === 'CLEAR'){
+      this.buys = [];
+      this.sells = [];
+    }
   }
 
   takeRandomStep(state) {
@@ -126,6 +131,14 @@ class StateMachine {
   clearBalance() {
     this.buys = [];
     this.sells = [];
+  }
+
+  calculateProfit() {
+    const cost = this.getTotalPositionPrice(this.buys);
+    const revenue = this.getTotalPositionPrice(this.sells);
+    // console.log(this.buys)
+    // console.log(this.sells)
+    return revenue - cost;
   }
 
 }

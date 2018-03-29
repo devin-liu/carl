@@ -83,7 +83,8 @@ class QLearner {
       //   // this._sequence = [];
       // }
     }
-    console.log(this.Q)
+    // console.log(this.Q)
+    console.log(this.world.calculateProfit())
   }
 
   step(state) {
@@ -96,8 +97,7 @@ class QLearner {
 
     // Take the action A, and get a reward R and the next state S'.
     // console.log(this.world.actions)
-    const actionName = this.world.actions[bestAction.id];
-    const stateAction = this.world.stateActions[state.id][actionName];
+    const stateAction = this.world.stateActions[state.id][bestAction];
 
     // console.log(bestAction)
     // Update the value function according to this formula:
@@ -107,9 +107,14 @@ class QLearner {
     // in the world than where we are right now. If it doesn't,
     // then this action isn't good.
     // That's how you get to the goal!
-    const qty = this.world.getTradeQty(actionName);
-    const stepReward = this.world.getStepReward(actionName, qty);
-    // console.log(qty)
+    const quantity = this.world.getTradeQuantity(bestAction);
+    // console.log(quantity)
+    // console.log(this.world.buys)
+    // console.log(this.world.sells)
+
+    // console.log(`${bestAction} for quantity: ${quantity}`)
+    const stepReward = this.world.getStepReward(bestAction, quantity);
+    this.world.takeStep(bestAction, quantity);
     // console.log(stepReward)
     // If we pretend our policy is optimal, then we can calculate what we should
     // make if we follow this policy at the next step.
