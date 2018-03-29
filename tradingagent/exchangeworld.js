@@ -16,7 +16,7 @@ class ExchangeWorld extends StateMachine {
   }
 
   reset() {
-    this.currentState = 0;
+    this.currentState = null;
     this.totalSteps = 1;
     this._running = false;
     this.policy = null;
@@ -46,11 +46,13 @@ class ExchangeWorld extends StateMachine {
     // If we've learned a policy, use that, otherwise
     // just take a random step
     if (this.policy) {
-      const bestAction = this.policy[this.currentState];
+      const bestAction = this.policy[this.currentState.id];
       const actionName = this.actions[bestAction].name;
-      this.takeStep(this.currentState, actionName);
-      this.getNextState();
+      this.takeStep(this.currentState.id, actionName);
+    }else{
+      console.log('lol this dont work!')
     }
+    this.getNextState();
 
   }
 
@@ -81,7 +83,7 @@ class ExchangeWorld extends StateMachine {
       return Math.min(this.getBidQuantity(), this.getTotalQuantity(this.buys));
     }
     if(actionName === 'HODL'){
-      return 0;
+      return this.;
     }
     if(actionName === 'CLEAR'){
       return this.getTotalQuantity(this.buys) - this.getTotalQuantity(this.sells);
@@ -97,17 +99,23 @@ class ExchangeWorld extends StateMachine {
     }
   }
 
-  getStepReward(actionName, qty, price) {
+  getStepReward(actionName, qty) {
     if(actionName === 'BUY'){
       // last VWAP = 500
       // new price = 400
-      // return this.lastVWAP -
+      // return amount underneath last VWAP
+      // normalize
+      return ((this.lastVWAP-this.getAskPrice())/this.lastVWAP);
     }
     if(actionName === 'SELL'){
-
+      // last VWAP = 500
+      // new price = 600
+      // return amount over last VWAP
+      // normalize
+      return ((this.this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
     }
     if(actionName === 'HODL'){
-
+      return 0;
     }
     if(actionName === 'CLEAR'){
 
@@ -181,3 +189,6 @@ class ExchangeWorld extends StateMachine {
 // let actions go further than one step left of right
 // let states take history into account
 // parse prices further left and right of orderbook
+
+
+// figure out hodl reward function
