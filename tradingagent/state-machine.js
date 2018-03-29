@@ -44,14 +44,45 @@ class StateMachine {
     this.stateActions = {};
     this.buys = [];
     this.sells = [];
+    this.bids = [];
+    this.asks = [];
     this.lastVWAP = 0;
     this.profit = 0;
+    this.cash = 100;
+  }
+
+  getBidPrice() {
+    return this.bids[0].price;
+  }
+
+  getAskPrice() {
+    return this.asks[0].price;
+  }
+
+  getBidQuantity() {
+    return this.bids[0].quantity;
+  }
+
+  getAskQuantity() {
+    return this.asks[0].quantity;
+  }
+
+  getNextState(state) {
+    // this.currentState = []
   }
 
   addStateAction(stateId, action, reward) {
     let transitionsForState = this.stateActions[stateId] || {};
     stateActionsForState[this.actions[action].name] = new StateAction(this.states[stateId], this.actions[action], reward || 0);
     this.stateActions[stateId] = stateActionsForState;
+  }
+
+  addBuyPosition(price, quantity) {
+    this.buys.push(new Position(this.symbol, price, quantity));
+  }
+
+  addSellPosition(price, quantity) {
+    this.sells.push(new Position(this.symbol, price, quantity));
   }
 
   takeStep(state, action) {
@@ -64,45 +95,6 @@ class StateMachine {
       console.log(`${this.states[state.id]} ${action}🚫`);
     }
     return state;
-  }
-
-
-  getTradeQty(actionName) {
-    if(actionName === 'BUY'){
-
-    }
-    if(actionName === 'SELL'){
-
-    }
-    if(actionName === 'HODL'){
-
-    }
-    if(actionName === 'CLEAR'){
-
-    }
-  }
-
-
-  getStepReward(actionName) {
-    const qty = getTradeQty(actionName);
-    if(actionName === 'BUY'){
-      // last VWAP = 500
-      // new price = 400
-      return this.lastVWAP -
-    }
-    if(actionName === 'SELL'){
-
-    }
-    if(actionName === 'HODL'){
-
-    }
-    if(actionName === 'CLEAR'){
-
-    }
-  }
-
-  getNextState(state) {
-    // this.currentState = []
   }
 
   takeRandomStep(state) {
@@ -121,18 +113,12 @@ class StateMachine {
     return this.pickRandomNumber(this.states.length);
   }
 
-  buy(price, quantity) {
-    this.buys.push(new Position(this.symbol, price, quantity));
-  }
-
-  sell(price, quantity) {
-    this.sells.push(new Position(this.symbol, price, quantity));
-  }
-
   clearBalance() {
     this.buys = [];
     this.sells = [];
   }
+
+
 
 
 }

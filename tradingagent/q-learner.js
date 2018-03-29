@@ -86,7 +86,8 @@ class QLearner {
     // in the world than where we are right now. If it doesn't,
     // then this action isn't good.
     // That's how you get to the goal!
-    const stepReward = this.getStepReward(actionName);
+    const qty = this.getgetTradeQty(actionName);
+    const stepReward = this.getStepReward(actionName, qty);
     // If we pretend our policy is optimal, then we can calculate what we should
     // make if we follow this policy at the next step.
     const learntReward = transition.reward + this.gamma * stepReward;

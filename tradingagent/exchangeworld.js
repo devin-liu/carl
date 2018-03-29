@@ -6,12 +6,13 @@ const { ONECOINACTIONS,
          } = require('./defaults.js');
 
 class ExchangeWorld extends StateMachine {
-  constructor(oneSideWidth, symbol, VWAP) {
+  constructor(oneSideWidth, symbol, lastVWAP, orderBook) {
     super();
     this.reset();
     this.init(oneSideWidth);
     this.symbol = symbol
-    this.VWAP = VWAP;
+    this.lastVWAP = lastVWAP;
+    this.orderBook = orderBook;
   }
 
   reset() {
@@ -54,6 +55,65 @@ class ExchangeWorld extends StateMachine {
   }
 
 
+  getMaxRiskCash() {
+    const cash = this.cash;
+    if(cash > 1000){
+      return cash*.05;
+    } else if(cash > 100){
+      return cash*.1;
+    }else if(cash > 50) {
+      return cash*.2;
+    }else if (cash > 10){
+      return cash*.4;
+    }else{
+      return cash*.5;
+    }
+
+  }
+
+  getTradeQty(actionName) {
+    const maxRiskCash = this.getMaxRiskCash();
+    if(actionName === 'BUY'){
+      const price = this.getTradePrice(actionName);
+      return Math.min((maxRiskCash / price), this.getAskQuantity());
+    }
+    if(actionName === 'SELL'){
+      return Math.min(this.getBidQuantity(), this.getTotalQuantity(this.buys));
+    }
+    if(actionName === 'HODL'){
+      return 0;
+    }
+    if(actionName === 'CLEAR'){
+      return this.getTotalQuantity(this.buys) - this.getTotalQuantity(this.sells);
+    }
+  }
+
+  getTradePrice(actionName) {
+    if(actionName === 'BUY'){
+      return this.getAskPrice();
+    }
+    if(actionName === 'SELL'){
+      return this.getBidPrice();
+    }
+  }
+
+  getStepReward(actionName, qty, price) {
+    if(actionName === 'BUY'){
+      // last VWAP = 500
+      // new price = 400
+      // return this.lastVWAP -
+    }
+    if(actionName === 'SELL'){
+
+    }
+    if(actionName === 'HODL'){
+
+    }
+    if(actionName === 'CLEAR'){
+
+    }
+  }
+
   calculateProfit() {
     const cost = this.getTotalPositionPrice(this.buys);
     const revenue = this.getTotalPositionPrice(this.sells);
@@ -95,16 +155,16 @@ class ExchangeWorld extends StateMachine {
     }
 
 
-    for (let i = 0; i < this.states.length; i++) {
+    for(let key in this.states){
       for (let j = 0; j < this.actions.length; j++) {
 
-        this.addStateAction(i, 0, reward);
+        this.addStateAction(key, 0, reward);
 
-        this.addStateAction(i, 1, reward);
+        this.addStateAction(key, 1, reward);
 
-        this.addStateAction(i, 2, reward);
+        this.addStateAction(key, 2, reward);
 
-        this.addStateAction(i, 3, reward);
+        this.addStateAction(key, 3, reward);
 
       }
     }
