@@ -58,7 +58,8 @@ class QLearner {
 
     // Take steps until you reach the goal.
     while (steps--) {
-      this.currentState = this.step(this.currentState);
+      this.step(this.currentState);
+      this.currentState = this.getNextStep();
       // For debugs, if you want to see what's happening.
       this._sequence.push(this.currentState);
 
@@ -76,7 +77,7 @@ class QLearner {
 
     // Take the action A, and get a reward R and the next state S'.
     const actionName = this.world.actions[bestAction].name;
-    const transition = this.world.stateActions[state][actionName];
+    const stateAction = this.world.stateActions[state][actionName];
 
     // Update the value function according to this formula:
     // Q(S, A) = Q(S, A) + α[R + γ max_a Q(S', a) − Q(S, A)]
@@ -85,22 +86,19 @@ class QLearner {
     // in the world than where we are right now. If it doesn't,
     // then this action isn't good.
     // That's how you get to the goal!
-    const bestActionForNextState = this.pickBestAction(this.Q[transition.toState.id]);
-    const bestValueOfNextAction = this.Q[transition.toState.id][bestActionForNextState]
-
+    const stepReward = this.getStepReward(actionName);
     // If we pretend our policy is optimal, then we can calculate what we should
     // make if we follow this policy at the next step.
-    const learntReward = transition.reward + this.gamma * bestValueOfNextAction;
+    const learntReward = transition.reward + this.gamma * stepReward;
     // Remember: gamma trades off the importance of sooner versus later rewards.
     // This is the difference between the value of our place in the world and now.
 
     const stepValue = this.alpha * (learntReward - this.Q[state][bestAction])
     this.Q[state][bestAction] += stepValue;
-
-    // Go to the next state.
-    //this.alpha -= 0.001;
-    return transition.toState.id;
   }
+
+
+  getStateActionValue()
 
   // The best action from each state.
   policy() {

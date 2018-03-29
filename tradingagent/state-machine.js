@@ -2,11 +2,10 @@
  * State, actions, transitions
  ******************************/
 class State {
-  constructor(name, id, buyBook, sellBook) {
-    this.name = name;
+  constructor(id, sellBook, buyBook) {
     this.id = id;
-    this.buyBook = buyBook;
     this.sellBook = sellBook;
+    this.buyBook = buyBook;
   }
 }
 
@@ -25,41 +24,61 @@ class StateAction {
    }
 }
 
+
+class Position {
+  constructor(symbol, price, quantity, id) {
+    this.symbol = symbol;
+    this.price = price;
+    this.quantity = quantity;
+    this.id = id;
+  }
+}
+
 /******************************
  * State Machine
  ******************************/
 class StateMachine {
   constructor(states, actions) {
-    this.states = states || [];
+    this.states = states || {};
     this.actions = actions || [];
     this.stateActions = {};
+    this.buys = [];
+    this.sells = [];
+    this.lastVWAP = 0;
+    this.profit = 0;
   }
 
   addStateAction(state, action, reward) {
-    let transitionsForState = this.stateActions[state] || {};
-    stateActionsForState[this.actions[action].name] = new StateAction(this.states[state], this.actions[action], reward || 0);
-    this.stateActions[state] = stateActionsForState;
+    let transitionsForState = this.stateActions[state.id] || {};
+    stateActionsForState[this.actions[action].name] = new StateAction(this.states[state.id], this.actions[action], reward || 0);
+    this.stateActions[state.id] = stateActionsForState;
   }
 
   takeStep(state, action) {
     // Can this state take this action?
-    const transition = this.stateActions[state][action];
+    const transition = this.stateActions[state.id][action];
     if (transition) {
-      //console.log(`${transition.state.name} ${action} ${transition.toState.name}`);
+      //console.log(`${transition.state.id} ${action} ${transition.toState.name}`);
       state = transition.toState.id;
     } else {
-      console.log(`${this.states[state].name} ${action}🚫`);
+      console.log(`${this.states[state.id]} ${action}🚫`);
     }
     return state;
   }
 
-  getNextState(state) {
 
+  getStepReward(actionName) {
+    if(actionName === '')
+
+  }
+
+  getNextState(state) {
+    // this.currentState = []
   }
 
   takeRandomStep(state) {
     // Pick a random action from the available ones
-    const availableStateActions = this.stateActions[state];
+    const availableStateActions = this.stateActions[state.id];
     const availableActions = Object.keys(availableStateActions)
     const action = availableActions[this.pickRandomNumber(availableActions.length)];
     return this.takeStep(state, action);
@@ -72,6 +91,21 @@ class StateMachine {
   pickRandomState() {
     return this.pickRandomNumber(this.states.length);
   }
+
+  getTotalQuantity(positions) {
+    return positions.reduce((a,b) => a.quantity + b.quantity);
+  }
+
+  getTotalPositionPrice(positions) {
+    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
+  }
+
+  getVWAP(positions) {
+    const totalAmount = this.getTotalQuantity(positions);
+    const quantitys = positions.map(position => position.price*(position.quantity/totalAmount));
+    return quantitys.reduce((a,b) => a + b);
+  }
+
 }
 
 module.exports = {

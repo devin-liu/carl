@@ -1,11 +1,12 @@
 const { StateMachine } = require('./state-machine');
 
-const { ONECOINACTIONS, getNumberOfCombinations } = require('./defaults.js');
+const { ONECOINACTIONS,
+        getNumberOfCombinations,
+        BOOKCOMBINATIONS,
+         } = require('./defaults.js');
 
-// This is a particular kind of state machine, which is
-// a grid that lets you move in all directions.
 class ExchangeWorld extends StateMachine {
-  constructor(oneSideWidth) {
+  constructor(oneSideWidth, symbol) {
     super();
     this.reset();
     this.init(oneSideWidth);
@@ -13,10 +14,11 @@ class ExchangeWorld extends StateMachine {
 
   reset() {
     this.currentState = 0;
-    this.score = 0;
     this.totalSteps = 1;
     this._running = false;
     this.policy = null;
+    this.lastVWAP = 0;
+    this.profit = 0;
   }
 
   start(slow = false) {
@@ -43,21 +45,25 @@ class ExchangeWorld extends StateMachine {
     if (this.policy) {
       const bestAction = this.policy[this.currentState];
       const actionName = this.actions[bestAction].name;
-      this.currentState = this.takeStep(this.currentState, actionName);
-      this.currentState = this.getNextState();
+      this.takeStep(this.currentState, actionName);
+      this.getNextState();
     }
 
   }
 
 
-
   init(oneSideWidth) {
     this.actions = ONECOINACTIONS;
-    let totalCombinations = getNumberOfCombinations(oneSideWidth*2);
+
 
     // States
-    for (let i = 0; i < oneSideWidth*2; i++) {
-      this.states[id] = new State(`s${i}`, i);
+    for (let i = 0; i < BOOKCOMBINATIONS.length; i++) {
+      for(let j = 0; j < BOOKCOMBINATIONS.length. j++) {
+        const sells = BOOKCOMBINATIONS[j];
+        const buys = BOOKCOMBINATIONS[i];
+        const id = `${sells.join()}${buys.join}`;
+        this.states[id] = new State(id, sells, buys);
+      }
     }
 
 
