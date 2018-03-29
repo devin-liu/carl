@@ -161,7 +161,7 @@ class ExchangeWorld extends StateMachine {
       for(let j = 0; j < BOOKCOMBINATIONS.length; j++) {
         const sells = BOOKCOMBINATIONS[j];
         const buys = BOOKCOMBINATIONS[i];
-        const id = `${sells.join()}${buys.join}`;
+        const id = `${sells.join('')}${buys.join('')}`;
         this.states[id] = new State(id, sells, buys);
       }
     }
