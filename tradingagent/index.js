@@ -6,8 +6,8 @@ const world = new ExchangeWorld(5, 'BTC', 500, {});
 const agent = new QLearner(world);
 
 
-function train(e) {
-  agent.train(1);
+function train() {
+  agent.train(10);
   world.policy = agent.policy();
   // print profit
   // console.log()
@@ -21,3 +21,5 @@ function reset() {
 
 
 // world.start()
+
+train();

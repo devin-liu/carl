@@ -44,31 +44,32 @@ class StateMachine {
     this.stateActions = {};
     this.buys = [];
     this.sells = [];
-    this.bids = [];
-    this.asks = [];
+    this.marketBids = [];
+    this.marketAsks = [];
     this.lastVWAP = 0;
     this.profit = 0;
     this.cash = 100;
   }
 
   getBidPrice() {
-    return this.bids[0].price;
+    return this.marketBids[0].price;
   }
 
   getAskPrice() {
-    return this.asks[0].price;
+    return this.marketAsks[0].price;
   }
 
   getBidQuantity() {
-    return this.bids[0].quantity;
+    return this.marketBids[0].quantity;
   }
 
   getAskQuantity() {
-    return this.asks[0].quantity;
+    return this.marketAsks[0].quantity;
   }
 
   getNextState(state) {
     // this.currentState = []
+    return new State('0000011111', [0,0,0,0,0], [1,1,1,1,1]);
   }
 
   addStateAction(stateId, action, reward) {
@@ -117,9 +118,6 @@ class StateMachine {
     this.buys = [];
     this.sells = [];
   }
-
-
-
 
 }
 

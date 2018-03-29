@@ -79,6 +79,7 @@ class ExchangeWorld extends StateMachine {
   }
 
   getTradeQty(actionName) {
+    return Math.random()*10;
     const maxRiskCash = this.getMaxRiskCash();
     if(actionName === 'BUY'){
       const price = this.getTradePrice(actionName);
@@ -105,6 +106,7 @@ class ExchangeWorld extends StateMachine {
   }
 
   getStepReward(actionName, qty) {
+    return Math.random()*10;
     if(actionName === 'BUY'){
       // last VWAP = 500
       // new price = 400
