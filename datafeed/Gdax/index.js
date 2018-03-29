@@ -44,10 +44,10 @@ function getProductsPoller(){
   }, 1500)
 }
 
-// getProductsPoller();
+getProductsPoller();
 
 
-getProductBook('BTC-USD')
+// getProductBook('BTC-USD')
 
 
 // publicClient.getProductHistoricRates(
