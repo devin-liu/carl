@@ -2,10 +2,10 @@
  * State, actions, transitions
  ******************************/
 class State {
-  constructor(id, sellBook, buyBook) {
+  constructor(id, bidBook, askBook) {
     this.id = id;
-    this.sellBook = sellBook;
-    this.buyBook = buyBook;
+    this.bidBook = bidBook;
+    this.askBook = askBook;
   }
 }
 

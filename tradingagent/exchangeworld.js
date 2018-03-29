@@ -138,8 +138,7 @@ class ExchangeWorld extends StateMachine {
     return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
   }
 
-
-  init(oneSideWidth, symbol, VWAP) {
+  init(oneSideWidth) {
     this.actions = ONECOINACTIONS.map((action, index) => {
       return new Action(action, index);
     });
@@ -157,14 +156,20 @@ class ExchangeWorld extends StateMachine {
 
     for(let key in this.states){
       for (let j = 0; j < this.actions.length; j++) {
+        // 0 = BUY
+        // 1 = SELL
+        // 2 = HODL
+        // 3 = CLEAR
 
-        this.addStateAction(key, 0, reward);
+        // If the first order in the book is profitable, should you do it?
 
-        this.addStateAction(key, 1, reward);
+        this.addStateAction(key, 0, this.states[key].bidBook[0]);
 
-        this.addStateAction(key, 2, reward);
+        this.addStateAction(key, 1, this.states[key].askBook[0]);
 
-        this.addStateAction(key, 3, reward);
+        this.addStateAction(key, 2, 0);
+
+        this.addStateAction(key, 3, 0);
 
       }
     }
@@ -175,3 +180,4 @@ class ExchangeWorld extends StateMachine {
 
 // let actions go further than one step left of right
 // let states take history into account
+// parse prices further left and right of orderbook
