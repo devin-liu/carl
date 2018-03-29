@@ -36,38 +36,49 @@ class QLearner {
     // set everything to a random number except for the
     // goal state. You want random numbers so that you
     // don't accidentally bias the "prior" knowledge.
-    for (let s = 0; s < this.world.states.length; s++) {
-      const stateActions = this.world.stateActions[s];
-      this.Q[s] = {};
-      for (let a in stateActions) {
-        const transition = stateActions[a]
-        // Goal state?
-        if (transition.toState.id === this.world.goalState) {
-          this.Q[s][transition.action.id] = 0;
-        } else {
-          this.Q[s][transition.action.id] = Math.random();
-        }
+    // for (let s = 0; s < this.world.states.length; s++) {
+    //   const stateActions = this.world.stateActions[s];
+    //   this.Q[s] = {};
+    //   for (let a in stateActions) {
+    //     const transition = stateActions[a]
+    //     // Goal state?
+    //     if (transition.toState.id === this.world.goalState) {
+    //       this.Q[s][transition.action.id] = 0;
+    //     } else {
+    //       this.Q[s][transition.action.id] = Math.random();
+    //     }
+    //   }
+    // }
+
+    for(let key in this.world.states){
+      const stateActions = this.world.stateActions[key];
+      this.Q[key] = {};
+      for (let a in stateActions){
+        const stateAction = stateActions[a];
+        this.Q[key][stateActions.action.id] = stateActions.action.reward;
       }
     }
   }
 
+
+
   train(steps = 10000) {
     // Initialize S: Pick a random starting state.
     this.currentState = this.world.pickRandomState();
-    this._sequence = [];
+    // this._sequence = [];
 
     // Take steps until you reach the goal.
     while (steps--) {
       this.step(this.currentState);
-      this.currentState = this.getNextStep();
+      this.currentState = this.getNextState();
       // For debugs, if you want to see what's happening.
-      this._sequence.push(this.currentState);
+      // this._sequence.push(this.currentState);
 
-      if (this.currentState === this.world.goalState) {
-        console.log('goal reached in training, restarting');
-        this.currentState = this.world.pickRandomState();
-        this._sequence = [];
-      }
+      // if (this.currentState === this.world.goalState) {
+      //   console.log('goal reached in training, restarting');
+      //   this.currentState = this.world.pickRandomState();
+      //   // this._sequence = [];
+      // }
     }
   }
 
