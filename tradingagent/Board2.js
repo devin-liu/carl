@@ -35,13 +35,12 @@ class Agent {
     this.profit = 0;
   }
 
-
   getTotalQuantity(positions) {
     return positions.reduce((a,b) => a.quantity + b.quantity);
   }
 
   getTotalPositionPrice(positions) {
-    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price)
+    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
   }
 
   getVWAP(positions) {
