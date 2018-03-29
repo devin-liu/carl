@@ -69,7 +69,16 @@ class StateMachine {
 
   getNextState(state) {
     // this.currentState = []
-    return new State('0000011111', [0,0,0,0,0], [1,1,1,1,1]);
+    const exampleStates = [
+      new State('0000011111', [0,0,0,0,0], [1,1,1,1,1]),
+      new State('0000111111', [0,0,0,0,1], [1,1,1,1,1]),
+      new State('0001111111', [0,0,0,1,1], [1,1,1,1,1]),
+      new State('0000000111', [0,0,0,0,0], [0,0,1,1,1]),
+      new State('0000001111', [0,0,0,0,0], [0,1,1,1,1]),
+      new State('0000000000', [0,0,0,0,0], [0,0,0,0,0]),
+    ]
+    // return new State('0000011111', [0,0,0,0,0], [1,1,1,1,1]);
+    return exampleStates[this.pickRandomNumber(exampleStates.length)];
   }
 
   addStateAction(stateId, action, reward) {

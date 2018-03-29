@@ -83,6 +83,7 @@ class QLearner {
       //   // this._sequence = [];
       // }
     }
+    console.log(this.Q)
   }
 
   step(state) {
@@ -91,7 +92,7 @@ class QLearner {
     // console.log(state.id)
     // console.log(this.Q[state.id])
     const bestAction = this.pickEpsilonGreedyAction(this.Q[state.id]);
-    console.log(bestAction)
+    // console.log(bestAction)
 
     // Take the action A, and get a reward R and the next state S'.
     // console.log(this.world.actions)
