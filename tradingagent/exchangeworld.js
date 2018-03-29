@@ -1,9 +1,14 @@
-const { StateMachine } = require('./state-machine');
+const {
+        StateMachine,
+        State,
+        Action,
+        StateAction
+      } = require('./state-machine');
 
 const { ONECOINACTIONS,
         getNumberOfCombinations,
         BOOKCOMBINATIONS,
-         } = require('./defaults.js');
+       } = require('./defaults.js');
 
 class ExchangeWorld extends StateMachine {
   constructor(oneSideWidth, symbol, lastVWAP, orderBook) {
@@ -83,7 +88,7 @@ class ExchangeWorld extends StateMachine {
       return Math.min(this.getBidQuantity(), this.getTotalQuantity(this.buys));
     }
     if(actionName === 'HODL'){
-      return this.;
+      return 0;
     }
     if(actionName === 'CLEAR'){
       return this.getTotalQuantity(this.buys) - this.getTotalQuantity(this.sells);
@@ -153,7 +158,7 @@ class ExchangeWorld extends StateMachine {
 
     // States
     for (let i = 0; i < BOOKCOMBINATIONS.length; i++) {
-      for(let j = 0; j < BOOKCOMBINATIONS.length. j++) {
+      for(let j = 0; j < BOOKCOMBINATIONS.length; j++) {
         const sells = BOOKCOMBINATIONS[j];
         const buys = BOOKCOMBINATIONS[i];
         const id = `${sells.join()}${buys.join}`;
@@ -183,6 +188,8 @@ class ExchangeWorld extends StateMachine {
     }
   }
 }
+
+module.exports = ExchangeWorld;
 
 // // room for expansion
 

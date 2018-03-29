@@ -23,7 +23,7 @@ const BOOKCOMBINATIONS = [
 ]
 
 module.exports = {
-  ALLCOINACTIONS,
   ONECOINACTIONS,
   getNumberOfCombinations,
+  BOOKCOMBINATIONS,
 }

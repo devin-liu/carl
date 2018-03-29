@@ -72,7 +72,7 @@ class StateMachine {
   }
 
   addStateAction(stateId, action, reward) {
-    let transitionsForState = this.stateActions[stateId] || {};
+    let stateActionsForState = this.stateActions[stateId] || {};
     stateActionsForState[this.actions[action].name] = new StateAction(this.states[stateId], this.actions[action], reward || 0);
     this.stateActions[stateId] = stateActionsForState;
   }

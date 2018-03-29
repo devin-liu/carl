@@ -109,9 +109,6 @@ class QLearner {
     this.Q[state][bestAction] += stepValue;
   }
 
-
-  getStateActionValue()
-
   // The best action from each state.
   policy() {
     let policy = {};
@@ -147,3 +144,4 @@ class QLearner {
   }
 }
 
+module.exports = QLearner;
