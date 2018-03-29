@@ -93,8 +93,8 @@ class ExchangeWorld extends StateMachine {
       // if(this.getBidQuantity() === NaN){
       //   console.log(this.buys)
       // }
-
-      return Math.min(this.getBidQuantity(), this.getTotalQuantity(this.buys));
+      if(this.holdQuantity === 0) return 0;
+      return Math.min(this.getBidQuantity(), this.holdQuantity);
     }
     if(actionName === 'HODL'){
       return 0;
@@ -127,6 +127,7 @@ class ExchangeWorld extends StateMachine {
       // new price = 600
       // return amount over last VWAP
       // normalize
+      console.log(((this.getBidPrice()-this.lastVWAP)/this.lastVWAP))
       return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
     }
     if(actionName === 'HODL'){
@@ -138,7 +139,7 @@ class ExchangeWorld extends StateMachine {
   }
 
   calculateProfit() {
-    console.log(this.sells)
+    // console.log(this.sells)
     const cost = this.getTotalPositionPrice(this.buys);
     const revenue = this.getTotalPositionPrice(this.sells);
     // console.log(this.buys)
@@ -160,13 +161,14 @@ class ExchangeWorld extends StateMachine {
     // console.log('check in ttl qty')
     // console.log(positions)
     if(!positions || positions.length === 0) return 0;
-    if(positions.length === 1)  return positions[0].quantity;
-    return positions.reduce((a,b) => a.quantity + b.quantity);
+    if(positions.length === 1) return positions[0].quantity;
+    return positions.map(position => position.quantity).reduce((a,b) => a + b);
   }
 
   getTotalPositionPrice(positions) {
     if(!positions || positions.length === 0) return 0;
-    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
+    if(positions.length === 1) return positions[0].quantity * positions[0].price;
+    return positions.map(a => a.quantity * a.price).reduce((a,b) => a+b);
   }
 
   init(oneSideWidth) {

@@ -83,8 +83,7 @@ class QLearner {
       //   // this._sequence = [];
       // }
     }
-    // console.log(this.Q)
-    console.log(this.world.calculateProfit())
+    console.log(this.Q)
   }
 
   step(state) {

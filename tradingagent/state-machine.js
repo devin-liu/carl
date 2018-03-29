@@ -43,6 +43,7 @@ class StateMachine {
     this.stateActions = {};
     this.buys = [];
     this.sells = [];
+    this.holdQuantity = 0;
     this.marketBids = [{price: 500, quantity: 10}];
     this.marketAsks = [{price: 500, quantity: 10}];
     this.lastVWAP = 0;
@@ -87,11 +88,13 @@ class StateMachine {
   }
 
   addBuyPosition(price, quantity) {
+    this.holdQuantity += quantity;
     this.buys.push(new Position(this.symbol, price, quantity));
   }
 
   addSellPosition(price, quantity) {
     // console.log(price, quantity)
+    this.holdQuantity -= quantity;
     this.sells.push(new Position(this.symbol, price, quantity));
   }
 
@@ -100,6 +103,7 @@ class StateMachine {
       this.addBuyPosition(this.getAskPrice(), quantity);
     }
     if(actionName === 'SELL'){
+      // console.log(quantity)
       this.addSellPosition(this.getBidPrice(), quantity);
 
     }
@@ -131,14 +135,6 @@ class StateMachine {
   clearBalance() {
     this.buys = [];
     this.sells = [];
-  }
-
-  calculateProfit() {
-    const cost = this.getTotalPositionPrice(this.buys);
-    const revenue = this.getTotalPositionPrice(this.sells);
-    // console.log(this.buys)
-    // console.log(this.sells)
-    return revenue - cost;
   }
 
 }
