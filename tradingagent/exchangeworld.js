@@ -6,10 +6,12 @@ const { ONECOINACTIONS,
          } = require('./defaults.js');
 
 class ExchangeWorld extends StateMachine {
-  constructor(oneSideWidth, symbol) {
+  constructor(oneSideWidth, symbol, VWAP) {
     super();
     this.reset();
     this.init(oneSideWidth);
+    this.symbol = symbol
+    this.VWAP = VWAP;
   }
 
   reset() {
@@ -52,7 +54,32 @@ class ExchangeWorld extends StateMachine {
   }
 
 
-  init(oneSideWidth) {
+  calculateProfit() {
+    const cost = this.getTotalPositionPrice(this.buys);
+    const revenue = this.getTotalPositionPrice(this.sells);
+    return revenue - cost;
+  }
+
+  setLastVWAP() {
+    this.lastVWAP = this.getVWAP(this.buys);
+  }
+
+  getVWAP(positions) {
+    const totalQuantity = this.getTotalQuantity(positions);
+    const weightedPrices = positions.map(position => position.price*(position.quantity/totalQuantity));
+    return weightedPrices.reduce((a,b) => a + b);
+  }
+
+  getTotalQuantity(positions) {
+    return positions.reduce((a,b) => a.quantity + b.quantity);
+  }
+
+  getTotalPositionPrice(positions) {
+    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
+  }
+
+
+  init(oneSideWidth, symbol, VWAP) {
     this.actions = ONECOINACTIONS.map((action, index) => {
       return new Action(action, index);
     });

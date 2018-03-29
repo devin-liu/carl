@@ -1,15 +1,3 @@
-const ALLCOINACTIONS = [
-  'buy',
-  'sell',
-  'HODL',
-  'clear',
-  'sellETH️',
-  'sellBTC️',
-  'sellLTC️',
-  'sellBCH️',
-  'HODL️',
-];
-
 const ONECOINACTIONS = [
   'BUY',
   'SELL',
@@ -17,11 +5,9 @@ const ONECOINACTIONS = [
   'CLEAR',
 ]
 
-
 function getNumberOfCombinations(width) {
   return 2**width;
 }
-
 
 const BOOKCOMBINATIONS = [
   [0,0,0,0,0],

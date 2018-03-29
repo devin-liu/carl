@@ -67,9 +67,38 @@ class StateMachine {
   }
 
 
+  getTradeQty(actionName) {
+    if(actionName === 'BUY'){
+
+    }
+    if(actionName === 'SELL'){
+
+    }
+    if(actionName === 'HODL'){
+
+    }
+    if(actionName === 'CLEAR'){
+
+    }
+  }
+
+
   getStepReward(actionName) {
+    const qty = getTradeQty(actionName);
+    if(actionName === 'BUY'){
+      // last VWAP = 500
+      // new price = 400
+      return this.lastVWAP -
+    }
+    if(actionName === 'SELL'){
 
+    }
+    if(actionName === 'HODL'){
 
+    }
+    if(actionName === 'CLEAR'){
+
+    }
   }
 
   getNextState(state) {
@@ -92,32 +121,6 @@ class StateMachine {
     return this.pickRandomNumber(this.states.length);
   }
 
-  getTotalQuantity(positions) {
-    return positions.reduce((a,b) => a.quantity + b.quantity);
-  }
-
-  getTotalPositionPrice(positions) {
-    return positions.reduce((a,b) => a.quantity * a.price + b.quantity * b.price);
-  }
-
-  getVWAP(positions) {
-    const totalAmount = this.getTotalQuantity(positions);
-    const quantitys = positions.map(position => position.price*(position.quantity/totalAmount));
-    return quantitys.reduce((a,b) => a + b);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
   buy(price, quantity) {
     this.buys.push(new Position(this.symbol, price, quantity));
   }
@@ -131,15 +134,6 @@ class StateMachine {
     this.sells = [];
   }
 
-  calculateProfit() {
-    const cost = this.getTotalPositionPrice(this.buys);
-    const revenue = this.getTotalPositionPrice(this.sells);
-    return revenue - cost;
-  }
-
-  setLastVWAP() {
-    this.lastVWAP = this.getVWAP(this.buys);
-  }
 
 }
 
