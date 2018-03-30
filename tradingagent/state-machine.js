@@ -44,27 +44,27 @@ class StateMachine {
     this.buys = [];
     this.sells = [];
     this.holdQuantity = 0;
-    this.marketBids = [{price: 500, quantity: 10}];
-    this.marketAsks = [{price: 500, quantity: 10}];
+    this.marketBids = null;
+    this.marketAsks = null;
     this.lastVWAP;
     this.profit = 0;
     this.cash = 100;
   }
 
   getBidPrice() {
-    return this.marketBids[0][0];
+    return parseFloat(this.marketBids[0][0]);
   }
 
   getAskPrice() {
-    return this.marketAsks[0][0];
+    return parseFloat(this.marketAsks[0][0]);
   }
 
   getBidQuantity() {
-    return this.marketBids[0][1];
+    return parseFloat(this.marketBids[0][1]);
   }
 
   getAskQuantity() {
-    return this.marketAsks[0][1];
+    return parseFloat(this.marketAsks[0][1]);
   }
 
   parseOrderBook(orderBook) {

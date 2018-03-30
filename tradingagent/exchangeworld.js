@@ -86,13 +86,6 @@ class ExchangeWorld extends StateMachine {
       return Math.min((maxRiskCash / price), this.getAskQuantity());
     }
     if(actionName === 'SELL'){
-      // console.log(this.getBidQuantity(), this.getTotalQuantity(this.buys))
-      // if(this.getTotalQuantity(this.buys) === NaN){
-      //   console.log(this.buys)
-      // }
-      // if(this.getBidQuantity() === NaN){
-      //   console.log(this.buys)
-      // }
       if(this.holdQuantity === 0) return 0;
       return Math.min(this.getBidQuantity(), this.holdQuantity);
     }

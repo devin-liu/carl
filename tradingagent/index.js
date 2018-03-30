@@ -12,9 +12,8 @@ function stepAgentForward(orderBook) {
   const { marketBids, marketAsks, stateId } = world.parseOrderBook(orderBook);
   const thisStepState = world.states[stateId];
   agent.currentState = orderBook;
-  agent.step(thisStepState)
   world.setOrderBook({ marketAsks, marketBids });
-
+  agent.step(thisStepState)
 }
 
 
@@ -42,19 +41,13 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
   reset();
   let page = 0;
   while(page*page_size < steps){
-    // console.log(`${page} ${page_size} ${page*page_size}  ${steps}`)
     getBatch(page_size, page, pair_string)
     .then(stepThroughPages)
-    // .then(() => {
-      // console.log(`page: ${page}`)
-      // console.log(`${page} ${page_size} ${page*page_size}  ${steps}`)
-    // })
     page++;
+    console.log(`Holding: ${world.holdQuantity}`)
+    console.log(`Profit: ${world.calculateProfit()}`)
   }
-  console.log(`${world.holdQuantity}`)
-  console.log(`Profit: ${world.calculateProfit()}`)
 
-  // then increment page after promise
 
 }
 
@@ -66,4 +59,4 @@ function reset() {
 
 
 // world.start()
-train(10000);
+train(10);
