@@ -33,23 +33,6 @@ class QLearner {
 
     // Initialize Q(s, a)
     // for all states s, and possible actions from that state,
-    // set everything to a random number except for the
-    // goal state. You want random numbers so that you
-    // don't accidentally bias the "prior" knowledge.
-    // for (let s = 0; s < this.world.states.length; s++) {
-    //   const stateActions = this.world.stateActions[s];
-    //   this.Q[s] = {};
-    //   for (let a in stateActions) {
-    //     const transition = stateActions[a]
-    //     // Goal state?
-    //     if (transition.toState.id === this.world.goalState) {
-    //       this.Q[s][transition.action.id] = 0;
-    //     } else {
-    //       this.Q[s][transition.action.id] = Math.random();
-    //     }
-    //   }
-    // }
-
     for(let key in this.world.states){
       const stateActions = this.world.stateActions[key];
       this.Q[key] = {};
@@ -59,46 +42,30 @@ class QLearner {
         this.Q[key][stateAction.action.name] = stateAction.reward;
       }
     }
-
-    // console.log(this.Q)
   }
 
 
 
-  train(steps = 10000) {
-    // Initialize S: Pick a random starting state.
-    this.currentState = this.world.getNextState();
-    // this._sequence = [];
+  // train(steps = 10000) {
+  //   // Initialize S: Pick a random starting state.
+  //   this.currentState = this.world.getNextState();
+  //   // this._sequence = [];
 
-    // Take steps until you reach the goal.
-    while (steps--) {
-      this.step(this.currentState);
-      this.currentState = this.world.getNextState();
-      // For debugs, if you want to see what's happening.
-      // this._sequence.push(this.currentState);
-
-      // if (this.currentState === this.world.goalState) {
-      //   console.log('goal reached in training, restarting');
-      //   this.currentState = this.world.pickRandomState();
-      //   // this._sequence = [];
-      // }
-    }
-    console.log(this.Q)
-  }
+  //   // Take steps until you reach the goal.
+  //   while (steps--) {
+  //     this.step(this.currentState);
+  //     this.currentState = this.world.getNextState();
+  //   }
+  // }
 
   step(state) {
     // Choose the best action from this state according to the policy.
-    // console.log(this.Q)
-    // console.log(state.id)
-    // console.log(this.Q[state.id])
     const bestAction = this.pickEpsilonGreedyAction(this.Q[state.id]);
     // console.log(bestAction)
 
     // Take the action A, and get a reward R and the next state S'.
-    // console.log(this.world.actions)
     const stateAction = this.world.stateActions[state.id][bestAction];
 
-    // console.log(bestAction)
     // Update the value function according to this formula:
     // Q(S, A) = Q(S, A) + α[R + γ max_a Q(S', a) − Q(S, A)]
     // This basically means that if this action is good, then the next action
@@ -107,21 +74,9 @@ class QLearner {
     // then this action isn't good.
     // That's how you get to the goal!
     const quantity = this.world.getTradeQuantity(bestAction);
-    // console.log(quantity)
-    // console.log(this.world.buys)
-    // console.log(this.world.sells)
-
-    // console.log(`${bestAction} for quantity: ${quantity}`)
     const stepReward = this.world.getStepReward(bestAction, quantity);
     this.world.takeStep(bestAction, quantity);
-    // console.log(stepReward)
-    // If we pretend our policy is optimal, then we can calculate what we should
-    // make if we follow this policy at the next step.
-    // const learntReward = stateAction.reward + this.gamma * stepReward;
     const learntReward = this.gamma * stepReward;
-    // Remember: gamma trades off the importance of sooner versus later rewards.
-    // This is the difference between the value of our place in the world and now.
-
     const stepValue = this.alpha * (learntReward - this.Q[state.id][bestAction])
     this.Q[state.id][bestAction] += stepValue;
   }

@@ -46,7 +46,7 @@ class StateMachine {
     this.holdQuantity = 0;
     this.marketBids = [{price: 500, quantity: 10}];
     this.marketAsks = [{price: 500, quantity: 10}];
-    this.lastVWAP = 0;
+    this.lastVWAP;
     this.profit = 0;
     this.cash = 100;
   }
@@ -68,6 +68,12 @@ class StateMachine {
   }
 
   parseOrderBook(orderBook) {
+    const lastVWAP = this.lastVWAP;
+    let marketBids = orderBook.bids.slice(0,5).map(bid => bid[0] > lastVWAP ? 1 : 0);
+    let marketAsks = orderBook.asks.slice(0,5).map(bid => bid[0] < lastVWAP ? 1 : 0);
+    const bidSignature = marketBids.length < 5 ? `${marketBids.join('')}${'0'.repeat(5-marketBids.length)}` : `${marketBids.join('')}`;
+    const askSignature = marketAsks.length < 5 ? `${marketAsks.join('')}${'0'.repeat(5-marketAsks.length)}` : `${marketAsks.join('')}`;
+    const stateId = `${bidSignature}${askSignature}`;
     return { marketBids, marketAsks, stateId }
   }
 

@@ -11,12 +11,12 @@ const { ONECOINACTIONS,
        } = require('./defaults.js');
 
 class ExchangeWorld extends StateMachine {
-  constructor(oneSideWidth, symbol, lastVWAP, orderBook) {
+  constructor(oneSideWidth, symbol, firstVWAP, orderBook) {
     super();
     this.reset();
     this.init(oneSideWidth);
     this.symbol = symbol
-    this.lastVWAP = lastVWAP;
+    this.firstVWAP = firstVWAP;
     this.orderBook = orderBook;
   }
 
@@ -25,7 +25,7 @@ class ExchangeWorld extends StateMachine {
     this.totalSteps = 1;
     this._running = false;
     this.policy = null;
-    this.lastVWAP = 0;
+    this.lastVWAP = this.firstVWAP;
     this.profit = 0;
   }
 
@@ -193,9 +193,7 @@ class ExchangeWorld extends StateMachine {
         // 1 = SELL
         // 2 = HODL
         // 3 = CLEAR
-
         // If the first order in the book is profitable, should you do it?
-
         this.addStateAction(key, 0, this.states[key].bidBook[0]);
 
         this.addStateAction(key, 1, this.states[key].askBook[0]);
