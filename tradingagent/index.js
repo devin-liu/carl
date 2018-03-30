@@ -67,7 +67,7 @@ function reset() {
 
 
 // world.start()
-train(1000, 100)
+train(300000, 1000)
 .then(world => {
   console.log(`Holding: ${world.holdQuantity}`)
   console.log(`Profit: ${world.calculateProfit()}`)

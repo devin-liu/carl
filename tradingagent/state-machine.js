@@ -95,6 +95,8 @@ class StateMachine {
   addBuyPosition(price, quantity) {
     this.holdQuantity += quantity;
     this.buys.push(new Position(this.symbol, price, quantity));
+    this.setLastVWAP();
+    // console.log(this.lastVWAP)
   }
 
   addSellPosition(price, quantity) {

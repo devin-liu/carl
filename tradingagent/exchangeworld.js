@@ -53,6 +53,7 @@ class ExchangeWorld extends StateMachine {
     if (this.policy) {
       const bestAction = this.policy[this.currentState.id];
       const actionName = this.actions[bestAction].name;
+      console.log(`${this.currentState.id} ${actionName}`)
       this.takeStep(this.currentState.id, actionName);
     }else{
       console.log('lol this dont work!')
