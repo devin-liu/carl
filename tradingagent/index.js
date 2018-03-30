@@ -4,7 +4,7 @@ const ExchangeWorld = require('./ExchangeWorld.js');
 const QLearner = require('./q-learner.js');
 
 
-const world = new ExchangeWorld(5, 'ETH-USD', 500, {});
+const world = new ExchangeWorld(5, 'ETH-USD', 300, {});
 const agent = new QLearner(world);
 
 
@@ -39,9 +39,10 @@ function stepThroughPages(pages) {
 
 function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
   world.policy = agent.policy();
+  reset();
   let page = 0;
   while(page*page_size < steps){
-    console.log(`${page} ${page_size} ${page*page_size}  ${steps}`)
+    // console.log(`${page} ${page_size} ${page*page_size}  ${steps}`)
     getBatch(page_size, page, pair_string)
     .then(stepThroughPages)
     // .then(() => {
@@ -50,7 +51,7 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
     // })
     page++;
   }
-  // console.log(`${world.holdQuantity}`)
+  console.log(`${world.holdQuantity}`)
   console.log(`Profit: ${world.calculateProfit()}`)
 
   // then increment page after promise
@@ -65,4 +66,4 @@ function reset() {
 
 
 // world.start()
-train(100);
+train(10000);

@@ -127,7 +127,6 @@ class ExchangeWorld extends StateMachine {
       // new price = 600
       // return amount over last VWAP
       // normalize
-      console.log(((this.getBidPrice()-this.lastVWAP)/this.lastVWAP))
       return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
     }
     if(actionName === 'HODL'){

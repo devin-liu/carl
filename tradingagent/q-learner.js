@@ -38,7 +38,6 @@ class QLearner {
       this.Q[key] = {};
       for (let a in stateActions){
         const stateAction = stateActions[a];
-        // console.log(stateAction)
         this.Q[key][stateAction.action.name] = stateAction.reward;
       }
     }
@@ -61,7 +60,7 @@ class QLearner {
   step(state) {
     // Choose the best action from this state according to the policy.
     const bestAction = this.pickEpsilonGreedyAction(this.Q[state.id]);
-    // console.log(bestAction)
+    console.log(bestAction)
 
     // Take the action A, and get a reward R and the next state S'.
     const stateAction = this.world.stateActions[state.id][bestAction];
@@ -75,6 +74,7 @@ class QLearner {
     // That's how you get to the goal!
     const quantity = this.world.getTradeQuantity(bestAction);
     const stepReward = this.world.getStepReward(bestAction, quantity);
+    console.log(`${bestAction} ${quantity} ${this.world.symbol}`)
     this.world.takeStep(bestAction, quantity);
     const learntReward = this.gamma * stepReward;
     const stepValue = this.alpha * (learntReward - this.Q[state.id][bestAction])

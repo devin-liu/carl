@@ -52,27 +52,31 @@ class StateMachine {
   }
 
   getBidPrice() {
-    return this.marketBids[0].price;
+    return this.marketBids[0][0];
   }
 
   getAskPrice() {
-    return this.marketAsks[0].price;
+    return this.marketAsks[0][0];
   }
 
   getBidQuantity() {
-    return this.marketBids[0].quantity;
+    return this.marketBids[0][1];
   }
 
   getAskQuantity() {
-    return this.marketAsks[0].quantity;
+    return this.marketAsks[0][1];
   }
 
   parseOrderBook(orderBook) {
     const lastVWAP = this.lastVWAP;
-    let marketBids = orderBook.bids.slice(0,5).map(bid => bid[0] > lastVWAP ? 1 : 0);
-    let marketAsks = orderBook.asks.slice(0,5).map(bid => bid[0] < lastVWAP ? 1 : 0);
-    const bidSignature = marketBids.length < 5 ? `${marketBids.join('')}${'0'.repeat(5-marketBids.length)}` : `${marketBids.join('')}`;
-    const askSignature = marketAsks.length < 5 ? `${marketAsks.join('')}${'0'.repeat(5-marketAsks.length)}` : `${marketAsks.join('')}`;
+    // let marketBids = orderBook.bids.slice(0,5).map(bid => bid[0] > lastVWAP ? 1 : 0);
+    // let marketAsks = orderBook.asks.slice(0,5).map(bid => bid[0] < lastVWAP ? 1 : 0);
+    const marketBids = orderBook.bids.slice(0,5);
+    const marketAsks = orderBook.asks.slice(0,5);
+    const marketBidState = marketBids.map(bid => bid[0] > lastVWAP ? 1 : 0);
+    const marketAskState = marketAsks.map(bid => bid[0] < lastVWAP ? 1 : 0);
+    const bidSignature = marketBidState.length < 5 ? `${marketBidState.join('')}${'0'.repeat(5-marketBidState.length)}` : `${marketBidState.join('')}`;
+    const askSignature = marketAsks.length < 5 ? `${marketAskState.join('')}${'0'.repeat(5-marketAskState.length)}` : `${marketAskState.join('')}`;
     const stateId = `${bidSignature}${askSignature}`;
     return { marketBids, marketAsks, stateId }
   }
@@ -94,7 +98,6 @@ class StateMachine {
   }
 
   addSellPosition(price, quantity) {
-    // console.log(price, quantity)
     this.holdQuantity -= quantity;
     this.sells.push(new Position(this.symbol, price, quantity));
   }
@@ -104,7 +107,6 @@ class StateMachine {
       this.addBuyPosition(this.getAskPrice(), quantity);
     }
     if(actionName === 'SELL'){
-      // console.log(quantity)
       this.addSellPosition(this.getBidPrice(), quantity);
 
     }
