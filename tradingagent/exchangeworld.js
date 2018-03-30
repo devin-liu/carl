@@ -11,13 +11,12 @@ const { ONECOINACTIONS,
        } = require('./defaults.js');
 
 class ExchangeWorld extends StateMachine {
-  constructor(oneSideWidth, symbol, firstVWAP, orderBook) {
+  constructor(oneSideWidth, symbol, firstVWAP) {
     super();
     this.reset();
     this.init(oneSideWidth);
     this.symbol = symbol
     this.firstVWAP = firstVWAP;
-    this.orderBook = orderBook;
   }
 
   reset() {
