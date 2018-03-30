@@ -19,7 +19,7 @@ function getProductBook(pairString) {
     (error, response, book) => {
       if(!error){
         // console.log(`INSERT INTO orderbook values(NOW(), ${book});`)
-        const qs = `INSERT INTO orderbook (data ) values ('${JSON.stringify(book)}');`;
+        const qs = `INSERT INTO orderbook (data, pair_string) values ('${JSON.stringify(book)}', '${pairString}');`;
         console.log(`${pairString}: ${book.sequence}`)
         DB.query(qs);
       }else{

@@ -6,7 +6,8 @@ CREATE DATABASE gdax;
 create table orderbook (
     id serial,
     created_at TIMESTAMP DEFAULT NOW(),
-    data jsonb not null
+    data jsonb not null,
+    pair_string text
 );
 
 <!--
