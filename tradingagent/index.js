@@ -49,6 +49,9 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
       getBatch(page_size, page, pair_string)
       .then(stepThroughPages)
     }
+    const qs = `INSERT INTO qmap (data, pair_string, profit) values ('${JSON.stringify(agent.Q)}', '${pair_string}', ${world.calculateProfit()});`;
+    console.log(`${world.calculateProfit()}`)
+    // DB.query(qs);
   }
 
 
@@ -63,6 +66,7 @@ function reset() {
 getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
-  train(300000, 1000, 10)
+  // train(300000, 1000, 10)
+  train(1000, 100, 10)
 })
 // world.start()

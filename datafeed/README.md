@@ -10,6 +10,15 @@ create table orderbook (
     pair_string text
 );
 
+
+create table qmap (
+    id serial,
+    created_at TIMESTAMP DEFAULT NOW(),
+    data jsonb not null,
+    pair_string text,
+    profit decimal
+);
+
 <!--
 create table historicalprices (
     id serial,
