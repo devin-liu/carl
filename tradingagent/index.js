@@ -63,6 +63,6 @@ function reset() {
 getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
-  train(300000, 1000)
+  train(300000, 1000, 10)
 })
 // world.start()
