@@ -30,11 +30,21 @@ function getNextState() {
 }
 
 
-function stepAgentForward() {
+function stepAgentForward(orderBook) {
   agent.currentState = getNextState();
-  const { marketBids, marketAsks, stateId } = agent.parseOrderBook(orderBook);
+  const { marketBids, marketAsks, stateId } = world.parseOrderBook(orderBook);
   agent.setOrderBook({ marketAsks, marketBids });
 
+}
+
+
+function getBatch(items, page, pair_string) {
+  // console.log(`select * from orderbook limit ${items} offset ${page*items} where 'pair_string' is '${pair_string}';`)
+  DB.query(`select * from orderbook where pair_string LIKE '${pair_string}' limit ${items} offset ${items*page};`, (a, b, c) => {
+    // console.log(a)
+    // console.log(c)
+    console.log(b.rows)
+  })
 }
 
 function train(steps=10000) {
@@ -66,7 +76,7 @@ function reset() {
 
 
 // world.start()
-
-train(10);
+// train(10);
+getBatch(5, 0, 'ETH-USD');
 
 

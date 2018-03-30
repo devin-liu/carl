@@ -26,30 +26,45 @@ SELECT pg_size_pretty( pg_total_relation_size('orderbook') );
 SELECT * FROM orderbook WHERE id=(SELECT max(id) FROM orderbook);
 
 
-<!-- SELECT count(*) FROM orderbook WHERE pair_string IS NULL; -->
+SELECT count(*) FROM orderbook WHERE pair_string IS NULL;
 
 
 select * from orderbook where jsonb_array_elements(data->'asks'[0][0])::int > 6000;
 
-select jsonb_array_elements(data->'asks')->0->0 from orderbook;
+
+select * from orderbook  WHERE (select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT LIKE '6___' LIMIT 1;
 
 
-select jsonb_array_elements(data->'asks' -> 0  -> '0') as asks from orderbook where id=(SELECT max(id) FROM orderbook);
-
-
-
-select jsonb_array_elements(data->'asks'->0) as asks from orderbook WHERE id=(SELECT max(id) FROM orderbook);
-
-
-select jsonb_array_elements(data->'asks'->0) as asks from orderbook WHERE id=(SELECT max(id) FROM orderbook);
-
-
-select (jsonb_array_elements(data->'asks'->0)) as asks from orderbook WHERE id=(SELECT max(id) FROM orderbook);
-
-select (jsonb_array_elements(data->'asks'->0)) as asks from orderbook  WHERE id=(SELECT max(id) FROM orderbook);
+(select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)
 
 
 WHERE pair_string IS NULL;
 
 
-select * from (select t.* from "myData", jsonb_array_elements("values") with ordinality as t(data, idx)) as x;
+
+
+
+
+select count(*) from orderbook WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d\d"|"6\d\d\d.\d\d"|"7\d\d\d"|"7\d\d\d.\d\d"|"8\d\d\d"|"8\d\d\d.\d\d"|"9\d\d\d"|"9\d\d\d.\d\d"|"10\d\d\d"|"10\d\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d\d"|"6\d\d\d.\d\d"|"7\d\d\d"|"7\d\d\d.\d\d"|"8\d\d\d"|"8\d\d\d.\d\d"|"9\d\d\d"|"9\d\d\d.\d\d"|"10\d\d\d"|"10\d\d\d.\d\d"') AND pair_string IS NULL;
+| 58389
+BTC-USD
+UPDATE orderbook SET pair_string = 'BTC-USD' WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d\d"|"6\d\d\d.\d\d"|"7\d\d\d"|"7\d\d\d.\d\d"|"8\d\d\d"|"8\d\d\d.\d\d"|"9\d\d\d"|"9\d\d\d.\d\d"|"10\d\d\d"|"10\d\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d\d"|"6\d\d\d.\d\d"|"7\d\d\d"|"7\d\d\d.\d\d"|"8\d\d\d"|"8\d\d\d.\d\d"|"9\d\d\d"|"9\d\d\d.\d\d"|"10\d\d\d"|"10\d\d\d.\d\d"') AND pair_string IS NULL;
+
+
+
+select count(*) from orderbook WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d"|"6\d\d.\d\d"|"7\d\d"|"7\d\d.\d\d"|"8\d\d"|"8\d\d.\d\d"|"9\d\d"|"9\d\d.\d\d"|"10\d\d"|"10\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d"|"6\d\d.\d\d"|"7\d\d"|"7\d\d.\d\d"|"8\d\d"|"8\d\d.\d\d"|"9\d\d"|"9\d\d.\d\d"|"10\d\d"|"10\d\d.\d\d"') AND pair_string IS NULL;
+| 58112
+BCH-USD
+UPDATE orderbook SET pair_string = 'BCH-USD' WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d"|"6\d\d.\d\d"|"7\d\d"|"7\d\d.\d\d"|"8\d\d"|"8\d\d.\d\d"|"9\d\d"|"9\d\d.\d\d"|"10\d\d"|"10\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"6\d\d"|"6\d\d.\d\d"|"7\d\d"|"7\d\d.\d\d"|"8\d\d"|"8\d\d.\d\d"|"9\d\d"|"9\d\d.\d\d"|"10\d\d"|"10\d\d.\d\d"') AND pair_string IS NULL;
+
+
+select count(*) from orderbook WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"5\d\d"|"5\d\d.\d\d"|"4\d\d"|"4\d\d.\d\d"|"3\d\d"|"3\d\d.\d\d"' or (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"5\d\d"|"5\d\d.\d\d"|"4\d\d"|"4\d\d.\d\d"|"3\d\d"|"3\d\d.\d\d"') AND pair_string IS NULL;
+| 58328
+ETH-USD
+UPDATE orderbook SET pair_string = 'ETH-USD' WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"5\d\d"|"5\d\d.\d\d"|"4\d\d"|"4\d\d.\d\d"|"3\d\d"|"3\d\d.\d\d"' or (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"5\d\d"|"5\d\d.\d\d"|"4\d\d"|"4\d\d.\d\d"|"3\d\d"|"3\d\d.\d\d"') AND pair_string IS NULL;
+
+
+select count(*) from orderbook WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"1\d\d"|"1\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"1\d\d"|"1\d\d.\d\d"') AND pair_string IS NULL;
+| 58323
+LTC-USD
+UPDATE orderbook SET pair_string = 'LTC-USD' WHERE ((select * from jsonb_array_elements(data->'asks'->0) LIMIT 1)::TEXT SIMILAR TO '"1\d\d"|"1\d\d.\d\d"' OR (select * from jsonb_array_elements(data->'bids'->0) LIMIT 1)::TEXT SIMILAR TO '"1\d\d"|"1\d\d.\d\d"') AND pair_string IS NULL;
