@@ -105,6 +105,7 @@ class StateMachine {
   takeStep(actionName, quantity) {
     if(actionName === 'BUY'){
       this.addBuyPosition(this.getAskPrice(), quantity);
+      this.setLastVWAP();
     }
     if(actionName === 'SELL'){
       this.addSellPosition(this.getBidPrice(), quantity);

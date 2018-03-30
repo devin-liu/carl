@@ -49,8 +49,9 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
     for(let page = 0; page < steps / page_size; page++){
       getBatch(page_size, page, pair_string)
       .then(stepThroughPages)
-      console.log(`Page: ${page}`)
-      console.log(`Holding: ${world.holdQuantity}`)
+      // console.log(`Page: ${page}`)
+      // console.log(`Holding: ${world.holdQuantity}`)
+      console.log(`${world.lastVWAP}`)
       console.log(`Profit: ${world.calculateProfit()}`)
     }
     resolve(world)
@@ -66,7 +67,7 @@ function reset() {
 
 
 // world.start()
-train(1000)
+train(1000, 100)
 .then(world => {
   console.log(`Holding: ${world.holdQuantity}`)
   console.log(`Profit: ${world.calculateProfit()}`)
