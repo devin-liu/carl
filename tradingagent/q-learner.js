@@ -74,7 +74,7 @@ class QLearner {
     // That's how you get to the goal!
     const quantity = this.world.getTradeQuantity(bestAction);
     const stepReward = this.world.getStepReward(bestAction, quantity);
-    // console.log(`${bestAction} ${quantity} ${this.world.symbol}`)
+    // if(quantity)console.log(`${bestAction} ${quantity} ${this.world.symbol}`)
     this.world.takeStep(bestAction, quantity);
     const learntReward = this.gamma * stepReward;
     const stepValue = this.alpha * (learntReward - this.Q[state.id][bestAction])

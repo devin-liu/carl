@@ -29,25 +29,32 @@ function getBatch(items, page, pair_string) {
 }
 
 function stepThroughPages(pages) {
-  for(let i = 0; i < pages.length; i++){
-    if(pages[i].data)stepAgentForward(pages[i].data);
-  }
-  return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    for(let i = 0; i < pages.length; i++){
+      if(pages[i].data)stepAgentForward(pages[i].data);
+    }
+    return resolve();
+  })
 }
 
 
 function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
-  world.policy = agent.policy();
-  reset();
-  let page = 0;
-  while(page*page_size < steps){
-    getBatch(page_size, page, pair_string)
-    .then(stepThroughPages)
-    page++;
-    console.log(`Holding: ${world.holdQuantity}`)
-    console.log(`Profit: ${world.calculateProfit()}`)
-  }
+  return new Promise((resolve, reject) => {
+    world.policy = agent.policy();
+    reset();
 
+    // while(this.page*page_size < steps){
+
+    // }
+    for(let page = 0; page < steps / page_size; page++){
+      getBatch(page_size, page, pair_string)
+      .then(stepThroughPages)
+      console.log(`Page: ${page}`)
+      console.log(`Holding: ${world.holdQuantity}`)
+      console.log(`Profit: ${world.calculateProfit()}`)
+    }
+    resolve(world)
+  })
 
 }
 
@@ -59,4 +66,8 @@ function reset() {
 
 
 // world.start()
-train(10);
+train(1000)
+.then(world => {
+  console.log(`Holding: ${world.holdQuantity}`)
+  console.log(`Profit: ${world.calculateProfit()}`)
+})
