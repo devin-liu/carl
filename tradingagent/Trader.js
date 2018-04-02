@@ -17,35 +17,43 @@ class Trader extends Trainer {
   addBuyPosition(price, size) {
     console.log(`BUYING ${size} @ ${price}` )
     if(this.world.cash >= price*size*1.0025){
-      this.world.takeStep('BUY', size)
+      // this.world.takeStep('BUY', size)
+      authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
+        this.world.takeStep('BUY', size)
+      })
     }
 
-    // authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
-    //   this.world.takeStep('BUY', size)
-    // })
 
   }
   addSellPosition(price, size) {
     console.log(`SELLING ${size} @ ${price}` )
     if(this.world.holdQuantity >= size){
-      this.world.takeStep('SELL', size)
+      // this.world.takeStep('SELL', size)
+      authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+        this.world.takeStep('SELL', size)
+      })
     }
-    // authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
-    //   this.world.takeStep('SELL', size)
-    // })
   }
 
   takeTradeAction(currentState) {
     const currentStateAction = this.agent.Q[currentState.id];
     const bestAction = this.agent.pickEpsilonGreedyAction(currentStateAction)
-    console.log(`bestAction: ${bestAction}`)
+    // const bestAction = this.agent.pickBestAction(currentStateAction)
+    // console.log(`bestAction: ${bestAction}`)
     const quantity = this.world.getTradeQuantity(bestAction);
+    const stepReward = this.world.getStepReward(bestAction, quantity);
+    const learntReward = this.agent.gamma * stepReward;
+    // const stepValue = this.agent.alpha * (learntReward - this.agent.Q[state.id][bestAction])
+    const stepValue = this.agent.alpha * (learntReward)
+    this.agent.Q[currentState.id] += stepValue;
     if(bestAction === 'BUY'){
-      this.addBuyPosition(this.world.getAskPrice(), quantity);
+      // this.addBuyPosition(this.world.getAskPrice(), quantity);
+      this.addBuyPosition(this.world.getBidPrice(), quantity);
     }
 
     if(bestAction === 'SELL'){
-      this.addSellPosition(this.world.getBidPrice(), quantity);
+      // this.addSellPosition(this.world.getBidPrice(), quantity);
+      this.addSellPosition(this.world.getAskPrice(), quantity);
     }
   }
 
@@ -114,7 +122,7 @@ class Trader extends Trainer {
       .then((orderBook) => {
         this.agent.reset();
         this.world.reset();
-        this.agent.Q = currentAgent.Q;
+        // this.agent.Q = currentAgent.Q;
         // console.log(this.agent.Q)
         this.runTradingPoller()
       })
