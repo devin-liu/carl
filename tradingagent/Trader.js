@@ -12,15 +12,16 @@ class Trader extends Trainer {
     this.setNextState = this.setNextState.bind(this);
     this.takeTradeAction = this.takeTradeAction.bind(this);
     this.runTradingPoller = this.runTradingPoller.bind(this);
+    this.saveCurrentState = this.saveCurrentState.bind(this);
   }
 
   addBuyPosition(price, size) {
     console.log(`BUYING ${size} @ ${price}` )
     if(this.world.cash >= price*size*1.0025){
-      // this.world.takeStep('BUY', size)
-      authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
-        this.world.takeStep('BUY', size)
-      })
+      this.world.takeStep('BUY', size)
+      // authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
+      //   this.world.takeStep('BUY', size)
+      // })
     }
 
 
@@ -28,11 +29,19 @@ class Trader extends Trainer {
   addSellPosition(price, size) {
     console.log(`SELLING ${size} @ ${price}` )
     if(this.world.holdQuantity >= size){
-      // this.world.takeStep('SELL', size)
-      authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
-        this.world.takeStep('SELL', size)
-      })
+      this.world.takeStep('SELL', size)
+      // authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+      //   this.world.takeStep('SELL', size)
+      // })
     }
+  }
+
+  saveCurrentState() {
+    const currentAgent = this.agent;
+    const currentWorld = this.world;
+    const profit = currentWorld.calculateProfit();
+    const qs = `INSERT INTO qmap (data, pair_string, profit) values ('${JSON.stringify({currentWorld,currentAgent,profit})}', '${this.world.symbol}', ${profit});`;
+    DB.query(qs);
   }
 
   takeTradeAction(currentState) {
@@ -57,12 +66,13 @@ class Trader extends Trainer {
     }
   }
 
-  runTradingPoller() {
+  runTradingPoller(currentIteration=1) {
+    if(currentIteration % 300 === 0) this.saveCurrentState();
     setTimeout(() => {
       this.getNextOrder()
       .then(this.takeTradeAction)
       .catch(e => console.log(e))
-      this.runTradingPoller();
+      this.runTradingPoller(currentIteration+1);
     }, 3000)
   }
 
