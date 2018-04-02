@@ -11,10 +11,10 @@ class Trainer {
   }
 
 
-  setNewWorldOrderBook({ orderBook, marketAsks, marketBids }) {
-    this.agent.currentState = orderBook;
-    this.world.setOrderBook({ marketAsks, marketBids });
-  }
+  // setNewWorldOrderBook({ orderBook, marketAsks, marketBids }) {
+  //   this.agent.currentState = orderBook;
+  //   this.world.setOrderBook({ marketAsks, marketBids });
+  // }
 
   getNewStepState(stateId) {
     return this.world.states[stateId];
@@ -22,7 +22,8 @@ class Trainer {
 
   stepAgentForward(orderBook) {
     const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
-    this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
+    // this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
+    this.world.setOrderBook({ marketAsks, marketBids });
     const thisStepState = this.getNewStepState(stateId);
     return this.agent.step(thisStepState)
   }

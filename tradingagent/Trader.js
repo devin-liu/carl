@@ -37,7 +37,8 @@ class Trader extends Trainer {
 
   takeTradeAction(currentState) {
     const currentStateAction = this.agent.Q[currentState.id];
-    const bestAction = this.agent.pickBestAction(currentStateAction)
+    const bestAction = this.agent.pickEpsilonGreedyAction(currentStateAction)
+    console.log(`bestAction: ${bestAction}`)
     const quantity = this.world.getTradeQuantity(bestAction);
     if(bestAction === 'BUY'){
       this.addBuyPosition(this.world.getAskPrice(), quantity);
@@ -57,17 +58,13 @@ class Trader extends Trainer {
     }, 3000)
   }
 
-  getStepAction() {
-    const nextAction = this.agent.pickBestAction(this.stepState);
-
-  }
-
   setNextState(orderBook) {
     const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
     console.log(`Current World State: ${stateId}`)
     console.log(`holdQuantity: ${this.world.holdQuantity}`)
     console.log(`Cash: ${this.world.cash}`)
-    this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
+    this.world.setOrderBook({ marketAsks, marketBids });
+    // this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
     this.stepState = this.getNewStepState(stateId);
     return this.stepState;
   }
@@ -113,13 +110,14 @@ class Trader extends Trainer {
   init() {
     DB.query(`select * from qmap where profit=(SELECT max(profit) from qmap);`, (error, response) => {
       const { currentAgent, currentWorld } = response.rows[0].data;
-      this.agent.reset();
-      this.world.reset();
-      // this.agent.Q = currentAgent.Q;
-      console.log(this.agent.Q)
       this.getFirstOrder()
-      .then(this.runTradingPoller)
-
+      .then((orderBook) => {
+        this.agent.reset();
+        this.world.reset();
+        this.agent.Q = currentAgent.Q;
+        // console.log(this.agent.Q)
+        this.runTradingPoller()
+      })
     })
   }
 }
