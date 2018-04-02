@@ -1,4 +1,6 @@
 const DB = require('../datafeed/Database/index.js');
+const Promise = require("bluebird");
+
 
 const ExchangeWorld = require('./ExchangeWorld.js');
 const QLearner = require('./q-learner.js');
@@ -14,7 +16,7 @@ function stepAgentForward(orderBook) {
   const thisStepState = world.states[stateId];
   agent.currentState = orderBook;
   world.setOrderBook({ marketAsks, marketBids });
-  agent.step(thisStepState)
+  return agent.step(thisStepState)
 }
 
 
@@ -32,9 +34,9 @@ function getBatch(items, page, pair_string) {
 function stepThroughPages(pages) {
   return new Promise((resolve, reject) => {
     for(let i = 0; i < pages.length; i++){
-      if(pages[i].data)stepAgentForward(pages[i].data);
+      let thisStep = stepAgentForward(pages[i].data);
+      if(i === pages.length-1) resolve(thisStep);
     }
-    return resolve();
   })
 }
 
@@ -44,15 +46,41 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
   reset();
   world.policy = agent.policy();
 
+  let epochPromises = [];
+
   for(let i = 0; i < repeat; i++){
-    for(let page = 0; page < steps / page_size; page++){
-      getBatch(page_size, page, pair_string)
-      .then(stepThroughPages)
-    }
-    const qs = `INSERT INTO qmap (data, pair_string, profit) values ('${JSON.stringify(agent.Q)}', '${pair_string}', ${world.calculateProfit()});`;
-    console.log(`${world.calculateProfit()}`)
-    // DB.query(qs);
+    let newEpoch = new Promise(resolveEpoch => {
+      for(let page = 0; page < steps / page_size; page++){
+        let batchArray = [];
+        batchArray.push(new Promise((resolveBatch) => {
+          getBatch(page_size, page, pair_string)
+          .then(stepThroughPages)
+          .then(step => resolveBatch(step))
+        }))
+        Promise.all(batchArray).then((stepData) => {
+          const currentAgent = stepData[stepData.length-1];
+          const currentWorld = currentAgent.world;
+          const profit = currentWorld.calculateProfit();
+          console.log(`Epoch: ${i+1}/${repeat} ${parseInt(100*(page/(steps/page_size)))}% complete | Profit: ${profit}`)
+          resolveEpoch({currentWorld,currentAgent,profit})
+        })
+      }
+    })
+    epochPromises.push(newEpoch);
   }
+
+
+  Promise.all(epochPromises)
+  .then(epochs => {
+    epochs.map(epoch => {
+      const { profit } = epoch;
+      console.log(profit)
+      console.log('Training Complete');
+      const qs = `INSERT INTO qmap (data, pair_string, profit) values ('${JSON.stringify(epoch)}', '${pair_string}', ${profit});`;
+      DB.query(qs);
+    })
+  })
+
 
 
 }
@@ -67,6 +95,10 @@ getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
   // train(300000, 1000, 10)
-  train(1000, 100, 10)
+  train(10000, 1000, 3)
+  return Promise.resolve()
 })
+// .then(() => {
+//   train(460000, 1000, 100)
+// })
 // world.start()

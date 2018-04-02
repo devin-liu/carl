@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bluebird": "^3.5.1",
     "pg": "^7.4.1"
   }
 }
