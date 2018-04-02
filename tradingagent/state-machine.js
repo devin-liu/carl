@@ -93,14 +93,14 @@ class StateMachine {
   }
 
   addBuyPosition(price, quantity) {
-    this.holdQuantity += quantity;
+    this.updateHoldQuantity(quantity)
     this.buys.push(new Position(this.symbol, price, quantity));
     this.setLastVWAP();
     // console.log(this.lastVWAP)
   }
 
   addSellPosition(price, quantity) {
-    this.holdQuantity -= quantity;
+    this.updateHoldQuantity(0-quantity)
     this.sells.push(new Position(this.symbol, price, quantity));
   }
 
@@ -139,8 +139,14 @@ class StateMachine {
   }
 
   clearBalance() {
+    this.profit = this.calculateProfit();
     this.buys = [];
     this.sells = [];
+  }
+
+  updateHoldQuantity(quantity) {
+    this.holdQuantity = this.holdQuantity + quantity;
+    if(this.holdQuantity === 0) this.clearBalance();
   }
 
 }

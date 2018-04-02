@@ -42,13 +42,12 @@ function stepThroughPages(pages) {
 
 
 function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
-
-  reset();
   world.policy = agent.policy();
 
   let epochPromises = [];
 
   for(let i = 0; i < repeat; i++){
+    reset(i > 0);
     let newEpoch = new Promise(resolveEpoch => {
       for(let page = 0; page < steps / page_size; page++){
         let batchArray = [];
@@ -86,16 +85,17 @@ function train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
 }
 
 
-function reset() {
+function reset(epoch=false) {
   world.reset();
-  agent.reset();
+  if(!epoch)agent.reset();
+
 }
 
 getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
   // train(300000, 1000, 10)
-  train(140000, 1000, 10)
+  train(140000, 1000, 5)
   return Promise.resolve()
 })
 // .then(() => {

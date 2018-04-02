@@ -138,7 +138,7 @@ class ExchangeWorld extends StateMachine {
     const revenue = this.getTotalPositionPrice(this.sells);
     // console.log(this.buys)
     // console.log(this.sells)
-    return revenue - cost;
+    return this.profit+(revenue - cost);
   }
 
   setLastVWAP() {
