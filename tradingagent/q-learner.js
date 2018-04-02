@@ -63,7 +63,7 @@ class QLearner {
     // console.log(bestAction)
 
     // Take the action A, and get a reward R and the next state S'.
-    const stateAction = this.world.stateActions[state.id][bestAction];
+    // const stateAction = this.world.stateActions[state.id][bestAction];
 
     // Update the value function according to this formula:
     // Q(S, A) = Q(S, A) + α[R + γ max_a Q(S', a) − Q(S, A)]

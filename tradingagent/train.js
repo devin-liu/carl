@@ -10,11 +10,20 @@ class Trainer {
     this.stepThroughPages = this.stepThroughPages.bind(this);
   }
 
-  stepAgentForward(orderBook) {
-    const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
-    const thisStepState = this.world.states[stateId];
+
+  setNewWorldOrderBook({ orderBook, marketAsks, marketBids }) {
     this.agent.currentState = orderBook;
     this.world.setOrderBook({ marketAsks, marketBids });
+  }
+
+  getNewStepState(stateId) {
+    return this.world.states[stateId];
+  }
+
+  stepAgentForward(orderBook) {
+    const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
+    this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
+    const thisStepState = this.getNewStepState(stateId);
     return this.agent.step(thisStepState)
   }
 
