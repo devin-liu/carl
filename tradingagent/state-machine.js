@@ -75,7 +75,9 @@ class StateMachine {
     // ask = WTS(other person wants to sell to you)
     const marketBids = orderBook.bids.slice(0,5);
     const marketAsks = orderBook.asks.slice(0,5);
+    // buy from you for greater than lastVWAP and fee
     const marketBidState = marketBids.map(bid => bid[0] > lastVWAP*1.0025 ? 1 : 0);
+    // sell to you for less than lastVWAP and fee
     const marketAskState = marketAsks.map(ask => ask[0] < lastVWAP*0.9975 ? 1 : 0);
     const bidSignature = marketBidState.length < 5 ? `${marketBidState.join('')}${'0'.repeat(5-marketBidState.length)}` : `${marketBidState.join('')}`;
     const askSignature = marketAsks.length < 5 ? `${marketAskState.join('')}${'0'.repeat(5-marketAskState.length)}` : `${marketAskState.join('')}`;
@@ -96,6 +98,7 @@ class StateMachine {
 
   addBuyPosition(price, quantity) {
     this.updateHoldQuantity(quantity)
+    this.updateCash(0-(price*quantity*1.0025))
     this.buys.push(new Position(this.symbol, price, quantity));
     this.setLastVWAP();
     // console.log(this.lastVWAP)
@@ -103,6 +106,7 @@ class StateMachine {
 
   addSellPosition(price, quantity) {
     this.updateHoldQuantity(0-quantity)
+    this.updateCash(price*quantity*.9975)
     this.sells.push(new Position(this.symbol, price, quantity));
   }
 
@@ -149,6 +153,10 @@ class StateMachine {
   updateHoldQuantity(quantity) {
     this.holdQuantity = this.holdQuantity + quantity;
     if(this.holdQuantity === 0) this.clearBalance();
+  }
+
+  updateCash(amount) {
+    this.cash = this.cash + amount;
   }
 
 }

@@ -85,11 +85,13 @@ class ExchangeWorld extends StateMachine {
     const maxRiskCash = this.getMaxRiskCash();
     if(actionName === 'BUY'){
       const price = this.getTradePrice(actionName);
-      return Math.min((maxRiskCash / price), this.getAskQuantity());
+      const qty = Math.min((maxRiskCash / price), this.getAskQuantity());
+      return qty < .01 ? .01 : qty;
     }
     if(actionName === 'SELL'){
       if(this.holdQuantity === 0) return 0;
-      return Math.min(this.getBidQuantity(), this.holdQuantity);
+      const qty = Math.min(this.getBidQuantity(), this.holdQuantity);
+      return qty < .01 ? .01 : qty;
     }
     if(actionName === 'HODL'){
       return 0;

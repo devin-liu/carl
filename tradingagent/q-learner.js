@@ -107,7 +107,7 @@ class QLearner {
 
   pickBestAction(values) {
     let highestValue = -1;
-    let bestAction = -1;
+    let bestAction = 3;
     for (let action in values) {
       if (values[action] > highestValue) {
         highestValue = values[action];

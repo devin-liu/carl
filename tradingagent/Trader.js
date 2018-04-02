@@ -16,18 +16,23 @@ class Trader extends Trainer {
 
   addBuyPosition(price, size) {
     console.log(`BUYING ${size} @ ${price}` )
-    // this.world.takeStep('BUY', size)
-    authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
-        this.world.takeStep('BUY', size)
-    })
+    if(this.world.cash >= price*size*1.0025){
+      this.world.takeStep('BUY', size)
+    }
+
+    // authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
+    //   this.world.takeStep('BUY', size)
+    // })
 
   }
   addSellPosition(price, size) {
     console.log(`SELLING ${size} @ ${price}` )
-    // this.world.takeStep('SELL', size)
-    authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+    if(this.world.holdQuantity >= size){
       this.world.takeStep('SELL', size)
-    })
+    }
+    // authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+    //   this.world.takeStep('SELL', size)
+    // })
   }
 
   takeTradeAction(currentState) {
@@ -60,7 +65,8 @@ class Trader extends Trainer {
   setNextState(orderBook) {
     const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
     console.log(`Current World State: ${stateId}`)
-    console.log(`holdQuanitity: ${this.world.holdQuantity}`)
+    console.log(`holdQuantity: ${this.world.holdQuantity}`)
+    console.log(`Cash: ${this.world.cash}`)
     this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
     this.stepState = this.getNewStepState(stateId);
     return this.stepState;
