@@ -4,14 +4,14 @@ const key = process.env.GDAX_API_KEY;
 const secret = process.env.GDAX_API_SECRET;
 const passphrase = process.env.GDAX_API_PASSPHRASE;
 
+
 const apiURI = 'https://api.gdax.com';
-const sandboxURI = 'https://api-public.sandbox.gdax.com';
 
 const authedClient = new Gdax.AuthenticatedClient(
   key,
   secret,
   passphrase,
-  sandboxURI
+  apiURI,
 );
 
 
@@ -28,6 +28,18 @@ const authedClient = new Gdax.AuthenticatedClient(
 // authedClient.buy(buyParams, callback);
 
 const { buy, sell, getFills, getAccountHolds } = authedClient;
+
+
+// const depositParamsUSD = {
+//     amount: '10.00',
+//     currency: 'USD',
+//     coinbase_account_id: process.env.COINBASE_SANDBOX_ACCOUNT_ID
+//   };
+//   authedClient.deposit(depositParamsUSD, (error, response) => {
+//     console.log(error)
+//     console.log(response)
+//   });
+
 
 // // Sell 1 BTC @ 110 USD
 // const sellParams = {
