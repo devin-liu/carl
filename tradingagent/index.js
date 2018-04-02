@@ -1,23 +1,11 @@
 const ExchangeWorld = require('./ExchangeWorld.js');
 const QLearner = require('./q-learner.js');
-const GDAXClient = require('./TradeActions.js');
+const Trainer = require('./train.js');
 
-class Trader () {
+const world = new ExchangeWorld(5, 'ETH-USD', null, {});
+const agent = new QLearner(world);
+const pair_string = 'ETH-USD';
 
-  constructor(agent, world) {
-    this.agent = agent;
-    this.world = world;
-  }
+const trainingAgent = new Trainer(agent, world, pair_string);
+trainingAgent.init();
 
-  addBuyPosition(price, size) {
-    GDAXClient.buy({ price, size, product_id: this.world.symbol }, () => {
-      this.world.addBuyPosition(price, size)
-    })
-
-  }
-  addSellPosition(price, size) {
-    GDAXClient.sell({ price, size, product_id: this.world.symbol }, () => {
-      this.world.addSellPosition(price, size)
-    })
-  }
-}
