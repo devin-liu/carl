@@ -95,7 +95,7 @@ getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
   // train(300000, 1000, 10)
-  train(10000, 1000, 3)
+  train(140000, 1000, 10)
   return Promise.resolve()
 })
 // .then(() => {

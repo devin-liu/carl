@@ -26,6 +26,8 @@ class ExchangeWorld extends StateMachine {
     this.policy = null;
     this.lastVWAP = this.firstVWAP;
     this.profit = 0;
+    this.buys = [];
+    this.sells = [];
   }
 
   start(slow = false) {
