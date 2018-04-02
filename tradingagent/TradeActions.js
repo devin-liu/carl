@@ -27,6 +27,8 @@ const authedClient = new Gdax.AuthenticatedClient(
 // };
 // authedClient.buy(buyParams, callback);
 
+const { buy, sell, getFills, getAccountHolds } = authedClient;
+
 // // Sell 1 BTC @ 110 USD
 // const sellParams = {
 //   price: '110.00', // USD

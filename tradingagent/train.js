@@ -11,6 +11,13 @@ const agent = new QLearner(world);
 const pair_string = 'ETH-USD';
 
 
+class Trainer() {
+  constructor() {
+
+  }
+}
+
+
 function stepAgentForward(orderBook) {
   const { marketBids, marketAsks, stateId } = world.parseOrderBook(orderBook);
   const thisStepState = world.states[stateId];
@@ -95,7 +102,7 @@ getBatch(1,0,pair_string)
 .then((response) => {
   world.firstVWAP = response[0].data.asks[0][0];
   // train(300000, 1000, 10)
-  train(140000, 1000, 5)
+  train(200000, 1000, 5)
   return Promise.resolve()
 })
 // .then(() => {
