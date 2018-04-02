@@ -4,7 +4,7 @@ const QLearner = require('./q-learner.js');
 const Gdax = require('gdax');
 const publicClient = new Gdax.PublicClient();
 const Trainer = require('./train.js');
-const GDAXClient = require('./TradeActions.js');
+const authedClient = require('./TradeActions.js');
 
 class Trader extends Trainer {
   constructor(agent, world, symbol) {
@@ -16,47 +16,29 @@ class Trader extends Trainer {
 
   addBuyPosition(price, size) {
     console.log(`BUYING ${size} @ ${price}` )
-//     GDAXClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
-// //       {
-// //     "id": "d0c5340b-6d6c-49d9-b567-48c4bfca13d2",
-// //     "price": "0.10000000",
-// //     "size": "0.01000000",
-// //     "product_id": "BTC-USD",
-// //     "side": "buy",
-// //     "stp": "dc",
-// //     "type": "limit",
-// //     "time_in_force": "GTC",
-// //     "post_only": false,
-// //     "created_at": "2016-12-08T20:02:28.53864Z",
-// //     "fill_fees": "0.0000000000000000",
-// //     "filled_size": "0.00000000",
-// //     "executed_value": "0.0000000000000000",
-// //     "status": "pending",
-// //     "settled": false
-// // }
-//       this.world.addBuyPosition(price, size)
-//     })
+    // this.world.takeStep('BUY', size)
+    authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
+        this.world.takeStep('BUY', size)
+    })
 
   }
   addSellPosition(price, size) {
     console.log(`SELLING ${size} @ ${price}` )
-    GDAXClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
-      this.world.addSellPosition(price, size)
+    // this.world.takeStep('SELL', size)
+    authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+      this.world.takeStep('SELL', size)
     })
   }
 
   takeTradeAction(currentState) {
-    console.log(currentState)
-    const bestAction = this.world.actions[this.agent.pickBestAction(currentState.id)]
-    const actionName = bestAction.name;
-    console.log(bestAction)
-    console.log(actionName)
-    const quantity = this.world.getTradeQuantity(actionName);
-    if(actionName === 'BUY'){
+    const currentStateAction = this.agent.Q[currentState.id];
+    const bestAction = this.agent.pickBestAction(currentStateAction)
+    const quantity = this.world.getTradeQuantity(bestAction);
+    if(bestAction === 'BUY'){
       this.addBuyPosition(this.world.getAskPrice(), quantity);
     }
 
-    if(actionName === 'SELL'){
+    if(bestAction === 'SELL'){
       this.addSellPosition(this.world.getBidPrice(), quantity);
     }
   }
@@ -65,8 +47,9 @@ class Trader extends Trainer {
     setTimeout(() => {
       this.getNextOrder()
       .then(this.takeTradeAction)
+      .catch(e => console.log(e))
       this.runTradingPoller();
-    }, 5000)
+    }, 3000)
   }
 
   getStepAction() {
@@ -76,6 +59,8 @@ class Trader extends Trainer {
 
   setNextState(orderBook) {
     const { marketBids, marketAsks, stateId } = this.world.parseOrderBook(orderBook);
+    console.log(`Current World State: ${stateId}`)
+    console.log(`holdQuanitity: ${this.world.holdQuantity}`)
     this.setNewWorldOrderBook({orderBook, marketAsks, marketBids});
     this.stepState = this.getNewStepState(stateId);
     return this.stepState;
@@ -94,6 +79,25 @@ class Trader extends Trainer {
 
           }else{
             console.log(error)
+            reject(error)
+          }
+        }
+      )
+    })
+  }
+
+  getFirstOrder() {
+    return new Promise((resolve, reject) => {
+      publicClient.getProductOrderBook(
+        this.world.symbol,
+        { level: 2 },
+        (error, response, orderBook) => {
+          if(!error){
+            this.world.firstVWAP = orderBook.asks[0][0];
+            console.log(this.world.firstVWAP)
+            resolve(this.world.firstVWAP);
+          }else{
+            console.log(error)
           }
         }
       )
@@ -103,8 +107,13 @@ class Trader extends Trainer {
   init() {
     DB.query(`select * from qmap where profit=(SELECT max(profit) from qmap);`, (error, response) => {
       const { currentAgent, currentWorld } = response.rows[0].data;
-      this.agent.Q = currentAgent.Q;
-      this.runTradingPoller();
+      this.agent.reset();
+      this.world.reset();
+      // this.agent.Q = currentAgent.Q;
+      console.log(this.agent.Q)
+      this.getFirstOrder()
+      .then(this.runTradingPoller)
+
     })
   }
 }

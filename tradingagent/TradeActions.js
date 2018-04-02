@@ -27,7 +27,7 @@ const authedClient = new Gdax.AuthenticatedClient(
 // };
 // authedClient.buy(buyParams, callback);
 
-const { buy, sell, getFills, getAccountHolds } = authedClient;
+// const { buy, sell, getFills, getAccountHolds } = authedClient;
 
 
 // const depositParamsUSD = {
@@ -63,9 +63,4 @@ const { buy, sell, getFills, getAccountHolds } = authedClient;
 // authedClient.getAccountHolds(accountID, { before: 3000 }, callback);
 
 
-module.exports = {
-  buy,
-  sell,
-  getFills,
-  getAccountHolds
-}
+module.exports = authedClient

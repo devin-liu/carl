@@ -48,7 +48,7 @@ class StateMachine {
     this.marketAsks = null;
     this.lastVWAP;
     this.profit = 0;
-    this.cash = 10;
+    this.cash = 12;
   }
 
   getBidPrice() {
