@@ -103,6 +103,7 @@ class Trainer {
         console.log('Training Complete');
         const qs = `INSERT INTO qmap (data, pair_string, profit) values ('${JSON.stringify(epoch)}', '${pair_string}', ${profit});`;
         DB.query(qs);
+        console.log(this.agent.Q)
       })
     })
   }
