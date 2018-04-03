@@ -116,14 +116,18 @@ class StateMachine {
 
   takeStep(actionName, quantity) {
     if(actionName === 'BUY'){
-      if(this.getAskPrice() * quantity <= this.cash){
-        this.addBuyPosition(this.getAskPrice(), quantity);
+      // const price = this.getAskPrice();
+      const price = this.getBidPrice();
+      if(price * quantity <= this.cash){
+        this.addBuyPosition(price, quantity);
         this.setLastVWAP();
       }
     }
     if(actionName === 'SELL'){
+      // const price = this.getBidPrice();
+      const price = this.getAskPrice();
       if(quantity <= this.holdQuantity){
-        this.addSellPosition(this.getBidPrice(), quantity);
+        this.addSellPosition(price, quantity);
       }
 
     }

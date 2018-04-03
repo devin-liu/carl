@@ -196,11 +196,11 @@ class ExchangeWorld extends StateMachine {
       // 2 = HODL
       // 3 = CLEAR
       // If the first order in the book is profitable, should you do it?
-      this.addStateAction(stateId, 0, 0);
+      this.addStateAction(stateId, 0, this.states[stateId].bidBook[0]);
 
-      this.addStateAction(stateId, 1, 0);
+      this.addStateAction(stateId, 1, this.states[stateId].askBook[0]);
 
-      this.addStateAction(stateId, 2, 0.1);
+      this.addStateAction(stateId, 2, 0);
 
       // this.addStateAction(stateId, 3, 0);
 

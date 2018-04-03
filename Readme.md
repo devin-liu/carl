@@ -28,3 +28,12 @@ DB.query(`select * from qmap;`, (error, response) => {
   })
   console.log(newQ)
 })
+
+
+
+
+<!-- Get Q from last trained model -->
+DB.query(`select * from qmap;`, (error, response) => {
+  const qMap = response.rows.map(row => row.data.currentAgent.Q);
+  console.log(qMap[qMap.length-1])
+})
