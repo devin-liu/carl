@@ -181,29 +181,29 @@ class ExchangeWorld extends StateMachine {
 
     // States
     for (let i = 0; i < BOOKCOMBINATIONS.length; i++) {
-      for(let j = 0; j < BOOKCOMBINATIONS.length; j++) {
-        const sells = BOOKCOMBINATIONS[j];
-        const buys = BOOKCOMBINATIONS[i];
-        const id = `${sells.join('')}${buys.join('')}`;
-        this.states[id] = new State(id, sells, buys);
-      }
+      const combination = BOOKCOMBINATIONS[i];
+      const sells = combination.sells;
+      const buys = combination.buys;
+      const id = `${sells.join('')}${buys.join('')}`;
+      this.states[id] = new State(id, sells, buys);
     }
 
 
-    for(let key in this.states){
+    for(let i = 0; i < this.states.length; i++){
       for (let j = 0; j < this.actions.length; j++) {
+        const combination = this.states[i]
         // 0 = BUY
         // 1 = SELL
         // 2 = HODL
         // 3 = CLEAR
         // If the first order in the book is profitable, should you do it?
-        this.addStateAction(key, 0, this.states[key].bidBook[0]);
+        this.addStateAction(i, 0, this.states[i].bidBook[0]);
 
-        this.addStateAction(key, 1, this.states[key].askBook[0]);
+        this.addStateAction(i, 1, this.states[i].askBook[0]);
 
-        this.addStateAction(key, 2, 0);
+        this.addStateAction(i, 2, 0);
 
-        this.addStateAction(key, 3, 0);
+        this.addStateAction(i, 3, 0);
 
       }
     }
