@@ -56,13 +56,20 @@ class Trainer {
 
   train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
     this.world.policy = this.agent.policy();
-
+    console.log('train')
     let epochPromises = [];
+    let currentEpoch = 0;
 
-    for(let i = 0; i < repeat; i++){
-      this.reset(i > 0);
+    while(currentEpoch < repeat){
+
+      this.reset(currentEpoch > 0);
+      const thisEpoch = currentEpoch;
+
       let newEpoch = new Promise(resolveEpoch => {
-        for(let page = 0; page < steps / page_size; page++){
+
+        let page = 0;
+        while(page < steps / page_size){
+          const thisPage = page;
           let batchArray = [];
           batchArray.push(new Promise((resolveBatch) => {
             this.getBatch(page_size, page, pair_string)
@@ -74,12 +81,17 @@ class Trainer {
             const currentWorld = currentAgent.world;
             const profit = currentWorld.calculateProfit();
             const { numBuysMade, numSellsMade } = this.world;
-            console.log(`Epoch: ${i+1}/${repeat} ${parseInt(100*(page/(steps/page_size)))}% complete | ${numBuysMade + numSellsMade} Trades | Profit: ${profit}`)
+            console.log(`Epoch: ${thisEpoch+1}/${repeat} ${parseInt(100*(thisPage/(steps/page_size)))}% complete | ${numBuysMade + numSellsMade} Trades | Profit: ${profit}`)
             resolveEpoch({currentWorld,currentAgent,profit})
           })
+          page++
+
         }
       })
+
       epochPromises.push(newEpoch);
+      currentEpoch++;
+
     }
 
 
@@ -96,6 +108,7 @@ class Trainer {
   }
 
   init(steps=10000, page_size=10, repeat=2) {
+    console.log('init lol')
     this.getBatch(1,0,this.symbol)
     .then((response) => {
       this.world.firstVWAP = response[0].data.asks[0][0];
