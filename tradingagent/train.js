@@ -56,7 +56,7 @@ class Trainer {
 
   train(steps=10000, page_size=10, repeat=2, pair_string='ETH-USD') {
     this.world.policy = this.agent.policy();
-    console.log('train')
+    console.log('Starting Training Process')
     let epochPromises = [];
     let currentEpoch = 0;
 
@@ -108,10 +108,10 @@ class Trainer {
   }
 
   init(steps=10000, page_size=10, repeat=2) {
-    console.log('init lol')
+    console.log('Initializing Training With First Step ')
     this.getBatch(1,0,this.symbol)
     .then((response) => {
-      this.world.firstVWAP = response[0].data.asks[0][0];
+      this.world.firstVWAP = response[0].data.bids[0][0];
       this.train(steps, page_size, repeat)
     })
   }

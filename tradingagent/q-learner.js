@@ -99,6 +99,7 @@ class QLearner {
   pickEpsilonGreedyAction(values) {
     const randomNumber = Math.random();
     const actions = Object.keys(values);
+    // console.log(actions)
     if (randomNumber < this.epsilon) {
       return actions[Math.floor(Math.random() * (actions.length-1))];
     } else {

@@ -91,6 +91,51 @@ class StateMachine {
 
 
 
+// const authedClient = require('./TradeActions.js');
+
+
+
+// Open Orders
+// authedClient.getOrders({ after: 3000, status: 'open' }, callback);
+
+// Filled Orders
+// Param Default Description
+// order_id  all Limit list of fills to this order_id
+// product_id  all Limit list of fills to this product_id
+// authedClient.getFills(callback);
+
+
+
+//
+
+// const orderbook = new Gdax.Orderbook();
+
+// orderbook.state
+//   function state(book) {
+// if (book) {
+//   book.bids
+//     .forEach(order => this.add({
+//        id: order[2],
+//        side: \'buy\',
+//        price: BigNumber(order[0]),
+//        size: BigNumber(order[1]),
+//     }));
+//   book.asks
+//     .forEach(order => this.add({
+//        id: order[2],
+//        side: \'sell\',
+//        price: BigNumber(order[0]),
+//        size: BigNumber(order[1]),
+//     }));
+//     } else {
+//   book = { asks: [], bids: [] };
+//   this._bids.reach(bid => book.bids.push(...bid.orders));
+//   this._asks.each(ask => book.asks.push(...ask.orders));
+//   return book;
+// }'
+
+
+
   // subscrube to ticker channel
   // {
   //   "type": "ticker",

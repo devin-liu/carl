@@ -188,24 +188,22 @@ class ExchangeWorld extends StateMachine {
       this.states[id] = new State(id, sells, buys);
     }
 
+    for(let stateId in this.states){
 
-    for(let i = 0; i < this.states.length; i++){
-      for (let j = 0; j < this.actions.length; j++) {
-        const combination = this.states[i]
-        // 0 = BUY
-        // 1 = SELL
-        // 2 = HODL
-        // 3 = CLEAR
-        // If the first order in the book is profitable, should you do it?
-        this.addStateAction(i, 0, this.states[i].bidBook[0]);
+      const combination = this.states[stateId]
+      // 0 = BUY
+      // 1 = SELL
+      // 2 = HODL
+      // 3 = CLEAR
+      // If the first order in the book is profitable, should you do it?
+      this.addStateAction(stateId, 0, this.states[stateId].bidBook[0]);
 
-        this.addStateAction(i, 1, this.states[i].askBook[0]);
+      this.addStateAction(stateId, 1, this.states[stateId].askBook[0]);
 
-        this.addStateAction(i, 2, 0);
+      this.addStateAction(stateId, 2, 0);
 
-        this.addStateAction(i, 3, 0);
+      this.addStateAction(stateId, 3, 0);
 
-      }
     }
   }
 }
