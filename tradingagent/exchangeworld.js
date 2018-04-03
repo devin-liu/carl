@@ -124,20 +124,20 @@ class ExchangeWorld extends StateMachine {
       // new price = 400
       // return amount underneath last VWAP
       // normalize
-      return ((this.lastVWAP-this.getAskPrice())/this.lastVWAP);
+      return ((this.lastVWAP-this.getBidPrice())/this.lastVWAP);
     }
     if(actionName === 'SELL'){
       // last VWAP = 500
       // new price = 600
       // return amount over last VWAP
       // normalize
-      return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
+      return ((this.getAskPrice()-this.lastVWAP)/this.lastVWAP);
     }
     if(actionName === 'HODL'){
       return 0;
     }
     if(actionName === 'CLEAR'){
-      return ((this.getBidPrice()-this.lastVWAP)/this.lastVWAP);
+      return ((this.getAskPrice()-this.lastVWAP)/this.lastVWAP);
     }
   }
 
