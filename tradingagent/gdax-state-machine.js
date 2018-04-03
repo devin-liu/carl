@@ -134,6 +134,23 @@ class StateMachine {
 //   return book;
 // }'
 
+// Pricing Model for Bids
+// Tiers -> ??? -> sell for [bid*(.96)..(1.04)]
+// Step 1 Reward for getting order filled
+// Step 2 Reward for profit
+// Discount for transaction fee
+
+// Pricing Model for Asks
+// Tiers -> ??? -> buy for [asks*(.96)..(1.04)]
+// Step 1 Reward for getting order filled
+// Step 2 Reward for profit
+// Discount for transaction fee
+
+
+
+// Parse through trades
+//
+
 
 
   // subscrube to ticker channel
