@@ -17,9 +17,10 @@ class Trader extends Trainer {
 
   addBuyPosition(price, size) {
     console.log(`BUYING ${size} @ ${price}` )
-    if(this.world.cash >= price*size*1.0025){
+    if(this.world.cash >= price*size){
       this.world.takeStep('BUY', size)
       // authedClient.buy({ price, size, product_id: this.world.symbol }, (error, response) => {
+      //   console.log(response)
       //   this.world.takeStep('BUY', size)
       // })
     }
@@ -31,6 +32,7 @@ class Trader extends Trainer {
     if(this.world.holdQuantity >= size){
       this.world.takeStep('SELL', size)
       // authedClient.sell({ price, size, product_id: this.world.symbol }, (error, response) => {
+      //   console.log(response)
       //   this.world.takeStep('SELL', size)
       // })
     }
@@ -57,14 +59,14 @@ class Trader extends Trainer {
     this.agent.Q[currentState.id] += stepValue;
     if(bestAction === 'BUY'){
       // this.addBuyPosition(this.world.getAskPrice(), quantity);
-      this.addBuyPosition(this.world.getAskPrice()*.995, quantity);
-      // this.addBuyPosition(this.world.getBidPrice(), quantity);
+      // this.addBuyPosition(this.world.getAskPrice()*.995, quantity);
+      this.addBuyPosition(this.world.getBidPrice(), quantity);
     }
 
     if(bestAction === 'SELL'){
       // this.addSellPosition(this.world.getBidPrice(), quantity);
-      this.addSellPosition(this.world.getBidPrice()*1.005, quantity);
-      // this.addSellPosition(this.world.getAskPrice(), quantity);
+      // this.addSellPosition(this.world.getBidPrice()*1.005, quantity);
+      this.addSellPosition(this.world.getAskPrice(), quantity);
     }
   }
 
