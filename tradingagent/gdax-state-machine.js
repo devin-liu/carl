@@ -182,3 +182,25 @@ class StateMachine {
   // set order book
 
 }
+
+
+
+
+
+
+
+
+// Build state machine based on live GDAX feed
+// Keep track of account USD
+// Keep track of account ETH
+// Place buy orders
+// Cancel orders on motion
+// Record orders that are filled
+//  Set # ETH
+//  Set # USD
+// Record orders that are cancelled
+//  Set # ETH
+//  Set # USD
+// Record orders that have a transaction fee
+// Keep track of profit
+
