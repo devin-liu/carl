@@ -21,7 +21,7 @@ class QLearner {
     // before you settle on good ones
     this.alpha = 0.4;    // step size (how much progress we're actually making)
     this.epsilon = 0.2;  // probabily of taking a random action instead of the optimal one
-    this.gamma = 0.6;    // discount rate. it trades off the importance of sooner vs later rewards.
+    this.gamma = 0.7;    // discount rate. it trades off the importance of sooner vs later rewards.
 
     this.world = world;
     this.reset();
