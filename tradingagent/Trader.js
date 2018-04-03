@@ -135,8 +135,8 @@ class Trader extends Trainer {
       .then((orderBook) => {
         this.agent.reset();
         this.world.reset();
-        // this.agent.Q = currentAgent.Q;
-        // console.log(this.agent.Q)
+        this.agent.Q = currentAgent.Q;
+        console.log(this.agent.Q)
         this.runTradingPoller()
       })
     })

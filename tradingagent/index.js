@@ -7,5 +7,5 @@ const agent = new QLearner(world);
 const pair_string = 'ETH-USD';
 
 const trainingAgent = new Trainer(agent, world, pair_string);
-trainingAgent.init(200000, 2000);
+trainingAgent.init(100000, 2000);
 
