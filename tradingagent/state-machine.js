@@ -48,7 +48,9 @@ class StateMachine {
     this.marketAsks = null;
     this.lastVWAP;
     this.profit = 0;
-    this.cash = 12;
+    this.cash = 70;
+    this.numBuysMade = 0;
+    this.numSellsMade = 0;
   }
 
   getBidPrice() {
@@ -101,6 +103,7 @@ class StateMachine {
     this.updateCash(0-(price*quantity*1.0025))
     this.buys.push(new Position(this.symbol, price, quantity));
     this.setLastVWAP();
+    this.numBuysMade++;
     // console.log(this.lastVWAP)
   }
 
@@ -108,15 +111,20 @@ class StateMachine {
     this.updateHoldQuantity(0-quantity)
     this.updateCash(price*quantity*.9975)
     this.sells.push(new Position(this.symbol, price, quantity));
+    this.numSellsMade++;
   }
 
   takeStep(actionName, quantity) {
     if(actionName === 'BUY'){
-      this.addBuyPosition(this.getAskPrice(), quantity);
-      this.setLastVWAP();
+      if(this.getAskPrice() * quantity <= this.cash){
+        this.addBuyPosition(this.getAskPrice(), quantity);
+        this.setLastVWAP();
+      }
     }
     if(actionName === 'SELL'){
-      this.addSellPosition(this.getBidPrice(), quantity);
+      if(quantity <= this.holdQuantity){
+        this.addSellPosition(this.getBidPrice(), quantity);
+      }
 
     }
     if(actionName === 'HODL'){
@@ -146,6 +154,8 @@ class StateMachine {
 
   clearBalance() {
     this.profit = this.calculateProfit();
+    // console.log('clearing balance')
+    // console.log()
     this.buys = [];
     this.sells = [];
   }

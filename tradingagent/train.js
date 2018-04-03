@@ -50,6 +50,7 @@ class Trainer {
 
   reset(epoch=false) {
     this.world.reset();
+    this.world.profit = 0;
     if (!epoch) this.agent.reset();
   }
 
@@ -72,7 +73,8 @@ class Trainer {
             const currentAgent = stepData[stepData.length-1];
             const currentWorld = currentAgent.world;
             const profit = currentWorld.calculateProfit();
-            console.log(`Epoch: ${i+1}/${repeat} ${parseInt(100*(page/(steps/page_size)))}% complete | Profit: ${profit}`)
+            const { numBuysMade, numSellsMade } = this.world;
+            console.log(`Epoch: ${i+1}/${repeat} ${parseInt(100*(page/(steps/page_size)))}% complete | ${numBuysMade + numSellsMade} Trades | Profit: ${profit}`)
             resolveEpoch({currentWorld,currentAgent,profit})
           })
         }

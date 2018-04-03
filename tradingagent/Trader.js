@@ -57,17 +57,19 @@ class Trader extends Trainer {
     this.agent.Q[currentState.id] += stepValue;
     if(bestAction === 'BUY'){
       // this.addBuyPosition(this.world.getAskPrice(), quantity);
-      this.addBuyPosition(this.world.getBidPrice(), quantity);
+      this.addBuyPosition(this.world.getAskPrice()*.995, quantity);
+      // this.addBuyPosition(this.world.getBidPrice(), quantity);
     }
 
     if(bestAction === 'SELL'){
       // this.addSellPosition(this.world.getBidPrice(), quantity);
-      this.addSellPosition(this.world.getAskPrice(), quantity);
+      this.addSellPosition(this.world.getBidPrice()*1.005, quantity);
+      // this.addSellPosition(this.world.getAskPrice(), quantity);
     }
   }
 
   runTradingPoller(currentIteration=1) {
-    if(currentIteration % 300 === 0) this.saveCurrentState();
+    if(currentIteration % 200 === 0) this.saveCurrentState();
     setTimeout(() => {
       this.getNextOrder()
       .then(this.takeTradeAction)
@@ -97,7 +99,8 @@ class Trader extends Trainer {
         (error, response, orderBook) => {
           if(!error){
             resolve(this.setNextState(orderBook))
-
+            const qs = `INSERT INTO orderbook (data, pair_string) values ('${JSON.stringify(orderBook)}', '${this.world.symbol}');`;
+            DB.query(qs);
           }else{
             console.log(error)
             reject(error)
@@ -140,6 +143,10 @@ class Trader extends Trainer {
   }
 }
 
+
+// const world = new ExchangeWorld(5, 'ETH-USD', null, {});
+// const agent = new QLearner(world);
+// const pair_string = 'ETH-USD';
 
 const world = new ExchangeWorld(5, 'ETH-USD', null, {});
 const agent = new QLearner(world);

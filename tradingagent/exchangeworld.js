@@ -10,6 +10,12 @@ const { ONECOINACTIONS,
         BOOKCOMBINATIONS,
        } = require('./defaults.js');
 
+
+const MIN_TRADE = {
+  'ETH-USD' : .01,
+  'LTC-USD' : .1
+}
+
 class ExchangeWorld extends StateMachine {
   constructor(oneSideWidth, symbol, firstVWAP) {
     super();
@@ -17,6 +23,7 @@ class ExchangeWorld extends StateMachine {
     this.init(oneSideWidth);
     this.symbol = symbol
     this.firstVWAP = firstVWAP;
+    this.minTrade = MIN_TRADE[symbol];
   }
 
   reset() {
@@ -86,12 +93,12 @@ class ExchangeWorld extends StateMachine {
     if(actionName === 'BUY'){
       const price = this.getTradePrice(actionName);
       const qty = Math.min((maxRiskCash / price), this.getAskQuantity());
-      return qty < .01 ? .01 : qty;
+      return qty < this.minTrade ? this.minTrade : qty;
     }
     if(actionName === 'SELL'){
       if(this.holdQuantity === 0) return 0;
       const qty = Math.min(this.getBidQuantity(), this.holdQuantity);
-      return qty < .01 ? .01 : qty;
+      return qty < this.minTrade ? this.minTrade : qty;
     }
     if(actionName === 'HODL'){
       return 0;
