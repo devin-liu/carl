@@ -44,7 +44,6 @@ class Inventory() {
     this.total = 0;
   }
 
-
   increase(position) {
     this.buys.push(position);
   }
@@ -64,19 +63,31 @@ class Inventory() {
     return arr.reduce((a,b) => a + b);
   }
 
+  getPositionQuantities(positions) {
+    return positions.map(pos => pos.quantity);
+  }
 
-  getTotalPosition(positions) {
+  getPositionValues(positions) {
     return positions.map(pos => pos.price * pos.quantity);
   }
 
-  getTotalProfit() {
-    const buyPosition = this.getTotalPosition(this.buys);
-    const sellPosition = this.getTotalPosition(this.sells);
-    const cost = this.calculateArrayTotal(buyPosition);
-    const revenue = this.calculateArrayTotal(sellPosition);
-    return revenue - cost;
+  getNetValue(listA, listB) {
+    const totalA = this.calculateArrayTotal(listA);
+    const totalB = this.calculateArrayTotal(listB);
+    return totalA - totalB;
   }
 
+  getTotalPosition() {
+    const sells = this.getPositionQuantities(this.sells);
+    const holds = this.getPositionQuantities(this.buys);
+    return this.getNetValue(holds, sells);
+  }
+
+  getTotalProfit() {
+    const cost = this.getPositionValues(this.buys);
+    const revenue = this.getPositionValues(this.sells);
+    return this.getNetValue(revenue, cost);
+  }
 
 }
 
