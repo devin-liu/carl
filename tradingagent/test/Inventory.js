@@ -1,8 +1,11 @@
 var assert = require('assert');
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal([1,2,3].indexOf(4), -1);
+const Inventory = require('../Inventory.js');
+describe('Inventory', function() {
+  const ethWallet = new Inventory();
+  describe('#Init', function() {
+    it('should initialize with 0 profit and 0 position', function() {
+      assert.equal(ethWallet.getTotalProfit(), 0);
+      assert.equal(ethWallet.getTotalPosition(), 0);
     });
   });
 });
