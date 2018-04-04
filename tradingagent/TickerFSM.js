@@ -45,12 +45,18 @@ class Inventory() {
     this.total = 0;
   }
 
-  addPendingOrder(order_id) {
-    this.pendingOrders[order_id] = true;
+  addPendingOrder(order) {
+    if(!order || !order.order_id) return;
+    this.pendingOrders[order.order_id] = true;
   }
 
-  removePendingOrder(order_id) {
-    delete this.pendingOrders[order_id];
+  removePendingOrder(order) {
+    if(!order || !order.order_id) return;
+    delete this.pendingOrders[order.order_id];
+  }
+
+  isPendingOrder(order) {
+    return order && this.pendingOrders[order.order_id];
   }
 
   addBuyPosition(position) {
