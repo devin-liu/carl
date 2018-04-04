@@ -36,7 +36,7 @@ fsm.initFromStop();
 console.log(`Last State: ${fsm.state}`)
 
 
-class Inventory() {
+class Inventory {
 
   constructor() {
     this.buys = [];
@@ -78,13 +78,13 @@ class Inventory() {
   getTotalPosition() {
     const sells = this.getPositionQuantities(this.sells);
     const holds = this.getPositionQuantities(this.buys);
-    return this.getNetValue(holds, sells);
+    return this.calculateNetValue(holds, sells);
   }
 
   getTotalProfit() {
     const cost = this.getPositionValues(this.buys);
     const revenue = this.getPositionValues(this.sells);
-    return this.getNetValue(revenue, cost);
+    return this.calculateNetValue(revenue, cost);
   }
 
   //  receives list of two integers and subtracts the second from the first
@@ -106,6 +106,12 @@ class Inventory() {
   }
 
 }
+
+
+// const ethPocket = new Inventory();
+
+
+module.exports = Inventory;
 
 // const websocket = require('./authedWebSocket.js');
 
