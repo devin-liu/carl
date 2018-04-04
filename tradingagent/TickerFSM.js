@@ -16,7 +16,6 @@ const fsm = new StateMachine({
     // then it would attempt to altogether scratch the trade and hit the bid with size I.
     { name: 'stopFromReduce', from: 'reduce', to: 'stop'    },
     { name: 'initFromStop', from: 'stop', to: 'init'    },
-
   ],
   methods: {
     onIncreaseFromInit:     function() { console.log('entering market')    },
@@ -27,6 +26,7 @@ const fsm = new StateMachine({
   }
 });
 
+
 fsm.increaseFromInit();
 fsm.reduceFromIncrease();
 fsm.increaseFromReduce();
@@ -36,6 +36,49 @@ fsm.initFromStop();
 console.log(`Last State: ${fsm.state}`)
 
 
+class Inventory() {
+
+  constructor() {
+    this.buys = [];
+    this.sells = [];
+    this.total = 0;
+  }
+
+
+  increase(position) {
+    this.buys.push(position);
+  }
+
+  reduce(position) {
+    this.sells.push(position);
+  }
+
+  // Receives array of numbers
+  calculateArrayTotal(arr) {
+    if(arr.length === 0) {
+      return 0;
+    }
+    if(arr.length === 1) {
+      return arr[0];
+    }
+    return arr.reduce((a,b) => a + b);
+  }
+
+
+  getTotalPosition(positions) {
+    return positions.map(pos => pos.price * pos.quantity);
+  }
+
+  getTotalProfit() {
+    const buyPosition = this.getTotalPosition(this.buys);
+    const sellPosition = this.getTotalPosition(this.sells);
+    const cost = this.calculateArrayTotal(buyPosition);
+    const revenue = this.calculateArrayTotal(sellPosition);
+    return revenue - cost;
+  }
+
+
+}
 
 // const websocket = require('./authedWebSocket.js');
 
