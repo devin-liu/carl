@@ -41,26 +41,24 @@ class Inventory() {
   constructor() {
     this.buys = [];
     this.sells = [];
+    this.pendingOrders = {};
     this.total = 0;
   }
 
-  increase(position) {
+  addPendingOrder(order_id) {
+    this.pendingOrders[order_id] = true;
+  }
+
+  removePendingOrder(order_id) {
+    delete this.pendingOrders[order_id];
+  }
+
+  addBuyPosition(position) {
     this.buys.push(position);
   }
 
-  reduce(position) {
+  addSellPosition(position) {
     this.sells.push(position);
-  }
-
-  // Receives array of numbers
-  calculateArrayTotal(arr) {
-    if(arr.length === 0) {
-      return 0;
-    }
-    if(arr.length === 1) {
-      return arr[0];
-    }
-    return arr.reduce((a,b) => a + b);
   }
 
   getPositionQuantities(positions) {
@@ -69,12 +67,6 @@ class Inventory() {
 
   getPositionValues(positions) {
     return positions.map(pos => pos.price * pos.quantity);
-  }
-
-  getNetValue(listA, listB) {
-    const totalA = this.calculateArrayTotal(listA);
-    const totalB = this.calculateArrayTotal(listB);
-    return totalA - totalB;
   }
 
   getTotalPosition() {
@@ -87,6 +79,24 @@ class Inventory() {
     const cost = this.getPositionValues(this.buys);
     const revenue = this.getPositionValues(this.sells);
     return this.getNetValue(revenue, cost);
+  }
+
+  //  receives list of two integers and subtracts the second from the first
+  calculateNetValue(listA, listB) {
+    const totalA = this.calculateArrayTotal(listA);
+    const totalB = this.calculateArrayTotal(listB);
+    return totalA - totalB;
+  }
+
+  // Receives array of numbers
+  calculateArrayTotal(arr) {
+    if(arr.length === 0) {
+      return 0;
+    }
+    if(arr.length === 1) {
+      return arr[0];
+    }
+    return arr.reduce((a,b) => a + b);
   }
 
 }
