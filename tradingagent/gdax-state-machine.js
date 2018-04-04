@@ -197,6 +197,31 @@ class StateMachine {
 // Cancel orders on motion
 // Record orders that are filled
 //  Set # ETH
+
+    //   {
+    // "type": "done",
+    // "time": "2014-11-07T08:19:27.028459Z",
+    // "product_id": "BTC-USD",
+    // "sequence": 10,
+    // "price": "200.2",
+    // "order_id": "d50ec984-77a8-460a-b958-66f114b0de9b",
+    // "reason": "filled", // or "canceled"
+    // "side": "sell",
+    // "remaining_size": "0"
+    //   }
+
+    // {
+    // "type": "match",
+    // "trade_id": 10,
+    // "sequence": 50,
+    // "maker_order_id": "ac928c66-ca53-498f-9c13-a110027a60e8",
+    // "taker_order_id": "132fb6ae-456b-4654-b4e0-d681ac05cea1",
+    // "time": "2014-11-07T08:19:27.028459Z",
+    // "product_id": "BTC-USD",
+    // "size": "5.23512",
+    // "price": "400.23",
+    // "side": "sell"
+    // }
 //  Set # USD
 // Record orders that are cancelled
 //  Set # ETH
@@ -204,3 +229,14 @@ class StateMachine {
 // Record orders that have a transaction fee
 // Keep track of profit
 
+
+
+// F(INIT, INIT, P) = (COUNTER <= L)
+// Initialize until enough price updates have been gathered
+// F(INIT, LONG, P) = (AND(COUNTER > L)(P > MA))
+// F(INIT, SHORT, P) = (AND(COUNTER > L)(P <= MA))
+// F(LONG, INIT, P) = NIL
+// F(LONG, LONG, P) = (P > MA)
+// F(LONG, SHORT, P) = (P <= MA) F(SHORT, INIT, P) = NIL
+// F(SHORT, LONG, P) = (P > MA)
+// F(SHORT, SHORT, P) = (P <= MA)

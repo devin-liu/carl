@@ -1,3 +1,53 @@
+const StateMachine = require('javascript-state-machine');
+const fsm = new StateMachine({
+  init: 'init',
+  transitions: [
+    { name: 'increaseFromInit',     from: 'init',  to: 'increase' },
+    // Our agent starts with zero inventory I = 0 in the Init state
+    // by joining the top of the market’s best bid and ask in size S.
+    // Assume the agent has executed part of his bid, and now carries
+    // positive inventory I > 0. It transitions to the AccumulateLong state where 0 < I < S < K,
+    { name: 'reduceFromIncrease',   from: 'increase', to: 'reduce'  },
+    { name: 'increaseFromReduce',   from: 'reduce', to: 'increase'  },
+    // ReduceLong state, where it would quote a bid below the top bid,
+    // and offer I at least at the market offer or more ag- gressively (if possible).
+    // It becomes a more aggressive seller,
+    // and if it suddenly detects that more trades are happening at the previous bid,
+    // then it would attempt to altogether scratch the trade and hit the bid with size I.
+    { name: 'stopFromReduce', from: 'reduce', to: 'stop'    },
+    { name: 'initFromStop', from: 'stop', to: 'init'    },
+
+  ],
+  methods: {
+    increaseFromInit:     function() { console.log('entering market')    },
+    reduceFromIncrease:   function() { console.log('selling shares')     },
+    increaseFromReduce:   function() { console.log('buying shares')     },
+    stopFromReduce:       function() { console.log('getting out of market') },
+    initFromStop:         function() { console.log('starting again') }
+  }
+});
+
+fsm.increaseFromInit();
+fsm.reduceFromIncrease();
+fsm.increaseFromReduce();
+fsm.reduceFromIncrease();
+fsm.stopFromReduce();
+fsm.initFromStop();
+console.log(fsm.state)
+
+
+
+// const websocket = require('./authedWebSocket.js');
+
+// websocket.on('message', data => {
+//   console.log(data)
+// });
+
+
+
+// websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user'] });
+
+
 // current Bid buckets
 // current Ask Buckets
 
@@ -30,3 +80,5 @@
 // control (limit) size of inventory
 // compare average price (based on what?)
 // accumulate or reduce position (based on what?)
+
+
