@@ -58,6 +58,7 @@ const authedClient = new Gdax.AuthenticatedClient(
 
 
 // authedClient.getAccountHolds(accountID, callback);
+// authedClient.getAccountHolds('140d9e29-1d9c-4898-b5f5-fb91f717020d', (err,acc) => console.log(acc));
 
 // // For pagination, you can include extra page arguments
 // authedClient.getAccountHolds(accountID, { before: 3000 }, callback);
