@@ -19,11 +19,11 @@ const fsm = new StateMachine({
 
   ],
   methods: {
-    increaseFromInit:     function() { console.log('entering market')    },
-    reduceFromIncrease:   function() { console.log('selling shares')     },
-    increaseFromReduce:   function() { console.log('buying shares')     },
-    stopFromReduce:       function() { console.log('getting out of market') },
-    initFromStop:         function() { console.log('starting again') }
+    onIncreaseFromInit:     function() { console.log('entering market')    },
+    onReduceFromIncrease:   function() { console.log('selling shares')     },
+    onIncreaseFromReduce:   function() { console.log('buying shares')     },
+    onStopFromReduce:       function() { console.log('getting out of market') },
+    onInitFromStop:         function() { console.log('starting again') }
   }
 });
 
@@ -33,7 +33,7 @@ fsm.increaseFromReduce();
 fsm.reduceFromIncrease();
 fsm.stopFromReduce();
 fsm.initFromStop();
-console.log(fsm.state)
+console.log(`Last State: ${fsm.state}`)
 
 
 
