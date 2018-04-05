@@ -213,11 +213,9 @@ const agentState = new StateChecks(ethPositions);
 
 
 authedWebsocket.on('message', data => {
-
   if(data.type === "open"){
     handleOpenOrder(data)
   }
-
   if(data.type === "done"){
     handleDoneOrder(data)
   }
