@@ -201,7 +201,6 @@ authedWebsocket.on('error', err => {
 });
 
 
-
 publicWebsocket.on('message', data => {
   if(data.type === "snapshot"){
     handleSnapshot(data)

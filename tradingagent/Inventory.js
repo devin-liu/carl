@@ -9,7 +9,7 @@ class Inventory {
 
   addPendingOrder(order) {
     if(!order || !order.order_id) return;
-    this.pendingOrders[order.order_id] = true;
+    this.pendingOrders[order.order_id] = order;
   }
 
   removePendingOrder(order) {
