@@ -181,6 +181,19 @@ function handleTicker(ticker) {
   console.log(`best_bid ${ticker.best_bid}`)
 }
 
+function handleOpenOrder(order) {
+  ethPositions.addPendingOrder(order);
+}
+
+function handleDoneOrder(order) {
+  if(order.side === "sell"){
+    ethPositions.addSellPosition(order);
+  }
+  if(order.side === "buy"){
+    ethPositions.addBuyPosition(order);
+  }
+}
+
 const ethPositions = new Inventory();
 const agentState = new StateChecks(ethPositions);
 
