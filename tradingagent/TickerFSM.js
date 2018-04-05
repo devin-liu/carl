@@ -28,22 +28,24 @@ const fsm = new StateMachine({
     // and if it suddenly detects that more trades are happening at the previous bid,
     // then it would attempt to altogether scratch the trade and hit the bid with size I.
     { name: 'stopFromReduce', from: 'reduce', to: 'stop'    },
+    { name: 'stopFromIncrease', from: 'increase', to: 'stop'    },
     { name: 'initFromStop', from: 'stop', to: 'init'    },
   ],
   methods: {
     onIncreaseFromInit:     function() { console.log('entering market')    },
     onReduceFromIncrease:   function() { console.log('selling shares')     },
     onIncreaseFromReduce:   function() { console.log('buying shares')     },
+    onStopFromIncrease:         function() { console.log('getting out of market') },
     onStopFromReduce:       function() { console.log('getting out of market') },
     onInitFromStop:         function() { console.log('starting again') }
   }
 });
 
 
+
 // Actions:
 // create more buy orders
 if (state === 'init') {
-
 }
 
 // Actions:
@@ -68,12 +70,20 @@ if (state === 'stop') {
 
 }
 
+// Initial
+// I = 0
+// TransitionTo
+// 0 < I < S
 // Exits:
 // Reduce position
 function onIncreaseFromInit() {
 
 }
 
+// Initial
+// 0 < I < S
+// TransitionTo
+// S <= I < K
 // Exits:
 // Increase
 // Stop
@@ -81,18 +91,40 @@ function onReduceFromIncrease() {
 
 }
 
+// Initial
+// S <= I < K
+// TransitionTo
+// 0 < I < S
 // Exits:
 // Reduce position
 function onIncreaseFromReduce() {
 
 }
 
+// Initial
+// S <= I < K
+// TransitionTo
+// I >= K
 // Exits:
 // Init
 function onStopFromReduce() {
 
 }
 
+// Initial
+// 0 < I < S
+// TransitionTo
+// I >= K
+// Exits:
+// Init
+function onStopFromIncrease() {
+
+}
+
+// Initial
+// I >= K
+// TransitionTo
+// I = 0
 // Exits:
 // Increase
 function onInitFromStop() {
