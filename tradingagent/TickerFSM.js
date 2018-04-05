@@ -164,32 +164,32 @@ function handleTicker(ticker) {
     fsm.reduceFromIncrease();
   }
   if(fsm.state === 'increase' && canBuy){
-    const price = bid + spread*.1;
+    const price = (bid + spread*.1).toFixed(2);
     authedClient.buy({
       side: 'buy',
       price,
       size,
       product_id,
-    }, (error, response) => {
+    }, (error, response, data) => {
       if(error){
         console.log(error)
       }
-      console.log(response)
+      console.log(data)
     })
     ethPositions.spendCash(parseFloat(price)*parseFloat(size));
   }
   if(fsm.state === 'reduce'){
-    const price = ask - spread*.1;
+    const price = (ask - spread*.1).toFixed(2);
     authedClient.buy({
       side: 'sell',
       price: ask,
       size,
       product_id,
-    }, (error, response) => {
+    }, (error, response, data) => {
       if(error){
         console.log(error)
       }
-      console.log(response)
+      console.log(data)
     })
   }
   console.log(`Cash: ${ethPositions.cash}`)
