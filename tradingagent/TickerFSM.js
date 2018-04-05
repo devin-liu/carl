@@ -1,9 +1,13 @@
 // get info
+  // order comes in from websocket
 // parse info
+  // check if order filled
+  //
 // do accounting
 // get new transition state
 // tell state machine to transition
 // take actions
+  // add to pending orders
 // wait for more information
 
 const Inventory = require('./Inventory.js');
@@ -38,29 +42,21 @@ const fsm = new StateMachine({
 
 // Actions:
 // create more buy orders
-// reduce sell orders
-// Exits:
-// Reduce position
-function onIncreaseFromInit() {
-
-}
-
-// Actions:
-// cancel buy orders
-// create more sell orders
-// Exits:
-// Increase
-// Stop
-function onReduceFromIncrease() {
+if (state === 'init') {
 
 }
 
 // Actions:
 // create more buy orders
 // reduce sell orders
-// Exits:
-// Reduce position
-function onIncreaseFromReduce() {
+if (state === 'increase') {
+
+}
+
+// Actions:
+// cancel buy orders
+// create more sell orders
+if (state === 'reduce') {
 
 }
 
@@ -68,14 +64,35 @@ function onIncreaseFromReduce() {
 // Remove all market positions
 // cancel all buy orders
 // sell all positions
+if (state === 'stop') {
+
+}
+
+// Exits:
+// Reduce position
+function onIncreaseFromInit() {
+
+}
+
+// Exits:
+// Increase
+// Stop
+function onReduceFromIncrease() {
+
+}
+
+// Exits:
+// Reduce position
+function onIncreaseFromReduce() {
+
+}
+
 // Exits:
 // Init
 function onStopFromReduce() {
 
 }
 
-// Actions:
-// Wait for movement to be over
 // Exits:
 // Increase
 function onInitFromStop() {
@@ -106,7 +123,7 @@ class AgentMetrics() {
 }
 
 
-const ethPocket = new Inventory();
+const ethPositions = new Inventory();
 const marketState = new AgentMetrics();
 
 // const websocket = require('./authedWebSocket.js');
