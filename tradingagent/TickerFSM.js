@@ -160,7 +160,7 @@ function handleTicker(ticker) {
   const spread = ask - bid;
   const size = .01;
   const canBuy = ethPositions.cash - (size*bid)
-  if(!canBuy){
+  if(fsm.state === 'increase' && !canBuy){
     fsm.reduceFromIncrease();
   }
   if(fsm.state === 'increase' && canBuy){
