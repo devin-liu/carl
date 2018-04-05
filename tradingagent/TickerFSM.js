@@ -32,12 +32,12 @@ const fsm = new StateMachine({
     { name: 'initFromStop', from: 'stop', to: 'init'    },
   ],
   methods: {
-    onIncreaseFromInit:     function() { console.log('entering market')    },
-    onReduceFromIncrease:   function() { console.log('selling shares')     },
-    onIncreaseFromReduce:   function() { console.log('buying shares')     },
-    onStopFromIncrease:         function() { console.log('getting out of market') },
-    onStopFromReduce:       function() { console.log('getting out of market') },
-    onInitFromStop:         function() { console.log('starting again') }
+    onIncreaseFromInit,
+    onReduceFromIncrease,
+    onIncreaseFromReduce,
+    onStopFromIncrease,
+    onStopFromReduce,
+    onInitFromStop
   }
 });
 
@@ -45,30 +45,30 @@ const fsm = new StateMachine({
 
 // Actions:
 // create more buy orders
-if (state === 'init') {
-}
+// if (state === 'init') {
+// }
 
-// Actions:
-// create more buy orders
-// reduce sell orders
-if (state === 'increase') {
+// // Actions:
+// // create more buy orders
+// // reduce sell orders
+// if (state === 'increase') {
 
-}
+// }
 
-// Actions:
-// cancel buy orders
-// create more sell orders
-if (state === 'reduce') {
+// // Actions:
+// // cancel buy orders
+// // create more sell orders
+// if (state === 'reduce') {
 
-}
+// }
 
-// Actions:
-// Remove all market positions
-// cancel all buy orders
-// sell all positions
-if (state === 'stop') {
+// // Actions:
+// // Remove all market positions
+// // cancel all buy orders
+// // sell all positions
+// if (state === 'stop') {
 
-}
+// }
 
 // Initial
 // I = 0
@@ -77,7 +77,7 @@ if (state === 'stop') {
 // Exits:
 // Reduce position
 function onIncreaseFromInit() {
-
+  console.log('entering market');
 }
 
 // Initial
@@ -88,7 +88,7 @@ function onIncreaseFromInit() {
 // Increase
 // Stop
 function onReduceFromIncrease() {
-
+  console.log('selling shares');
 }
 
 // Initial
@@ -98,7 +98,7 @@ function onReduceFromIncrease() {
 // Exits:
 // Reduce position
 function onIncreaseFromReduce() {
-
+  console.log('buying shares');
 }
 
 // Initial
@@ -108,7 +108,7 @@ function onIncreaseFromReduce() {
 // Exits:
 // Init
 function onStopFromReduce() {
-
+  console.log('getting out of market');
 }
 
 // Initial
@@ -118,7 +118,7 @@ function onStopFromReduce() {
 // Exits:
 // Init
 function onStopFromIncrease() {
-
+  console.log('getting out of market');
 }
 
 // Initial
@@ -128,9 +128,8 @@ function onStopFromIncrease() {
 // Exits:
 // Increase
 function onInitFromStop() {
-
+  console.log('starting again');
 }
-
 
 fsm.increaseFromInit();
 fsm.reduceFromIncrease();
@@ -139,24 +138,45 @@ fsm.reduceFromIncrease();
 fsm.stopFromReduce();
 fsm.initFromStop();
 
-class AgentMetrics() {
+
+// The level2 channel
+// {
+//     "type": "snapshot",
+//     "product_id": "USD-ETH",
+//     "bids": [["1", "2"]], //   [price, size]
+//     "asks": [["2", "3"]]
+// }
+
+class StateChecks {
   constructor(inventory) {
     this.inventory = inventory;
   }
 
-  // 0 = init
-  // 1 = increasing
-  // 2 = decreasing
-  // 3 = exit market
-  overSized(tick) {
-    const currentInventory = this.inventory.getTotalPosition();
-    // make sure current inventory is less than size S(best ask size)
+  getInventorySize() {
+    return this.inventory.getTotalPosition();
+  }
+
+  // check if inventory is empty
+  isEmpty(){
+    return this.getInventorySize() === 0;
+  }
+
+  // check if current inventory is above size S(best ask size)
+  overSpread(snapshot) {
+    return this.getInventorySize() > snapshot.asks[0][1];
+  }
+
+  // check if current inventory is above market size
+  overMarket(snapshot) {
+    const bidSizes = snapshot.bids.map(bid => bid[1]);
+    const marketSize = this.Inventory.calculateArrayTotal(bidSizes);
+    return this.getInventorySize() > marketSize;
   }
 }
 
 
 const ethPositions = new Inventory();
-const marketState = new AgentMetrics();
+const marketState = new StateChecks();
 
 // const websocket = require('./authedWebSocket.js');
 
