@@ -156,6 +156,7 @@ function handleSnapshot(snapshot) {
   // // reduce sell orders
   if (fsm.state === 'increase') {
     if(agentState.overMarket()) return fsm.stopFromIncrease();
+    if(agentState.overWallet()) return fsm.reduceFromIncrease();
     if(agentState.overSpread()) return fsm.reduceFromIncrease();
   }
 
@@ -164,6 +165,7 @@ function handleSnapshot(snapshot) {
   // // create more sell orders
   if (fsm.state === 'reduce') {
     if(agentState.overMarket()) return fsm.stopFromReduce();
+    if(agentState.overWallet()) return;
     if(!agentState.overSpread()) return fsm.increaseFromReduce();
   }
 
@@ -176,6 +178,18 @@ function handleSnapshot(snapshot) {
   }
 }
 
+// {
+//     "type": "ticker",
+//     "trade_id": 20153558,
+//     "sequence": 3262786978,
+//     "time": "2017-09-02T17:05:49.250000Z",
+//     "product_id": "BTC-USD",
+//     "price": "4388.01000000",
+//     "side": "buy", // Taker side
+//     "last_size": "0.03000000",
+//     "best_bid": "4388",
+//     "best_ask": "4388.01"
+// }
 function handleTicker(ticker) {
   console.log(`best_ask ${ticker.best_ask}`)
   console.log(`best_bid ${ticker.best_bid}`)
@@ -226,22 +240,3 @@ publicWebsocket.on('message', data => {
 publicWebsocket.on('error', err => {
   console.log(err)
 });
-
-
-
-
-
-
-
-// {
-//     "type": "ticker",
-//     "trade_id": 20153558,
-//     "sequence": 3262786978,
-//     "time": "2017-09-02T17:05:49.250000Z",
-//     "product_id": "BTC-USD",
-//     "price": "4388.01000000",
-//     "side": "buy", // Taker side
-//     "last_size": "0.03000000",
-//     "best_bid": "4388",
-//     "best_ask": "4388.01"
-// }

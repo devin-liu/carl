@@ -14,7 +14,7 @@ class StateChecks {
 
   // check if current inventory is above size S(best ask size)
   overSpread(snapshot) {
-    return this.getInventorySize() > snapshot.asks[0][1];
+    return this.getInventorySize() > snapshot.bids[0][1];
   }
 
   // check if current inventory is above market size
@@ -22,6 +22,10 @@ class StateChecks {
     const bidSizes = snapshot.bids.map(bid => bid[1]);
     const marketSize = this.Inventory.calculateArrayTotal(bidSizes);
     return this.getInventorySize() > marketSize;
+  }
+
+  overWallet(snapshot) {
+    return this.inventory.cash < snapshot.asks[0][0]*.01;
   }
 }
 
