@@ -1,17 +1,6 @@
-// get info
-  // order comes in from websocket
-// parse info
-  // check if order filled
-  //
-// do accounting
-// get new transition state
-// tell state machine to transition
-// take actions
-  // add to pending orders
-// wait for more information
-
 const authedWebsocket = require('./authedWebSocket.js');
 const publicWebsocket = require('./publicWebSocket.js');
+const authedClient = require('./authedClient.js');
 const Inventory = require('./Inventory.js');
 const StateChecks = require('./StateChecks.js');
 const StateMachine = require('javascript-state-machine');
@@ -43,34 +32,6 @@ const fsm = new StateMachine({
     onInitFromStop
   }
 });
-
-
-// Actions:
-// create more buy orders
-// if (state === 'init') {
-// }
-
-// // Actions:
-// // create more buy orders
-// // reduce sell orders
-// if (state === 'increase') {
-
-// }
-
-// // Actions:
-// // cancel buy orders
-// // create more sell orders
-// if (state === 'reduce') {
-
-// }
-
-// // Actions:
-// // Remove all market positions
-// // cancel all buy orders
-// // sell all positions
-// if (state === 'stop') {
-
-// }
 
 // Initial
 // I = 0
@@ -191,8 +152,30 @@ function handleSnapshot(snapshot) {
 //     "best_ask": "4388.01"
 // }
 function handleTicker(ticker) {
-  console.log(`best_ask ${ticker.best_ask}`)
-  console.log(`best_bid ${ticker.best_bid}`)
+  // ask = WTS (higher price)
+  // bid = WTB
+  const { best_ask, best_bid, product_id } = ticker;
+  const spread = best_ask - best_bid;
+  if(fsm.state === 'increase'){
+    const price = best_bid + spread*.1;
+    const size = '.01'
+    authedClient.buy({
+      side: 'buy',
+      price,
+      size,
+      product_id,
+    })
+    ethPositions.spendCash(price*size)
+  }
+  if(fsm.state === 'reduce'){
+    const price = best_ask - spread*.1;
+    authedClient.buy({
+      side: 'sell',
+      price: best_ask,
+      size: '1',
+      product_id,
+    })
+  }
 }
 
 function handleOpenOrder(order) {
@@ -202,6 +185,8 @@ function handleOpenOrder(order) {
 function handleDoneOrder(order) {
   if(order.side === "sell"){
     ethPositions.addSellPosition(order);
+    let fill_fees = order.fill_fees ? 0 : order.fill_fees;
+    ethPositions.addCash(price*size - fill_fees);
   }
   if(order.side === "buy"){
     ethPositions.addBuyPosition(order);
