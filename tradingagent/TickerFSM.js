@@ -155,27 +155,45 @@ function handleTicker(ticker) {
   // ask = WTS (higher price)
   // bid = WTB
   const { best_ask, best_bid, product_id } = ticker;
-  const spread = best_ask - best_bid;
-  if(fsm.state === 'increase'){
-    const price = best_bid + spread*.1;
-    const size = '.01'
+  const ask = parseFloat(best_ask);
+  const bid = parseFloat(best_bid);
+  const spread = ask - bid;
+  const size = .01;
+  const canBuy = ethPositions.cash - (size*bid)
+  if(!canBuy){
+    fsm.reduceFromIncrease();
+  }
+  if(fsm.state === 'increase' && canBuy){
+    const price = bid + spread*.1;
     authedClient.buy({
       side: 'buy',
       price,
       size,
       product_id,
+    }, (error, response) => {
+      if(error){
+        console.log(error)
+      }
+      console.log(response)
     })
-    ethPositions.spendCash(price*size)
+    ethPositions.spendCash(parseFloat(price)*parseFloat(size));
   }
   if(fsm.state === 'reduce'){
-    const price = best_ask - spread*.1;
+    const price = ask - spread*.1;
     authedClient.buy({
       side: 'sell',
-      price: best_ask,
-      size: '1',
+      price: ask,
+      size,
       product_id,
+    }, (error, response) => {
+      if(error){
+        console.log(error)
+      }
+      console.log(response)
     })
   }
+  console.log(`Cash: ${ethPositions.cash}`)
+  // console.log(`Cash: ${ethPositions.cash}`)
 }
 
 function handleOpenOrder(order) {
@@ -185,8 +203,8 @@ function handleOpenOrder(order) {
 function handleDoneOrder(order) {
   if(order.side === "sell"){
     ethPositions.addSellPosition(order);
-    let fill_fees = order.fill_fees ? 0 : order.fill_fees;
-    ethPositions.addCash(price*size - fill_fees);
+    let fill_fees = order.fill_fees ? 0 : parseFloat(order.fill_fees);
+    ethPositions.addCash(parseFloat(price)*parseFloat(size) - fill_fees);
   }
   if(order.side === "buy"){
     ethPositions.addBuyPosition(order);

@@ -43,11 +43,11 @@ class Inventory {
   }
 
   getPositionSizes(positions) {
-    return positions.map(pos => pos.size);
+    return positions.map(pos => parseFloat(pos.size));
   }
 
   getPositionValues(positions) {
-    return positions.map(pos => pos.price * pos.size);
+    return positions.map(pos => parseFloat(pos.price) * parseFloat(pos.size));
   }
 
   getTotalPosition() {
