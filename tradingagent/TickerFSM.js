@@ -133,13 +133,6 @@ function onInitFromStop() {
   console.log('starting again');
 }
 
-fsm.increaseFromInit();
-fsm.reduceFromIncrease();
-fsm.increaseFromReduce();
-fsm.reduceFromIncrease();
-fsm.stopFromReduce();
-fsm.initFromStop();
-
 
 // The level2 channel
 // {
@@ -148,25 +141,6 @@ fsm.initFromStop();
 //     "bids": [["1", "2"]], //   [price, size]
 //     "asks": [["2", "3"]]
 // }
-
-
-
-const ethPositions = new Inventory();
-const agentState = new StateChecks();
-
-
-
-
-// const websocket = require('./authedWebSocket.js');
-
-// websocket.on('message', data => {
-//   console.log(data)
-// });
-
-
-
-// websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user', 'snapshot'] });
-
 
 function handleSnapshot(snapshot) {
   // Actions:
@@ -200,20 +174,22 @@ function handleSnapshot(snapshot) {
   }
 }
 
+const ethPositions = new Inventory();
+const agentState = new StateChecks();
 
-// current Bid buckets
-// current Ask Buckets
+const websocket = require('./authedWebSocket.js');
+websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user', 'level2'] });
+websocket.on('message', data => {
+  if(data.type === "snapshot"){
+    handleSnapshot(data)
+  }
+  if(data.type === "ticker"){
+    handleTicker(data)
+  }
+});
 
-// trade in there that matched? -> 0 / 1
 
 
-// OK pricing model!!!
-
-// Inventory Model?
-
-// init
-// accumulate long (0 < inventory < size < K?)
-// reduce long
 
 
 // {
@@ -228,10 +204,3 @@ function handleSnapshot(snapshot) {
 //     "best_bid": "4388",
 //     "best_ask": "4388.01"
 // }
-
-
-// control (limit) size of inventory
-// compare average price (based on what?)
-// accumulate or reduce position (based on what?)
-
-
