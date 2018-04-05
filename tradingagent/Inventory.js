@@ -29,17 +29,17 @@ class Inventory {
     this.sells.push(position);
   }
 
-  getPositionQuantities(positions) {
-    return positions.map(pos => pos.quantity);
+  getPositionSizes(positions) {
+    return positions.map(pos => pos.size);
   }
 
   getPositionValues(positions) {
-    return positions.map(pos => pos.price * pos.quantity);
+    return positions.map(pos => pos.price * pos.size);
   }
 
   getTotalPosition() {
-    const sells = this.getPositionQuantities(this.sells);
-    const holds = this.getPositionQuantities(this.buys);
+    const sells = this.getPositionSizes(this.sells);
+    const holds = this.getPositionSizes(this.buys);
     return this.calculateNetValue(holds, sells);
   }
 

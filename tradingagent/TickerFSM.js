@@ -10,6 +10,8 @@
   // add to pending orders
 // wait for more information
 
+const authedWebsocket = require('./authedWebSocket.js');
+const publicWebsocket = require('./publicWebSocket.js');
 const Inventory = require('./Inventory.js');
 const StateChecks = require('./StateChecks.js');
 const StateMachine = require('javascript-state-machine');
@@ -182,9 +184,25 @@ function handleTicker(ticker) {
 const ethPositions = new Inventory();
 const agentState = new StateChecks(ethPositions);
 
-const websocket = require('./authedWebSocket.js');
-// websocket.subscribe({ product_ids: ['ETH-USD'], channels: ['ticker', 'level2'] });
-websocket.on('message', data => {
+
+authedWebsocket.on('message', data => {
+
+  if(data.type === "open"){
+    handleOpenOrder(data)
+  }
+
+  if(data.type === "done"){
+    handleDoneOrder(data)
+  }
+});
+
+authedWebsocket.on('error', err => {
+  console.log(err)
+});
+
+
+
+publicWebsocket.on('message', data => {
   if(data.type === "snapshot"){
     handleSnapshot(data)
   }
@@ -193,9 +211,11 @@ websocket.on('message', data => {
   }
 });
 
-websocket.on('error', err => {
+publicWebsocket.on('error', err => {
   console.log(err)
 });
+
+
 
 
 

@@ -12,7 +12,7 @@ const websocket = new Gdax.WebsocketClient(
     secret,
     passphrase,
   },
-  { channels: ['user', 'ticker', 'level2'] }
+  { channels: ['user'] }
 );
 
 module.exports = websocket;
