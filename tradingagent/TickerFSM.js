@@ -174,11 +174,16 @@ function handleSnapshot(snapshot) {
   }
 }
 
+function handleTicker(ticker) {
+  console.log(`best_ask ${ticker.best_ask}`)
+  console.log(`best_bid ${ticker.best_bid}`)
+}
+
 const ethPositions = new Inventory();
 const agentState = new StateChecks();
 
 const websocket = require('./authedWebSocket.js');
-websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user', 'level2'] });
+// websocket.subscribe({ product_ids: ['ETH-USD'], channels: ['ticker', 'level2'] });
 websocket.on('message', data => {
   if(data.type === "snapshot"){
     handleSnapshot(data)
@@ -186,6 +191,10 @@ websocket.on('message', data => {
   if(data.type === "ticker"){
     handleTicker(data)
   }
+});
+
+websocket.on('error', err => {
+  console.log(err)
 });
 
 

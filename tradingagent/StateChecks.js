@@ -24,3 +24,5 @@ class StateChecks {
     return this.getInventorySize() > marketSize;
   }
 }
+
+module.exports = StateChecks;
