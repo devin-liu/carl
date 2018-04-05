@@ -1,3 +1,11 @@
+// get info
+// parse info
+// do accounting
+// get new transition state
+// tell state machine to transition
+// take actions
+// wait for more information
+
 const Inventory = require('./Inventory.js');
 const StateMachine = require('javascript-state-machine');
 const fsm = new StateMachine({
@@ -28,6 +36,53 @@ const fsm = new StateMachine({
 });
 
 
+// Actions:
+// create more buy orders
+// reduce sell orders
+// Exits:
+// Reduce position
+function onIncreaseFromInit() {
+
+}
+
+// Actions:
+// cancel buy orders
+// create more sell orders
+// Exits:
+// Increase
+// Stop
+function onReduceFromIncrease() {
+
+}
+
+// Actions:
+// create more buy orders
+// reduce sell orders
+// Exits:
+// Reduce position
+function onIncreaseFromReduce() {
+
+}
+
+// Actions:
+// Remove all market positions
+// cancel all buy orders
+// sell all positions
+// Exits:
+// Init
+function onStopFromReduce() {
+
+}
+
+// Actions:
+// Wait for movement to be over
+// Exits:
+// Increase
+function onInitFromStop() {
+
+}
+
+
 fsm.increaseFromInit();
 fsm.reduceFromIncrease();
 fsm.increaseFromReduce();
@@ -35,14 +90,18 @@ fsm.reduceFromIncrease();
 fsm.stopFromReduce();
 fsm.initFromStop();
 
-
 class AgentMetrics() {
   constructor(inventory) {
     this.inventory = inventory;
   }
 
+  // 0 = init
+  // 1 = increasing
+  // 2 = decreasing
+  // 3 = exit market
   overSized(tick) {
-
+    const currentInventory = this.inventory.getTotalPosition();
+    // make sure current inventory is less than size S(best ask size)
   }
 }
 
