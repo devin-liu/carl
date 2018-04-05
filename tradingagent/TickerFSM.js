@@ -11,6 +11,7 @@
 // wait for more information
 
 const Inventory = require('./Inventory.js');
+const StateChecks = require('./StateChecks.js');
 const StateMachine = require('javascript-state-machine');
 const fsm = new StateMachine({
   init: 'init',
@@ -40,7 +41,6 @@ const fsm = new StateMachine({
     onInitFromStop
   }
 });
-
 
 
 // Actions:
@@ -78,6 +78,7 @@ const fsm = new StateMachine({
 // Reduce position
 function onIncreaseFromInit() {
   console.log('entering market');
+
 }
 
 // Initial
@@ -97,6 +98,7 @@ function onReduceFromIncrease() {
 // 0 < I < S
 // Exits:
 // Reduce position
+// Stop
 function onIncreaseFromReduce() {
   console.log('buying shares');
 }
@@ -147,36 +149,13 @@ fsm.initFromStop();
 //     "asks": [["2", "3"]]
 // }
 
-class StateChecks {
-  constructor(inventory) {
-    this.inventory = inventory;
-  }
-
-  getInventorySize() {
-    return this.inventory.getTotalPosition();
-  }
-
-  // check if inventory is empty
-  isEmpty(){
-    return this.getInventorySize() === 0;
-  }
-
-  // check if current inventory is above size S(best ask size)
-  overSpread(snapshot) {
-    return this.getInventorySize() > snapshot.asks[0][1];
-  }
-
-  // check if current inventory is above market size
-  overMarket(snapshot) {
-    const bidSizes = snapshot.bids.map(bid => bid[1]);
-    const marketSize = this.Inventory.calculateArrayTotal(bidSizes);
-    return this.getInventorySize() > marketSize;
-  }
-}
 
 
 const ethPositions = new Inventory();
-const marketState = new StateChecks();
+const agentState = new StateChecks();
+
+
+
 
 // const websocket = require('./authedWebSocket.js');
 
@@ -186,7 +165,40 @@ const marketState = new StateChecks();
 
 
 
-// websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user'] });
+// websocket.subscribe({ product_ids: ['LTC-USD'], channels: ['ticker', 'user', 'snapshot'] });
+
+
+function handleSnapshot(snapshot) {
+  // Actions:
+  // create more buy orders
+  if (state === 'init') {
+    if(!agentState.isEmpty()) return fsm.increaseFromInit();
+  }
+
+  // // Actions:
+  // // create more buy orders
+  // // reduce sell orders
+  if (state === 'increase') {
+    if(agentState.overMarket()) return fsm.stopFromIncrease();
+    if(agentState.overSpread()) return fsm.reduceFromIncrease();
+  }
+
+  // // Actions:
+  // // cancel buy orders
+  // // create more sell orders
+  if (state === 'reduce') {
+    if(agentState.overMarket()) return fsm.stopFromReduce();
+    if(!agentState.overSpread()) return fsm.increaseFromReduce();
+  }
+
+  // // Actions:
+  // // Remove all market positions
+  // // cancel all buy orders
+  // // sell all positions
+  if (state === 'stop') {
+    if(agentState.isEmpty()) return fsm.initFromStop();
+  }
+}
 
 
 // current Bid buckets
