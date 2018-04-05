@@ -145,14 +145,14 @@ function onInitFromStop() {
 function handleSnapshot(snapshot) {
   // Actions:
   // create more buy orders
-  if (state === 'init') {
-    if(!agentState.isEmpty()) return fsm.increaseFromInit();
+  if (fsm.state === 'init') {
+    if(agentState.isEmpty()) return fsm.increaseFromInit();
   }
 
   // // Actions:
   // // create more buy orders
   // // reduce sell orders
-  if (state === 'increase') {
+  if (fsm.state === 'increase') {
     if(agentState.overMarket()) return fsm.stopFromIncrease();
     if(agentState.overSpread()) return fsm.reduceFromIncrease();
   }
@@ -160,7 +160,7 @@ function handleSnapshot(snapshot) {
   // // Actions:
   // // cancel buy orders
   // // create more sell orders
-  if (state === 'reduce') {
+  if (fsm.state === 'reduce') {
     if(agentState.overMarket()) return fsm.stopFromReduce();
     if(!agentState.overSpread()) return fsm.increaseFromReduce();
   }
@@ -169,7 +169,7 @@ function handleSnapshot(snapshot) {
   // // Remove all market positions
   // // cancel all buy orders
   // // sell all positions
-  if (state === 'stop') {
+  if (fsm.state === 'stop') {
     if(agentState.isEmpty()) return fsm.initFromStop();
   }
 }
@@ -180,7 +180,7 @@ function handleTicker(ticker) {
 }
 
 const ethPositions = new Inventory();
-const agentState = new StateChecks();
+const agentState = new StateChecks(ethPositions);
 
 const websocket = require('./authedWebSocket.js');
 // websocket.subscribe({ product_ids: ['ETH-USD'], channels: ['ticker', 'level2'] });
