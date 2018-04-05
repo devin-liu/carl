@@ -1,3 +1,4 @@
+const Inventory = require('./Inventory.js');
 const StateMachine = require('javascript-state-machine');
 const fsm = new StateMachine({
   init: 'init',
@@ -33,13 +34,21 @@ fsm.increaseFromReduce();
 fsm.reduceFromIncrease();
 fsm.stopFromReduce();
 fsm.initFromStop();
-console.log(`Last State: ${fsm.state}`)
 
 
-// const ethPocket = new Inventory();
+class AgentMetrics() {
+  constructor(inventory) {
+    this.inventory = inventory;
+  }
+
+  overSized(tick) {
+
+  }
+}
 
 
-
+const ethPocket = new Inventory();
+const marketState = new AgentMetrics();
 
 // const websocket = require('./authedWebSocket.js');
 
