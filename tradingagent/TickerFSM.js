@@ -205,6 +205,7 @@ function handleOpenOrder(order) {
 }
 
 function handleDoneOrder(order) {
+  const { price, size } = order;
   if(order.side === "sell"){
     ethPositions.addSellPosition(order);
     let fill_fees = order.fill_fees ? 0 : parseFloat(order.fill_fees);
