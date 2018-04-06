@@ -19007,4 +19007,1686 @@ ETH 2: NaN @ 2018-04-06T03:08:17.218000Z
   sequence: 3247867009,
   time: '2018-04-06T03:08:17.218000Z' }
 ^C
+devin@Devins-MacBook-Pro:~/Desktop/carla/tradingagent$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+  modified:   Inventory.js
+  modified:   TickerFSM.js
+  new file:   logsapr5.txt
+  modified:   publicWebSocket.js
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   logsapr5.txt
+
+devin@Devins-MacBook-Pro:~/Desktop/carla/tradingagent$ node TickerFSM.js
+{ type: 'subscriptions',
+  channels:
+   [ { name: 'user', product_ids: [Array] },
+     { name: 'heartbeat', product_ids: [Array] } ] }
+entering market
+{ type: 'heartbeat',
+  last_trade_id: 31736887,
+  product_id: 'ETH-USD',
+  sequence: 3247876519,
+  time: '2018-04-06T03:09:13.314000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736888,
+  product_id: 'ETH-USD',
+  sequence: 3247876704,
+  time: '2018-04-06T03:09:14.314000Z' }
+Cash 1: 7.51 @ 2018-04-06T03:09:14.314000Z
+ETH 1: 0 @ 2018-04-06T03:09:14.314000Z
+buying more shares
+Cash 2: 3.7302999999999993 @ 2018-04-06T03:09:14.314000Z
+ETH 2: 0 @ 2018-04-06T03:09:14.314000Z
+{ type: 'received',
+  order_id: '56873c32-ef38-44e9-81f6-aff27d1fa9bb',
+  order_type: 'limit',
+  size: '0.01000000',
+  price: '377.97000000',
+  side: 'buy',
+  product_id: 'ETH-USD',
+  sequence: 3247876761,
+  user_id: '56134d7dd656900f34000310',
+  profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+  time: '2018-04-06T03:09:14.755000Z' }
+{ type: 'match',
+  trade_id: 31736889,
+  maker_order_id: 'ce70db39-961d-49cd-9f43-d0cebcb67505',
+  taker_order_id: '56873c32-ef38-44e9-81f6-aff27d1fa9bb',
+  side: 'sell',
+  size: '0.01000000',
+  price: '377.97000000',
+  product_id: 'ETH-USD',
+  taker_user_id: '56134d7dd656900f34000310',
+  user_id: '56134d7dd656900f34000310',
+  taker_profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+  profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+  sequence: 3247876762,
+  time: '2018-04-06T03:09:14.755000Z' }
+{ type: 'done',
+  side: 'buy',
+  order_id: '56873c32-ef38-44e9-81f6-aff27d1fa9bb',
+  reason: 'filled',
+  product_id: 'ETH-USD',
+  price: '377.97000000',
+  remaining_size: '0.00000000',
+  sequence: 3247876763,
+  user_id: '56134d7dd656900f34000310',
+  profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+  time: '2018-04-06T03:09:14.755000Z' }
+Cash 1: 7.51 @ 2018-04-06T03:09:15.314000Z
+ETH 1: 0 @ 2018-04-06T03:09:15.314000Z
+buying more shares
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:15.314000Z
+ETH 2: 0 @ 2018-04-06T03:09:15.314000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877006,
+  time: '2018-04-06T03:09:15.314000Z' }
+{ Error: HTTP 400 Error: Insufficient funds
+    at Request._callback (/Users/devin/Desktop/carla/tradingagent/node_modules/gdax/lib/clients/public.js:67:15)
+    at Request.self.callback (/Users/devin/Desktop/carla/tradingagent/node_modules/request/request.js:186:22)
+    at emitTwo (events.js:135:13)
+    at Request.emit (events.js:224:7)
+    at Request.<anonymous> (/Users/devin/Desktop/carla/tradingagent/node_modules/request/request.js:1163:10)
+    at emitOne (events.js:125:13)
+    at Request.emit (events.js:221:7)
+    at IncomingMessage.<anonymous> (/Users/devin/Desktop/carla/tradingagent/node_modules/request/request.js:1085:12)
+    at Object.onceWrapper (events.js:322:30)
+    at emitNone (events.js:120:20)
+  response:
+   IncomingMessage {
+     _readableState:
+      ReadableState {
+        objectMode: false,
+        highWaterMark: 16384,
+        buffer: [BufferList],
+        length: 0,
+        pipes: null,
+        pipesCount: 0,
+        flowing: true,
+        ended: true,
+        endEmitted: true,
+        reading: false,
+        sync: true,
+        needReadable: false,
+        emittedReadable: false,
+        readableListening: false,
+        resumeScheduled: false,
+        destroyed: false,
+        defaultEncoding: 'utf8',
+        awaitDrain: 0,
+        readingMore: false,
+        decoder: null,
+        encoding: null },
+     readable: false,
+     domain: null,
+     _events:
+      { end: [Array],
+        close: [Array],
+        data: [Function],
+        error: [Function] },
+     _eventsCount: 4,
+     _maxListeners: undefined,
+     socket:
+      TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: null,
+        npnProtocol: false,
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object],
+        _eventsCount: 10,
+        connecting: false,
+        _hadError: false,
+        _handle: null,
+        _parent: null,
+        _host: 'api.gdax.com',
+        _readableState: [ReadableState],
+        readable: false,
+        domain: null,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _bytesDispatched: 419,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: null,
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [ClientRequest],
+        read: [Function],
+        _consuming: true,
+        _idleTimeout: -1,
+        _idleNext: null,
+        _idlePrev: null,
+        _idleStart: 4850,
+        _destroyed: false,
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 355,
+        [Symbol(bytesRead)]: 856,
+        [Symbol(connect-options)]: [Object],
+        [Symbol(asyncId)]: 367,
+        [Symbol(triggerAsyncId)]: 363 },
+     connection:
+      TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: null,
+        npnProtocol: false,
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object],
+        _eventsCount: 10,
+        connecting: false,
+        _hadError: false,
+        _handle: null,
+        _parent: null,
+        _host: 'api.gdax.com',
+        _readableState: [ReadableState],
+        readable: false,
+        domain: null,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _bytesDispatched: 419,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: null,
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [ClientRequest],
+        read: [Function],
+        _consuming: true,
+        _idleTimeout: -1,
+        _idleNext: null,
+        _idlePrev: null,
+        _idleStart: 4850,
+        _destroyed: false,
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 355,
+        [Symbol(bytesRead)]: 856,
+        [Symbol(connect-options)]: [Object],
+        [Symbol(asyncId)]: 367,
+        [Symbol(triggerAsyncId)]: 363 },
+     httpVersionMajor: 1,
+     httpVersionMinor: 1,
+     httpVersion: '1.1',
+     complete: true,
+     headers:
+      { date: 'Fri, 06 Apr 2018 03:09:15 GMT',
+        'content-type': 'application/json; charset=utf-8',
+        'content-length': '32',
+        connection: 'close',
+        'set-cookie': [Array],
+        'access-control-allow-headers': 'Content-Type, Accept, cb-session, cb-fp',
+        'access-control-allow-methods': 'GET,POST,DELETE,PUT',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'cb-before, cb-after',
+        'access-control-max-age': '7200',
+        etag: 'W/"20-gszukOUwM7qBWVjvz4Jk+Na2P+c"',
+        'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+        'x-content-type-options': 'nosniff',
+        'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+        server: 'cloudflare',
+        'cf-ray': '40710dfb3fe56c88-SJC' },
+     rawHeaders:
+      [ 'Date',
+        'Fri, 06 Apr 2018 03:09:15 GMT',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '32',
+        'Connection',
+        'close',
+        'Set-Cookie',
+        '__cfduid=d85d15caea55499b9b5d3cfc61c4c23781522984155; expires=Sat, 06-Apr-19 03:09:15 GMT; path=/; domain=.gdax.com; HttpOnly',
+        'Access-Control-Allow-Headers',
+        'Content-Type, Accept, cb-session, cb-fp',
+        'Access-Control-Allow-Methods',
+        'GET,POST,DELETE,PUT',
+        'Access-Control-Allow-Origin',
+        '*',
+        'Access-Control-Expose-Headers',
+        'cb-before, cb-after',
+        'Access-Control-Max-Age',
+        '7200',
+        'ETag',
+        'W/"20-gszukOUwM7qBWVjvz4Jk+Na2P+c"',
+        'Strict-Transport-Security',
+        'max-age=31536000; includeSubDomains; preload',
+        'X-Content-Type-Options',
+        'nosniff',
+        'Expect-CT',
+        'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+        'Server',
+        'cloudflare',
+        'CF-RAY',
+        '40710dfb3fe56c88-SJC' ],
+     trailers: {},
+     rawTrailers: [],
+     upgrade: false,
+     url: '',
+     method: null,
+     statusCode: 400,
+     statusMessage: 'Bad Request',
+     client:
+      TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: null,
+        npnProtocol: false,
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object],
+        _eventsCount: 10,
+        connecting: false,
+        _hadError: false,
+        _handle: null,
+        _parent: null,
+        _host: 'api.gdax.com',
+        _readableState: [ReadableState],
+        readable: false,
+        domain: null,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _bytesDispatched: 419,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: null,
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [ClientRequest],
+        read: [Function],
+        _consuming: true,
+        _idleTimeout: -1,
+        _idleNext: null,
+        _idlePrev: null,
+        _idleStart: 4850,
+        _destroyed: false,
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 355,
+        [Symbol(bytesRead)]: 856,
+        [Symbol(connect-options)]: [Object],
+        [Symbol(asyncId)]: 367,
+        [Symbol(triggerAsyncId)]: 363 },
+     _consuming: true,
+     _dumped: false,
+     req:
+      ClientRequest {
+        domain: null,
+        _events: [Object],
+        _eventsCount: 6,
+        _maxListeners: undefined,
+        output: [],
+        outputEncodings: [],
+        outputCallbacks: [],
+        outputSize: 0,
+        writable: true,
+        _last: true,
+        upgrading: false,
+        chunkedEncoding: false,
+        shouldKeepAlive: false,
+        useChunkedEncodingByDefault: true,
+        sendDate: false,
+        _removedConnection: false,
+        _removedContLen: false,
+        _removedTE: false,
+        _contentLength: null,
+        _hasBody: true,
+        _trailer: '',
+        finished: true,
+        _headerSent: true,
+        socket: [TLSSocket],
+        connection: [TLSSocket],
+        _header: 'POST /orders HTTP/1.1\r\nUser-Agent: gdax-node-client\r\nAccept: application/json\r\nContent-Type: application/json\r\nCB-ACCESS-KEY: a4f9dcf664c54fd71036859c055469ee\r\nCB-ACCESS-SIGN: CObPR33c08YtucBvak6aQn8c+CG6sApryv2iMDgHasI=\r\nCB-ACCESS-TIMESTAMP: 1522984155.364\r\nCB-ACCESS-PASSPHRASE: yngtmybwqua\r\nhost: api.gdax.com\r\ncontent-length: 64\r\nConnection: close\r\n\r\n',
+        _onPendingData: [Function: noopPendingOutput],
+        agent: [Agent],
+        socketPath: undefined,
+        timeout: undefined,
+        method: 'POST',
+        path: '/orders',
+        _ended: true,
+        res: [Circular],
+        aborted: undefined,
+        timeoutCb: [Function: emitTimeout],
+        upgradeOrConnect: false,
+        parser: null,
+        maxHeadersCount: null,
+        [Symbol(outHeadersKey)]: [Object] },
+     request:
+      Request {
+        domain: null,
+        _events: [Object],
+        _eventsCount: 5,
+        _maxListeners: undefined,
+        body: '{"price":378.17,"size":0.01,"product_id":"ETH-USD","side":"buy"}',
+        headers: [Object],
+        method: 'POST',
+        uri: [Url],
+        qsStringifyOptions: [Object],
+        timeout: 10000,
+        callback: [Function],
+        readable: true,
+        writable: true,
+        explicitMethod: true,
+        _qs: [Querystring],
+        _auth: [Auth],
+        _oauth: [OAuth],
+        _multipart: [Multipart],
+        _redirect: [Redirect],
+        _tunnel: [Tunnel],
+        setHeader: [Function],
+        hasHeader: [Function],
+        getHeader: [Function],
+        removeHeader: [Function],
+        localAddress: undefined,
+        pool: {},
+        dests: [],
+        __isRequestRequest: true,
+        _callback: [Function],
+        proxy: null,
+        tunnel: true,
+        setHost: true,
+        originalCookieHeader: undefined,
+        _disableCookies: true,
+        _jar: undefined,
+        port: 443,
+        host: 'api.gdax.com',
+        path: '/orders',
+        httpModule: [Object],
+        agentClass: [Function],
+        agent: [Agent],
+        _started: true,
+        href: 'https://api.gdax.com/orders',
+        req: [ClientRequest],
+        ntick: true,
+        timeoutTimer: null,
+        response: [Circular],
+        originalHost: 'api.gdax.com',
+        originalHostHeaderName: 'host',
+        responseContent: [Circular],
+        _destdata: true,
+        _ended: true,
+        _callbackCalled: true },
+     toJSON: [Function: responseToJSON],
+     caseless: Caseless { dict: [Object] },
+     read: [Function],
+     body: '{"message":"Insufficient funds"}' },
+  data: { message: 'Insufficient funds' } }
+selling shares
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:16.315000Z
+ETH 1: 0 @ 2018-04-06T03:09:16.315000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:16.315000Z
+ETH 2: 0 @ 2018-04-06T03:09:16.315000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877183,
+  time: '2018-04-06T03:09:16.315000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877398,
+  time: '2018-04-06T03:09:17.315000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:17.315000Z
+ETH 1: 0 @ 2018-04-06T03:09:17.315000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:17.315000Z
+ETH 2: 0 @ 2018-04-06T03:09:17.315000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:18.315000Z
+ETH 1: 0 @ 2018-04-06T03:09:18.315000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:18.315000Z
+ETH 2: 0 @ 2018-04-06T03:09:18.315000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877568,
+  time: '2018-04-06T03:09:18.315000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877677,
+  time: '2018-04-06T03:09:19.316000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877846,
+  time: '2018-04-06T03:09:20.316000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247877961,
+  time: '2018-04-06T03:09:21.316000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247878063,
+  time: '2018-04-06T03:09:22.316000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:19.316000Z
+ETH 1: 0 @ 2018-04-06T03:09:19.316000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:19.316000Z
+ETH 2: 0 @ 2018-04-06T03:09:19.316000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:20.316000Z
+ETH 1: 0 @ 2018-04-06T03:09:20.316000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:20.316000Z
+ETH 2: 0 @ 2018-04-06T03:09:20.316000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:21.316000Z
+ETH 1: 0 @ 2018-04-06T03:09:21.316000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:21.316000Z
+ETH 2: 0 @ 2018-04-06T03:09:21.316000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:22.316000Z
+ETH 1: 0 @ 2018-04-06T03:09:22.316000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:22.316000Z
+ETH 2: 0 @ 2018-04-06T03:09:22.316000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:23.316000Z
+ETH 1: 0 @ 2018-04-06T03:09:23.316000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:23.316000Z
+ETH 2: 0 @ 2018-04-06T03:09:23.316000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247878145,
+  time: '2018-04-06T03:09:23.316000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:24.317000Z
+ETH 1: 0 @ 2018-04-06T03:09:24.317000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:24.317000Z
+ETH 2: 0 @ 2018-04-06T03:09:24.317000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736892,
+  product_id: 'ETH-USD',
+  sequence: 3247878218,
+  time: '2018-04-06T03:09:24.317000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736893,
+  product_id: 'ETH-USD',
+  sequence: 3247878354,
+  time: '2018-04-06T03:09:25.317000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:25.317000Z
+ETH 1: 0 @ 2018-04-06T03:09:25.317000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:25.317000Z
+ETH 2: 0 @ 2018-04-06T03:09:25.317000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247878495,
+  time: '2018-04-06T03:09:26.317000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:26.317000Z
+ETH 1: 0 @ 2018-04-06T03:09:26.317000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:26.317000Z
+ETH 2: 0 @ 2018-04-06T03:09:26.317000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:27.317000Z
+ETH 1: 0 @ 2018-04-06T03:09:27.317000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:27.317000Z
+ETH 2: 0 @ 2018-04-06T03:09:27.317000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247878709,
+  time: '2018-04-06T03:09:27.317000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247878892,
+  time: '2018-04-06T03:09:28.318000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:28.318000Z
+ETH 1: 0 @ 2018-04-06T03:09:28.318000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:28.318000Z
+ETH 2: 0 @ 2018-04-06T03:09:28.318000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:29.318000Z
+ETH 1: 0 @ 2018-04-06T03:09:29.318000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:29.318000Z
+ETH 2: 0 @ 2018-04-06T03:09:29.318000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247879074,
+  time: '2018-04-06T03:09:29.318000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247879280,
+  time: '2018-04-06T03:09:30.318000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247879406,
+  time: '2018-04-06T03:09:31.318000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247879517,
+  time: '2018-04-06T03:09:32.319000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:30.318000Z
+ETH 1: 0 @ 2018-04-06T03:09:30.318000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:30.318000Z
+ETH 2: 0 @ 2018-04-06T03:09:30.318000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:31.318000Z
+ETH 1: 0 @ 2018-04-06T03:09:31.318000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:31.318000Z
+ETH 2: 0 @ 2018-04-06T03:09:31.318000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:32.319000Z
+ETH 1: 0 @ 2018-04-06T03:09:32.319000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:32.319000Z
+ETH 2: 0 @ 2018-04-06T03:09:32.319000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:33.319000Z
+ETH 1: 0 @ 2018-04-06T03:09:33.319000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:33.319000Z
+ETH 2: 0 @ 2018-04-06T03:09:33.319000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736896,
+  product_id: 'ETH-USD',
+  sequence: 3247879689,
+  time: '2018-04-06T03:09:33.319000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:34.319000Z
+ETH 1: 0 @ 2018-04-06T03:09:34.319000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:34.319000Z
+ETH 2: 0 @ 2018-04-06T03:09:34.319000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247879940,
+  time: '2018-04-06T03:09:34.319000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:35.319000Z
+ETH 1: 0 @ 2018-04-06T03:09:35.319000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:35.319000Z
+ETH 2: 0 @ 2018-04-06T03:09:35.319000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880123,
+  time: '2018-04-06T03:09:35.319000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880312,
+  time: '2018-04-06T03:09:36.320000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:36.320000Z
+ETH 1: 0 @ 2018-04-06T03:09:36.320000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:36.320000Z
+ETH 2: 0 @ 2018-04-06T03:09:36.320000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:37.320000Z
+ETH 1: 0 @ 2018-04-06T03:09:37.320000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:37.320000Z
+ETH 2: 0 @ 2018-04-06T03:09:37.320000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880407,
+  time: '2018-04-06T03:09:37.320000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880554,
+  time: '2018-04-06T03:09:38.320000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:38.320000Z
+ETH 1: 0 @ 2018-04-06T03:09:38.320000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:38.320000Z
+ETH 2: 0 @ 2018-04-06T03:09:38.320000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:39.320000Z
+ETH 1: 0 @ 2018-04-06T03:09:39.320000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:39.320000Z
+ETH 2: 0 @ 2018-04-06T03:09:39.320000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880661,
+  time: '2018-04-06T03:09:39.320000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:40.321000Z
+ETH 1: 0 @ 2018-04-06T03:09:40.321000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:40.321000Z
+ETH 2: 0 @ 2018-04-06T03:09:40.321000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247880829,
+  time: '2018-04-06T03:09:40.321000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247881017,
+  time: '2018-04-06T03:09:41.321000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247881152,
+  time: '2018-04-06T03:09:42.321000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247881373,
+  time: '2018-04-06T03:09:43.321000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:41.321000Z
+ETH 1: 0 @ 2018-04-06T03:09:41.321000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:41.321000Z
+ETH 2: 0 @ 2018-04-06T03:09:41.321000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:42.321000Z
+ETH 1: 0 @ 2018-04-06T03:09:42.321000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:42.321000Z
+ETH 2: 0 @ 2018-04-06T03:09:42.321000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:43.321000Z
+ETH 1: 0 @ 2018-04-06T03:09:43.321000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:43.321000Z
+ETH 2: 0 @ 2018-04-06T03:09:43.321000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247881857,
+  time: '2018-04-06T03:09:44.322000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:44.322000Z
+ETH 1: 0 @ 2018-04-06T03:09:44.322000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:44.322000Z
+ETH 2: 0 @ 2018-04-06T03:09:44.322000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247882141,
+  time: '2018-04-06T03:09:45.322000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:45.322000Z
+ETH 1: 0 @ 2018-04-06T03:09:45.322000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:45.322000Z
+ETH 2: 0 @ 2018-04-06T03:09:45.322000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:46.322000Z
+ETH 1: 0 @ 2018-04-06T03:09:46.322000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:46.322000Z
+ETH 2: 0 @ 2018-04-06T03:09:46.322000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247882360,
+  time: '2018-04-06T03:09:46.322000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247882568,
+  time: '2018-04-06T03:09:47.323000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:47.323000Z
+ETH 1: 0 @ 2018-04-06T03:09:47.323000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:47.323000Z
+ETH 2: 0 @ 2018-04-06T03:09:47.323000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:48.323000Z
+ETH 1: 0 @ 2018-04-06T03:09:48.323000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:48.323000Z
+ETH 2: 0 @ 2018-04-06T03:09:48.323000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247882812,
+  time: '2018-04-06T03:09:48.323000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736897,
+  product_id: 'ETH-USD',
+  sequence: 3247882979,
+  time: '2018-04-06T03:09:49.323000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:49.323000Z
+ETH 1: 0 @ 2018-04-06T03:09:49.323000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:49.323000Z
+ETH 2: 0 @ 2018-04-06T03:09:49.323000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883148,
+  time: '2018-04-06T03:09:50.323000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883283,
+  time: '2018-04-06T03:09:51.324000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:50.323000Z
+ETH 1: 0 @ 2018-04-06T03:09:50.323000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:50.323000Z
+ETH 2: 0 @ 2018-04-06T03:09:50.323000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883416,
+  time: '2018-04-06T03:09:52.324000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883550,
+  time: '2018-04-06T03:09:53.324000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:51.324000Z
+ETH 1: 0 @ 2018-04-06T03:09:51.324000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:51.324000Z
+ETH 2: 0 @ 2018-04-06T03:09:51.324000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:52.324000Z
+ETH 1: 0 @ 2018-04-06T03:09:52.324000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:52.324000Z
+ETH 2: 0 @ 2018-04-06T03:09:52.324000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883645,
+  time: '2018-04-06T03:09:54.324000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:53.324000Z
+ETH 1: 0 @ 2018-04-06T03:09:53.324000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:53.324000Z
+ETH 2: 0 @ 2018-04-06T03:09:53.324000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:54.324000Z
+ETH 1: 0 @ 2018-04-06T03:09:54.324000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:54.324000Z
+ETH 2: 0 @ 2018-04-06T03:09:54.324000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883741,
+  time: '2018-04-06T03:09:55.325000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:55.325000Z
+ETH 1: 0 @ 2018-04-06T03:09:55.325000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:55.325000Z
+ETH 2: 0 @ 2018-04-06T03:09:55.325000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247883942,
+  time: '2018-04-06T03:09:56.325000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:56.325000Z
+ETH 1: 0 @ 2018-04-06T03:09:56.325000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:56.325000Z
+ETH 2: 0 @ 2018-04-06T03:09:56.325000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:57.325000Z
+ETH 1: 0 @ 2018-04-06T03:09:57.325000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:57.325000Z
+ETH 2: 0 @ 2018-04-06T03:09:57.325000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247884143,
+  time: '2018-04-06T03:09:57.325000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:58.325000Z
+ETH 1: 0 @ 2018-04-06T03:09:58.325000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:58.325000Z
+ETH 2: 0 @ 2018-04-06T03:09:58.325000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247884334,
+  time: '2018-04-06T03:09:58.325000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:09:59.326000Z
+ETH 1: 0 @ 2018-04-06T03:09:59.326000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:09:59.326000Z
+ETH 2: 0 @ 2018-04-06T03:09:59.326000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736898,
+  product_id: 'ETH-USD',
+  sequence: 3247884540,
+  time: '2018-04-06T03:09:59.326000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736904,
+  product_id: 'ETH-USD',
+  sequence: 3247884926,
+  time: '2018-04-06T03:10:00.326000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:00.326000Z
+ETH 1: 0 @ 2018-04-06T03:10:00.326000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:00.326000Z
+ETH 2: 0 @ 2018-04-06T03:10:00.326000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736905,
+  product_id: 'ETH-USD',
+  sequence: 3247885194,
+  time: '2018-04-06T03:10:01.326000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736905,
+  product_id: 'ETH-USD',
+  sequence: 3247885372,
+  time: '2018-04-06T03:10:02.327000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736905,
+  product_id: 'ETH-USD',
+  sequence: 3247885568,
+  time: '2018-04-06T03:10:03.327000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:01.326000Z
+ETH 1: 0 @ 2018-04-06T03:10:01.326000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:01.326000Z
+ETH 2: 0 @ 2018-04-06T03:10:01.326000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:02.327000Z
+ETH 1: 0 @ 2018-04-06T03:10:02.327000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:02.327000Z
+ETH 2: 0 @ 2018-04-06T03:10:02.327000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:03.327000Z
+ETH 1: 0 @ 2018-04-06T03:10:03.327000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:03.327000Z
+ETH 2: 0 @ 2018-04-06T03:10:03.327000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:04.327000Z
+ETH 1: 0 @ 2018-04-06T03:10:04.327000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:04.327000Z
+ETH 2: 0 @ 2018-04-06T03:10:04.327000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736905,
+  product_id: 'ETH-USD',
+  sequence: 3247885744,
+  time: '2018-04-06T03:10:04.327000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:05.327000Z
+ETH 1: 0 @ 2018-04-06T03:10:05.327000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:05.327000Z
+ETH 2: 0 @ 2018-04-06T03:10:05.327000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736905,
+  product_id: 'ETH-USD',
+  sequence: 3247885868,
+  time: '2018-04-06T03:10:05.327000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:06.327000Z
+ETH 1: 0 @ 2018-04-06T03:10:06.327000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:06.327000Z
+ETH 2: 0 @ 2018-04-06T03:10:06.327000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886024,
+  time: '2018-04-06T03:10:06.327000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:07.328000Z
+ETH 1: 0 @ 2018-04-06T03:10:07.328000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:07.328000Z
+ETH 2: 0 @ 2018-04-06T03:10:07.328000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886194,
+  time: '2018-04-06T03:10:07.328000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:08.328000Z
+ETH 1: 0 @ 2018-04-06T03:10:08.328000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:08.328000Z
+ETH 2: 0 @ 2018-04-06T03:10:08.328000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886288,
+  time: '2018-04-06T03:10:08.328000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:09.328000Z
+ETH 1: 0 @ 2018-04-06T03:10:09.328000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:09.328000Z
+ETH 2: 0 @ 2018-04-06T03:10:09.328000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886427,
+  time: '2018-04-06T03:10:09.328000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886606,
+  time: '2018-04-06T03:10:10.328000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886738,
+  time: '2018-04-06T03:10:11.329000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:10.328000Z
+ETH 1: 0 @ 2018-04-06T03:10:10.328000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:10.328000Z
+ETH 2: 0 @ 2018-04-06T03:10:10.328000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247886860,
+  time: '2018-04-06T03:10:12.329000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736906,
+  product_id: 'ETH-USD',
+  sequence: 3247887011,
+  time: '2018-04-06T03:10:13.329000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:11.329000Z
+ETH 1: 0 @ 2018-04-06T03:10:11.329000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:11.329000Z
+ETH 2: 0 @ 2018-04-06T03:10:11.329000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:12.329000Z
+ETH 1: 0 @ 2018-04-06T03:10:12.329000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:12.329000Z
+ETH 2: 0 @ 2018-04-06T03:10:12.329000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:13.329000Z
+ETH 1: 0 @ 2018-04-06T03:10:13.329000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:13.329000Z
+ETH 2: 0 @ 2018-04-06T03:10:13.329000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247887259,
+  time: '2018-04-06T03:10:14.329000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:14.329000Z
+ETH 1: 0 @ 2018-04-06T03:10:14.329000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:14.329000Z
+ETH 2: 0 @ 2018-04-06T03:10:14.329000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:15.330000Z
+ETH 1: 0 @ 2018-04-06T03:10:15.330000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:15.330000Z
+ETH 2: 0 @ 2018-04-06T03:10:15.330000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247887520,
+  time: '2018-04-06T03:10:15.330000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:16.330000Z
+ETH 1: 0 @ 2018-04-06T03:10:16.330000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:16.330000Z
+ETH 2: 0 @ 2018-04-06T03:10:16.330000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247887775,
+  time: '2018-04-06T03:10:16.330000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:17.330000Z
+ETH 1: 0 @ 2018-04-06T03:10:17.330000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:17.330000Z
+ETH 2: 0 @ 2018-04-06T03:10:17.330000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888015,
+  time: '2018-04-06T03:10:17.330000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:18.330000Z
+ETH 1: 0 @ 2018-04-06T03:10:18.330000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:18.330000Z
+ETH 2: 0 @ 2018-04-06T03:10:18.330000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888197,
+  time: '2018-04-06T03:10:18.330000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:19.331000Z
+ETH 1: 0 @ 2018-04-06T03:10:19.331000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:19.331000Z
+ETH 2: 0 @ 2018-04-06T03:10:19.331000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888358,
+  time: '2018-04-06T03:10:19.331000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888522,
+  time: '2018-04-06T03:10:20.331000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888665,
+  time: '2018-04-06T03:10:21.331000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888773,
+  time: '2018-04-06T03:10:22.331000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:20.331000Z
+ETH 1: 0 @ 2018-04-06T03:10:20.331000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:20.331000Z
+ETH 2: 0 @ 2018-04-06T03:10:20.331000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247888924,
+  time: '2018-04-06T03:10:23.332000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736908,
+  product_id: 'ETH-USD',
+  sequence: 3247889043,
+  time: '2018-04-06T03:10:24.332000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:21.331000Z
+ETH 1: 0 @ 2018-04-06T03:10:21.331000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:21.331000Z
+ETH 2: 0 @ 2018-04-06T03:10:21.331000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:22.331000Z
+ETH 1: 0 @ 2018-04-06T03:10:22.331000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:22.331000Z
+ETH 2: 0 @ 2018-04-06T03:10:22.331000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:23.332000Z
+ETH 1: 0 @ 2018-04-06T03:10:23.332000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:23.332000Z
+ETH 2: 0 @ 2018-04-06T03:10:23.332000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:24.332000Z
+ETH 1: 0 @ 2018-04-06T03:10:24.332000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:24.332000Z
+ETH 2: 0 @ 2018-04-06T03:10:24.332000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736918,
+  product_id: 'ETH-USD',
+  sequence: 3247889429,
+  time: '2018-04-06T03:10:25.333000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:25.333000Z
+ETH 1: 0 @ 2018-04-06T03:10:25.333000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:25.333000Z
+ETH 2: 0 @ 2018-04-06T03:10:25.333000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:26.333000Z
+ETH 1: 0 @ 2018-04-06T03:10:26.333000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:26.333000Z
+ETH 2: 0 @ 2018-04-06T03:10:26.333000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247889768,
+  time: '2018-04-06T03:10:26.333000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247890033,
+  time: '2018-04-06T03:10:27.334000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:27.334000Z
+ETH 1: 0 @ 2018-04-06T03:10:27.334000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:27.334000Z
+ETH 2: 0 @ 2018-04-06T03:10:27.334000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247890235,
+  time: '2018-04-06T03:10:28.334000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:28.334000Z
+ETH 1: 0 @ 2018-04-06T03:10:28.334000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:28.334000Z
+ETH 2: 0 @ 2018-04-06T03:10:28.334000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247890468,
+  time: '2018-04-06T03:10:29.334000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:29.334000Z
+ETH 1: 0 @ 2018-04-06T03:10:29.334000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:29.334000Z
+ETH 2: 0 @ 2018-04-06T03:10:29.334000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247890780,
+  time: '2018-04-06T03:10:30.334000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:30.334000Z
+ETH 1: 0 @ 2018-04-06T03:10:30.334000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:30.334000Z
+ETH 2: 0 @ 2018-04-06T03:10:30.334000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891020,
+  time: '2018-04-06T03:10:31.334000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891212,
+  time: '2018-04-06T03:10:32.335000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891341,
+  time: '2018-04-06T03:10:33.335000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891486,
+  time: '2018-04-06T03:10:34.335000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:31.334000Z
+ETH 1: 0 @ 2018-04-06T03:10:31.334000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:31.334000Z
+ETH 2: 0 @ 2018-04-06T03:10:31.334000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:32.335000Z
+ETH 1: 0 @ 2018-04-06T03:10:32.335000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:32.335000Z
+ETH 2: 0 @ 2018-04-06T03:10:32.335000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:33.335000Z
+ETH 1: 0 @ 2018-04-06T03:10:33.335000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:33.335000Z
+ETH 2: 0 @ 2018-04-06T03:10:33.335000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891585,
+  time: '2018-04-06T03:10:35.336000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:34.335000Z
+ETH 1: 0 @ 2018-04-06T03:10:34.335000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:34.335000Z
+ETH 2: 0 @ 2018-04-06T03:10:34.335000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:35.336000Z
+ETH 1: 0 @ 2018-04-06T03:10:35.336000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:35.336000Z
+ETH 2: 0 @ 2018-04-06T03:10:35.336000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:36.336000Z
+ETH 1: 0 @ 2018-04-06T03:10:36.336000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:36.336000Z
+ETH 2: 0 @ 2018-04-06T03:10:36.336000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891656,
+  time: '2018-04-06T03:10:36.336000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736921,
+  product_id: 'ETH-USD',
+  sequence: 3247891740,
+  time: '2018-04-06T03:10:37.336000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:37.336000Z
+ETH 1: 0 @ 2018-04-06T03:10:37.336000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:37.336000Z
+ETH 2: 0 @ 2018-04-06T03:10:37.336000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:38.337000Z
+ETH 1: 0 @ 2018-04-06T03:10:38.337000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:38.337000Z
+ETH 2: 0 @ 2018-04-06T03:10:38.337000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247891833,
+  time: '2018-04-06T03:10:38.337000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:39.337000Z
+ETH 1: 0 @ 2018-04-06T03:10:39.337000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:39.337000Z
+ETH 2: 0 @ 2018-04-06T03:10:39.337000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247891933,
+  time: '2018-04-06T03:10:39.337000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247892023,
+  time: '2018-04-06T03:10:40.337000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:40.337000Z
+ETH 1: 0 @ 2018-04-06T03:10:40.337000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:40.337000Z
+ETH 2: 0 @ 2018-04-06T03:10:40.337000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:41.338000Z
+ETH 1: 0 @ 2018-04-06T03:10:41.338000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:41.338000Z
+ETH 2: 0 @ 2018-04-06T03:10:41.338000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247892136,
+  time: '2018-04-06T03:10:41.338000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247892260,
+  time: '2018-04-06T03:10:42.338000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:42.338000Z
+ETH 1: 0 @ 2018-04-06T03:10:42.338000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:42.338000Z
+ETH 2: 0 @ 2018-04-06T03:10:42.338000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247892496,
+  time: '2018-04-06T03:10:43.338000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247892767,
+  time: '2018-04-06T03:10:44.339000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893003,
+  time: '2018-04-06T03:10:45.339000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:43.338000Z
+ETH 1: 0 @ 2018-04-06T03:10:43.338000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:43.338000Z
+ETH 2: 0 @ 2018-04-06T03:10:43.338000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:44.339000Z
+ETH 1: 0 @ 2018-04-06T03:10:44.339000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:44.339000Z
+ETH 2: 0 @ 2018-04-06T03:10:44.339000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893254,
+  time: '2018-04-06T03:10:46.339000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:45.339000Z
+ETH 1: 0 @ 2018-04-06T03:10:45.339000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:45.339000Z
+ETH 2: 0 @ 2018-04-06T03:10:45.339000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:46.339000Z
+ETH 1: 0 @ 2018-04-06T03:10:46.339000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:46.339000Z
+ETH 2: 0 @ 2018-04-06T03:10:46.339000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:47.339000Z
+ETH 1: 0 @ 2018-04-06T03:10:47.339000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:47.339000Z
+ETH 2: 0 @ 2018-04-06T03:10:47.339000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893376,
+  time: '2018-04-06T03:10:47.339000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893561,
+  time: '2018-04-06T03:10:48.340000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:48.340000Z
+ETH 1: 0 @ 2018-04-06T03:10:48.340000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:48.340000Z
+ETH 2: 0 @ 2018-04-06T03:10:48.340000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:49.340000Z
+ETH 1: 0 @ 2018-04-06T03:10:49.340000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:49.340000Z
+ETH 2: 0 @ 2018-04-06T03:10:49.340000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893770,
+  time: '2018-04-06T03:10:49.340000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736923,
+  product_id: 'ETH-USD',
+  sequence: 3247893909,
+  time: '2018-04-06T03:10:50.340000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:50.340000Z
+ETH 1: 0 @ 2018-04-06T03:10:50.340000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:50.340000Z
+ETH 2: 0 @ 2018-04-06T03:10:50.340000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894185,
+  time: '2018-04-06T03:10:51.340000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:51.340000Z
+ETH 1: 0 @ 2018-04-06T03:10:51.340000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:51.340000Z
+ETH 2: 0 @ 2018-04-06T03:10:51.340000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:52.341000Z
+ETH 1: 0 @ 2018-04-06T03:10:52.341000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:52.341000Z
+ETH 2: 0 @ 2018-04-06T03:10:52.341000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894279,
+  time: '2018-04-06T03:10:52.341000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894341,
+  time: '2018-04-06T03:10:53.341000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:53.341000Z
+ETH 1: 0 @ 2018-04-06T03:10:53.341000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:53.341000Z
+ETH 2: 0 @ 2018-04-06T03:10:53.341000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894475,
+  time: '2018-04-06T03:10:54.341000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:54.341000Z
+ETH 1: 0 @ 2018-04-06T03:10:54.341000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:54.341000Z
+ETH 2: 0 @ 2018-04-06T03:10:54.341000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894566,
+  time: '2018-04-06T03:10:55.342000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:55.342000Z
+ETH 1: 0 @ 2018-04-06T03:10:55.342000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:55.342000Z
+ETH 2: 0 @ 2018-04-06T03:10:55.342000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:56.342000Z
+ETH 1: 0 @ 2018-04-06T03:10:56.342000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:56.342000Z
+ETH 2: 0 @ 2018-04-06T03:10:56.342000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894683,
+  time: '2018-04-06T03:10:56.342000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:57.342000Z
+ETH 1: 0 @ 2018-04-06T03:10:57.342000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:57.342000Z
+ETH 2: 0 @ 2018-04-06T03:10:57.342000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894784,
+  time: '2018-04-06T03:10:57.342000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:58.343000Z
+ETH 1: 0 @ 2018-04-06T03:10:58.343000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:58.343000Z
+ETH 2: 0 @ 2018-04-06T03:10:58.343000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247894927,
+  time: '2018-04-06T03:10:58.343000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:10:59.343000Z
+ETH 1: 0 @ 2018-04-06T03:10:59.343000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:10:59.343000Z
+ETH 2: 0 @ 2018-04-06T03:10:59.343000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736928,
+  product_id: 'ETH-USD',
+  sequence: 3247895024,
+  time: '2018-04-06T03:10:59.343000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736932,
+  product_id: 'ETH-USD',
+  sequence: 3247895224,
+  time: '2018-04-06T03:11:00.343000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:00.343000Z
+ETH 1: 0 @ 2018-04-06T03:11:00.343000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:00.343000Z
+ETH 2: 0 @ 2018-04-06T03:11:00.343000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:01.343000Z
+ETH 1: 0 @ 2018-04-06T03:11:01.343000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:01.343000Z
+ETH 2: 0 @ 2018-04-06T03:11:01.343000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736932,
+  product_id: 'ETH-USD',
+  sequence: 3247895403,
+  time: '2018-04-06T03:11:01.343000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:02.344000Z
+ETH 1: 0 @ 2018-04-06T03:11:02.344000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:02.344000Z
+ETH 2: 0 @ 2018-04-06T03:11:02.344000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247895558,
+  time: '2018-04-06T03:11:02.344000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247895710,
+  time: '2018-04-06T03:11:03.344000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:03.344000Z
+ETH 1: 0 @ 2018-04-06T03:11:03.344000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:03.344000Z
+ETH 2: 0 @ 2018-04-06T03:11:03.344000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247895839,
+  time: '2018-04-06T03:11:04.344000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247895961,
+  time: '2018-04-06T03:11:05.344000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:04.344000Z
+ETH 1: 0 @ 2018-04-06T03:11:04.344000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:04.344000Z
+ETH 2: 0 @ 2018-04-06T03:11:04.344000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:05.344000Z
+ETH 1: 0 @ 2018-04-06T03:11:05.344000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:05.344000Z
+ETH 2: 0 @ 2018-04-06T03:11:05.344000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896086,
+  time: '2018-04-06T03:11:06.345000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:06.345000Z
+ETH 1: 0 @ 2018-04-06T03:11:06.345000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:06.345000Z
+ETH 2: 0 @ 2018-04-06T03:11:06.345000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:07.345000Z
+ETH 1: 0 @ 2018-04-06T03:11:07.345000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:07.345000Z
+ETH 2: 0 @ 2018-04-06T03:11:07.345000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896209,
+  time: '2018-04-06T03:11:07.345000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896302,
+  time: '2018-04-06T03:11:08.345000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:08.345000Z
+ETH 1: 0 @ 2018-04-06T03:11:08.345000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:08.345000Z
+ETH 2: 0 @ 2018-04-06T03:11:08.345000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896436,
+  time: '2018-04-06T03:11:09.345000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:09.345000Z
+ETH 1: 0 @ 2018-04-06T03:11:09.345000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:09.345000Z
+ETH 2: 0 @ 2018-04-06T03:11:09.345000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:10.346000Z
+ETH 1: 0 @ 2018-04-06T03:11:10.346000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:10.346000Z
+ETH 2: 0 @ 2018-04-06T03:11:10.346000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896564,
+  time: '2018-04-06T03:11:10.346000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896721,
+  time: '2018-04-06T03:11:11.346000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:11.346000Z
+ETH 1: 0 @ 2018-04-06T03:11:11.346000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:11.346000Z
+ETH 2: 0 @ 2018-04-06T03:11:11.346000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247896875,
+  time: '2018-04-06T03:11:12.346000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:12.346000Z
+ETH 1: 0 @ 2018-04-06T03:11:12.346000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:12.346000Z
+ETH 2: 0 @ 2018-04-06T03:11:12.346000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736935,
+  product_id: 'ETH-USD',
+  sequence: 3247897003,
+  time: '2018-04-06T03:11:13.347000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247897252,
+  time: '2018-04-06T03:11:14.347000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:13.347000Z
+ETH 1: 0 @ 2018-04-06T03:11:13.347000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:13.347000Z
+ETH 2: 0 @ 2018-04-06T03:11:13.347000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247897473,
+  time: '2018-04-06T03:11:15.347000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247897669,
+  time: '2018-04-06T03:11:16.347000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:14.347000Z
+ETH 1: 0 @ 2018-04-06T03:11:14.347000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:14.347000Z
+ETH 2: 0 @ 2018-04-06T03:11:14.347000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:15.347000Z
+ETH 1: 0 @ 2018-04-06T03:11:15.347000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:15.347000Z
+ETH 2: 0 @ 2018-04-06T03:11:15.347000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247897881,
+  time: '2018-04-06T03:11:17.348000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:16.347000Z
+ETH 1: 0 @ 2018-04-06T03:11:16.347000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:16.347000Z
+ETH 2: 0 @ 2018-04-06T03:11:16.347000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:17.348000Z
+ETH 1: 0 @ 2018-04-06T03:11:17.348000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:17.348000Z
+ETH 2: 0 @ 2018-04-06T03:11:17.348000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247898024,
+  time: '2018-04-06T03:11:18.348000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:18.348000Z
+ETH 1: 0 @ 2018-04-06T03:11:18.348000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:18.348000Z
+ETH 2: 0 @ 2018-04-06T03:11:18.348000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247898220,
+  time: '2018-04-06T03:11:19.348000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:19.348000Z
+ETH 1: 0 @ 2018-04-06T03:11:19.348000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:19.348000Z
+ETH 2: 0 @ 2018-04-06T03:11:19.348000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247898434,
+  time: '2018-04-06T03:11:20.348000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:20.348000Z
+ETH 1: 0 @ 2018-04-06T03:11:20.348000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:20.348000Z
+ETH 2: 0 @ 2018-04-06T03:11:20.348000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:21.349000Z
+ETH 1: 0 @ 2018-04-06T03:11:21.349000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:21.349000Z
+ETH 2: 0 @ 2018-04-06T03:11:21.349000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247898749,
+  time: '2018-04-06T03:11:21.349000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247898992,
+  time: '2018-04-06T03:11:22.349000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736939,
+  product_id: 'ETH-USD',
+  sequence: 3247899243,
+  time: '2018-04-06T03:11:23.349000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:22.349000Z
+ETH 1: 0 @ 2018-04-06T03:11:22.349000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:22.349000Z
+ETH 2: 0 @ 2018-04-06T03:11:22.349000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736940,
+  product_id: 'ETH-USD',
+  sequence: 3247899463,
+  time: '2018-04-06T03:11:24.349000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736940,
+  product_id: 'ETH-USD',
+  sequence: 3247899686,
+  time: '2018-04-06T03:11:25.349000Z' }
+{ type: 'heartbeat',
+  last_trade_id: 31736943,
+  product_id: 'ETH-USD',
+  sequence: 3247900017,
+  time: '2018-04-06T03:11:26.350000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:23.349000Z
+ETH 1: 0 @ 2018-04-06T03:11:23.349000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:23.349000Z
+ETH 2: 0 @ 2018-04-06T03:11:23.349000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:24.349000Z
+ETH 1: 0 @ 2018-04-06T03:11:24.349000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:24.349000Z
+ETH 2: 0 @ 2018-04-06T03:11:24.349000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736943,
+  product_id: 'ETH-USD',
+  sequence: 3247900148,
+  time: '2018-04-06T03:11:27.350000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:25.349000Z
+ETH 1: 0 @ 2018-04-06T03:11:25.349000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:25.349000Z
+ETH 2: 0 @ 2018-04-06T03:11:25.349000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:26.350000Z
+ETH 1: 0 @ 2018-04-06T03:11:26.350000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:26.350000Z
+ETH 2: 0 @ 2018-04-06T03:11:26.350000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:27.350000Z
+ETH 1: 0 @ 2018-04-06T03:11:27.350000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:27.350000Z
+ETH 2: 0 @ 2018-04-06T03:11:27.350000Z
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:28.350000Z
+ETH 1: 0 @ 2018-04-06T03:11:28.350000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:28.350000Z
+ETH 2: 0 @ 2018-04-06T03:11:28.350000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736943,
+  product_id: 'ETH-USD',
+  sequence: 3247900234,
+  time: '2018-04-06T03:11:28.350000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:29.351000Z
+ETH 1: 0 @ 2018-04-06T03:11:29.351000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:29.351000Z
+ETH 2: 0 @ 2018-04-06T03:11:29.351000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736943,
+  product_id: 'ETH-USD',
+  sequence: 3247900372,
+  time: '2018-04-06T03:11:29.351000Z' }
+Cash 1: 3.7282999999999995 @ 2018-04-06T03:11:30.351000Z
+ETH 1: 0 @ 2018-04-06T03:11:30.351000Z
+Cash 2: 3.7282999999999995 @ 2018-04-06T03:11:30.351000Z
+ETH 2: 0 @ 2018-04-06T03:11:30.351000Z
+{ type: 'heartbeat',
+  last_trade_id: 31736943,
+  product_id: 'ETH-USD',
+  sequence: 3247900467,
+  time: '2018-04-06T03:11:30.351000Z' }
+^C
+devin@Devins-MacBook-Pro:~/Desktop/carla/tradingagent$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+devin@Devins-MacBook-Pro:~/Desktop/carla/tradingagent$ git push
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 47.20 KiB | 2.95 MiB/s, done.
+Total 7 (delta 5), reused 0 (delta 0)
+To https://bitbucket.org/devinliu/carla.git
+   6f247cc..4301d62  master -> master
 devin@Devins-MacBook-Pro:~/Desktop/carla/tradingagent$
