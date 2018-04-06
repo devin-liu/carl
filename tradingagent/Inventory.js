@@ -46,11 +46,12 @@ class Inventory extends TransactionParser {
   }
 
   getPositionSizes(positions) {
-    return positions.map(pos => parseFloat(pos.size));
+    return positions.map(this.parsePositionSize);
+);
   }
 
   getPositionValues(positions) {
-    return positions.map(pos => parseFloat(pos.price) * parseFloat(pos.size));
+    return positions.map(this.parsePositionValue);
   }
 
   getTotalPosition() {

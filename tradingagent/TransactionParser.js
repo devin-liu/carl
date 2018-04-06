@@ -16,16 +16,26 @@ function calculateNetValue(listA, listB) {
   return totalA - totalB;
 }
 
-function getOrderPrice(order) {
+function parseOrderPrice(order) {
   return parseFloat(order[0]);
 }
 
-function getOrderSize(order) {
+function parseOrderSize(order) {
   return parseFloat(order[1]);
+}
+
+function parsePositionSize(pos) {
+  return parseFloat(pos.size);
+}
+
+function parsePositionValue(pos) {
+  return parseFloat(pos.price) * parseFloat(pos.size);
 }
 
 TransactionParser.prototype.calculateArrayTotal = calculateArrayTotal;
 TransactionParser.prototype.calculateNetValue = calculateNetValue;
-TransactionParser.prototype.getOrderPrice = getOrderPrice;
-TransactionParser.prototype.getOrderSize = getOrderSize;
+TransactionParser.prototype.parseOrderPrice = parseOrderPrice;
+TransactionParser.prototype.parseOrderSize = parseOrderSize;
+TransactionParser.prototype.parsePositionSize = parsePositionSize;
+TransactionParser.prototype.parsePositionValue = parsePositionValue;
 module.exports = TransactionParser;

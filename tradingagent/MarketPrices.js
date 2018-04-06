@@ -11,19 +11,19 @@ class MarketPrices extends TransactionParser {
   }
 
   getFirstBidPrice() {
-    return this.getOrderPrice(this.bids[0]);
+    return this.parseOrderPrice(this.bids[0]);
   }
 
   getFirstAskPrice() {
-    return this.getOrderPrice(this.asks[0]);
+    return this.parseOrderPrice(this.asks[0]);
   }
 
   getFirstBidSize() {
-    return this.getOrderSize(this.bids[0]);
+    return this.parseOrderSize(this.bids[0]);
   }
 
   getFirstAskSize() {
-    return this.getOrderSize(this.asks[0]);
+    return this.parseOrderSize(this.asks[0]);
   }
 
   avgBookPrice(arr) {
