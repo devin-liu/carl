@@ -1,6 +1,9 @@
-class Inventory {
+const TransactionParser = require('./TransactionParser.js');
+
+class Inventory extends TransactionParser {
 
   constructor() {
+    super();
     this.buys = [];
     this.sells = [];
     this.pendingOrders = {};
@@ -60,24 +63,6 @@ class Inventory {
     const cost = this.getPositionValues(this.buys);
     const revenue = this.getPositionValues(this.sells);
     return this.calculateNetValue(revenue, cost);
-  }
-
-  //  receives list of two integers and subtracts the second from the first
-  calculateNetValue(listA, listB) {
-    const totalA = this.calculateArrayTotal(listA);
-    const totalB = this.calculateArrayTotal(listB);
-    return totalA - totalB;
-  }
-
-  // Receives array of numbers
-  calculateArrayTotal(arr) {
-    if(arr.length === 0) {
-      return 0;
-    }
-    if(arr.length === 1) {
-      return arr[0];
-    }
-    return arr.reduce((a,b) => a + b);
   }
 
 }

@@ -1,27 +1,33 @@
+const TransactionParser = require('./TransactionParser.js');
 // original Problems we are trying to solve
 // 1. Can't keep track of ethereum wallet
 // 2. Orderbook responses don't send back original order
 
-class MarketPrices {
+class MarketPrices extends TransactionParser {
   constructor() {
+    super();
     this.asks = null;
     this.bids = null;
   }
 
   getFirstBidPrice() {
-    return parseFloat(this.bids[0][0]);
+    return this.getOrderPrice(this.bids[0]);
   }
 
   getFirstAskPrice() {
-    return parseFloat(this.asks[0][0]);
+    return this.getOrderPrice(this.asks[0]);
   }
 
   getFirstBidSize() {
-    return parseFloat(this.bids[0][1]);
+    return this.getOrderSize(this.bids[0]);
   }
 
   getFirstAskSize() {
-    return parseFloat(this.asks[0][1]);
+    return this.getOrderSize(this.asks[0]);
+  }
+
+  avgBookPrice(arr) {
+    return arr.map()
   }
 
   updateOrderBook(orderBook) {
