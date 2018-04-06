@@ -10,7 +10,6 @@ function calculateArrayTotal(arr) {
   return arr.reduce((a,b) => a + b);
 }
 
-//  receives list of two integers and subtracts the second from the first
 function calculateNetValue(listA, listB) {
   const totalA = this.calculateArrayTotal(listA);
   const totalB = this.calculateArrayTotal(listB);
@@ -29,5 +28,4 @@ TransactionParser.prototype.calculateArrayTotal = calculateArrayTotal;
 TransactionParser.prototype.calculateNetValue = calculateNetValue;
 TransactionParser.prototype.getOrderPrice = getOrderPrice;
 TransactionParser.prototype.getOrderSize = getOrderSize;
-
 module.exports = TransactionParser;
