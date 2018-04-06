@@ -30,4 +30,3 @@ class MarketPrices {
     this.bids = bids;
   }
 }
-

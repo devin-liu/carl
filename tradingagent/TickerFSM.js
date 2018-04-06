@@ -107,6 +107,8 @@ function onInitFromStop() {
 // }
 
 function handleSnapshot(snapshot) {
+  // Update pricing model
+  MarketPrices.updateOrderBook(snapshot);
   // Actions:
   // create more buy orders
   if (fsm.state === 'init') {
@@ -303,7 +305,6 @@ authedWebsocket.on('error', err => {
 publicWebsocket.on('message', data => {
   if(data.type === "snapshot"){
     handleSnapshot(data)
-    MarketPrices.updateOrderBook(data);
   }
   if(data.type === "ticker"){
     handleTicker(data)
