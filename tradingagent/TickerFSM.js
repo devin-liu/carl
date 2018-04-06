@@ -162,6 +162,7 @@ function handleTicker(ticker) {
   const spread = ask - bid;
   const size = .01;
   const canBuy = ethPositions.cash - (size*bid) > 0;
+  const canSell = ethPositions.getTotalPosition() >= .01;
   if(fsm.state === 'increase' && !canBuy){
     fsm.reduceFromIncrease();
   }
@@ -182,7 +183,7 @@ function handleTicker(ticker) {
     })
     ethPositions.spendCash(parseFloat(price)*parseFloat(size));
   }
-  if(fsm.state === 'reduce'){
+  if(fsm.state === 'reduce' && canSell){
     // const price = (ask - spread*.1).toFixed(2);
     const price = best_bid;
     authedClient.sell({
