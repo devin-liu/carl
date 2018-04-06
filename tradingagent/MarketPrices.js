@@ -6,8 +6,11 @@ const TransactionParser = require('./TransactionParser.js');
 class MarketPrices extends TransactionParser {
   constructor() {
     super();
-    this.asks = null;
-    this.bids = null;
+    this.asks = null; // market WTS & higher price
+    this.bids = null; // market WTB & lower price
+    this.spread = null;
+    this.lastAsk = null;
+    this.lastBid = null;
   }
 
   getFirstBidPrice() {
@@ -26,13 +29,28 @@ class MarketPrices extends TransactionParser {
     return this.parseOrderSize(this.asks[0]);
   }
 
-  avgBookPrice(arr) {
-    return arr.map()
+  getFirstAskCost() {
+    return this.getFirstAskSize() * this.getFirstAskPrice();
+  }
+
+  getFirstBidCost() {
+    return this.getFirstBidSize() * this.getFirstBidPrice();
+  }
+
+  avgBidPrice() {
+    return this.calculateAvgBookPrice(this.bids);
+  }
+
+  avgAskPrice() {
+    return this.calculateAvgBookPrice(this.asks);
   }
 
   updateOrderBook(orderBook) {
     const { asks, bids } = orderBook;
     this.asks = asks;
     this.bids = bids;
+    this.spread = this.getFirstAskSize() - this.getFirstBidSize();
   }
 }
+
+module.exports = MarketPrices;

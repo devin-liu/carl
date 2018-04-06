@@ -3,6 +3,7 @@ const publicWebsocket = require('./publicWebSocket.js');
 const authedClient = require('./authedClient.js');
 const Inventory = require('./Inventory.js');
 const StateChecks = require('./StateChecks.js');
+const ActionChecks = require('./ActionChecks.js');
 const MarketPrices = require('./MarketPrices.js');
 const StateMachine = require('javascript-state-machine');
 const fsm = new StateMachine({
@@ -172,22 +173,14 @@ function handleTicker(ticker) {
 }
 
 function handleHeartbeat(heartbeat) {
-  if(!ask || !bid) return;
   const { product_id, time } = heartbeat;
-  const canBuy = ethPositions.cash - (size*bid) > 0;
-  const canSell = ethPositions.getTotalPosition() >= .01;
-  if(fsm.state === 'increase' && !canBuy){
-    fsm.reduceFromIncrease();
-  }
-  if(fsm.state === 'decrease' && !canSell){
-    fsm.increaseFromReduce();
-  }
+  const canBuy = actionChecks.canBuy();
+  const canSell = actionChecks.canSell();
   console.log(`Cash 1: ${ethPositions.cash} @ ${time}`)
   console.log(`ETH 1: ${ethPositions.getTotalPosition()} @ ${time}`)
   if(fsm.state === 'increase' && canBuy){
-    // const price = (bid + spread*.1).toFixed(2);
-    const price = ask;
     console.log('buying more shares')
+    const price = MarketPrices.getAvgBidPrice();
     authedClient.buy({
       price,
       size,
@@ -279,8 +272,9 @@ function handleMatchOrder(order) {
 
 
 const ethPositions = new Inventory();
-const agentState = new StateChecks(ethPositions);
 const prices = new MarketPrices();
+const agentState = new StateChecks(ethPositions);
+const actionChecks = new ActionChecks(ethPositions, prices);
 
 
 authedWebsocket.on('message', data => {

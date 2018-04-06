@@ -16,6 +16,12 @@ function calculateNetValue(listA, listB) {
   return totalA - totalB;
 }
 
+function calculateAvgBookPrice(book) {
+  const bookCosts = book.map(parsePositionValue);
+  const bookVolumes = book.map(parseOrderSize);
+  return this.calculateArrayTotal(bookCosts) / this.calculateArrayTotal(bookVolumes);
+}
+
 function parseOrderPrice(order) {
   return parseFloat(order[0]);
 }
@@ -32,10 +38,13 @@ function parsePositionValue(pos) {
   return parseFloat(pos.price) * parseFloat(pos.size);
 }
 
+
+
 TransactionParser.prototype.calculateArrayTotal = calculateArrayTotal;
 TransactionParser.prototype.calculateNetValue = calculateNetValue;
 TransactionParser.prototype.parseOrderPrice = parseOrderPrice;
 TransactionParser.prototype.parseOrderSize = parseOrderSize;
 TransactionParser.prototype.parsePositionSize = parsePositionSize;
 TransactionParser.prototype.parsePositionValue = parsePositionValue;
+TransactionParser.prototype.calculateAvgBookPrice = calculateAvgBookPrice;
 module.exports = TransactionParser;

@@ -47,9 +47,9 @@ class Inventory extends TransactionParser {
 
   getPositionSizes(positions) {
     return positions.map(this.parsePositionSize);
-);
   }
 
+// needs a better name
   getPositionValues(positions) {
     return positions.map(this.parsePositionValue);
   }
