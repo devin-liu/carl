@@ -170,7 +170,7 @@ function handleTicker(ticker) {
 
 function handleHeartbeat(heartbeat) {
   if(!ask || !bid) return;
-  const { time } = heartbeat;
+  const { product_id, time } = heartbeat;
   const canBuy = ethPositions.cash - (size*bid) > 0;
   const canSell = ethPositions.getTotalPosition() >= .01;
   if(fsm.state === 'increase' && !canBuy){
