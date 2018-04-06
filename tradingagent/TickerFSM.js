@@ -3,6 +3,7 @@ const publicWebsocket = require('./publicWebSocket.js');
 const authedClient = require('./authedClient.js');
 const Inventory = require('./Inventory.js');
 const StateChecks = require('./StateChecks.js');
+const MarketPrices = require('./MarketPrices.js');
 const StateMachine = require('javascript-state-machine');
 const fsm = new StateMachine({
   init: 'init',
@@ -277,6 +278,7 @@ function handleMatchOrder(order) {
 
 const ethPositions = new Inventory();
 const agentState = new StateChecks(ethPositions);
+const prices = new MarketPrices();
 
 
 authedWebsocket.on('message', data => {
@@ -301,6 +303,7 @@ authedWebsocket.on('error', err => {
 publicWebsocket.on('message', data => {
   if(data.type === "snapshot"){
     handleSnapshot(data)
+    MarketPrices.updateOrderBook(data);
   }
   if(data.type === "ticker"){
     handleTicker(data)
