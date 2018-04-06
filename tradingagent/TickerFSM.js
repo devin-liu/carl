@@ -152,9 +152,11 @@ function handleSnapshot(snapshot) {
 //     "best_ask": "4388.01"
 // }
 function handleTicker(ticker) {
+  console.log(ticker)
+  if(!ticker.time) return;
   // ask = WTS (higher price)
   // bid = WTB
-  const { best_ask, best_bid, product_id } = ticker;
+  const { best_ask, best_bid, product_id, time } = ticker;
   const ask = parseFloat(best_ask);
   const bid = parseFloat(best_bid);
   const spread = ask - bid;
@@ -163,10 +165,12 @@ function handleTicker(ticker) {
   if(fsm.state === 'increase' && !canBuy){
     fsm.reduceFromIncrease();
   }
+  console.log(`Cash 1: ${ethPositions.cash} @ ${time}`)
   if(fsm.state === 'increase' && canBuy){
-    const price = (bid + spread*.1).toFixed(2);
+    // const price = (bid + spread*.1).toFixed(2);
+    const price = best_ask;
+    console.log('buying more shares')
     authedClient.buy({
-      side: 'buy',
       price,
       size,
       product_id,
@@ -179,20 +183,20 @@ function handleTicker(ticker) {
     ethPositions.spendCash(parseFloat(price)*parseFloat(size));
   }
   if(fsm.state === 'reduce'){
-    const price = (ask - spread*.1).toFixed(2);
-    authedClient.buy({
-      side: 'sell',
+    // const price = (ask - spread*.1).toFixed(2);
+    const price = best_bid;
+    authedClient.sell({
       price: ask,
       size,
       product_id,
     }, (error, response, data) => {
       if(error){
-        console.log(error)
+        console.log(error.data)
       }
       console.log(data)
     })
   }
-  console.log(`Cash: ${ethPositions.cash}`)
+  console.log(`Cash 2: ${ethPositions.cash} @ ${time}`)
   // console.log(`Cash: ${ethPositions.cash}`)
 }
 

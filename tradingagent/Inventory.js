@@ -5,7 +5,7 @@ class Inventory {
     this.sells = [];
     this.pendingOrders = {};
     this.total = 0;
-    this.cash = 10;
+    this.cash = 0;
   }
 
   spendCash(cash){
