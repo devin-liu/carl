@@ -168,8 +168,9 @@ function handleTicker(ticker) {
   spread = ask - bid;
 }
 
-function handleHeartbeat() {
+function handleHeartbeat(heartbeat) {
   if(!ask || !bid) return;
+  const { time } = heartbeat;
   const canBuy = ethPositions.cash - (size*bid) > 0;
   const canSell = ethPositions.getTotalPosition() >= .01;
   if(fsm.state === 'increase' && !canBuy){
@@ -256,7 +257,7 @@ publicWebsocket.on('message', data => {
   }
 
   if(data.type === "heartbeat"){
-    handleTicker(data)
+    handleHeartbeat(data)
   }
 });
 
