@@ -151,25 +151,37 @@ function handleSnapshot(snapshot) {
 //     "best_bid": "4388",
 //     "best_ask": "4388.01"
 // }
+
+let ask = null;
+let bid = null;
+let spread = null;
+const size = .01;
+
 function handleTicker(ticker) {
   console.log(ticker)
   if(!ticker.time) return;
   // ask = WTS (higher price)
   // bid = WTB
   const { best_ask, best_bid, product_id, time } = ticker;
-  const ask = parseFloat(best_ask);
-  const bid = parseFloat(best_bid);
-  const spread = ask - bid;
-  const size = .01;
+  ask = parseFloat(best_ask);
+  bid = parseFloat(best_bid);
+  spread = ask - bid;
+}
+
+function handleHeartbeat() {
+  if(!ask || !bid) return;
   const canBuy = ethPositions.cash - (size*bid) > 0;
   const canSell = ethPositions.getTotalPosition() >= .01;
   if(fsm.state === 'increase' && !canBuy){
     fsm.reduceFromIncrease();
   }
+  if(fsm.state === 'decrease' && !canSell){
+    fsm.increaseFromReduce();
+  }
   console.log(`Cash 1: ${ethPositions.cash} @ ${time}`)
   if(fsm.state === 'increase' && canBuy){
     // const price = (bid + spread*.1).toFixed(2);
-    const price = best_ask;
+    const price = ask;
     console.log('buying more shares')
     authedClient.buy({
       price,
@@ -185,9 +197,9 @@ function handleTicker(ticker) {
   }
   if(fsm.state === 'reduce' && canSell){
     // const price = (ask - spread*.1).toFixed(2);
-    const price = best_bid;
+    const price = bid;
     authedClient.sell({
-      price: ask,
+      price,
       size,
       product_id,
     }, (error, response, data) => {
@@ -240,6 +252,10 @@ publicWebsocket.on('message', data => {
     handleSnapshot(data)
   }
   if(data.type === "ticker"){
+    handleTicker(data)
+  }
+
+  if(data.type === "heartbeat"){
     handleTicker(data)
   }
 });
