@@ -3,7 +3,7 @@ const websocket = new Gdax.WebsocketClient(
   ['ETH-USD'],
   'wss://ws-feed.gdax.com',
   null,
-  { channels: ['ticker', 'level2'] }
+  { channels: ['ticker', 'level2', 'heartbeat'] }
 );
 
 module.exports = websocket;

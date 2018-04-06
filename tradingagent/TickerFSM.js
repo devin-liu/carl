@@ -158,7 +158,7 @@ let spread = null;
 const size = .01;
 
 function handleTicker(ticker) {
-  console.log(ticker)
+  // console.log(ticker)
   if(!ticker.time) return;
   // ask = WTS (higher price)
   // bid = WTB
@@ -180,6 +180,7 @@ function handleHeartbeat(heartbeat) {
     fsm.increaseFromReduce();
   }
   console.log(`Cash 1: ${ethPositions.cash} @ ${time}`)
+  console.log(`ETH 1: ${ethPositions.getTotalPosition()} @ ${time}`)
   if(fsm.state === 'increase' && canBuy){
     // const price = (bid + spread*.1).toFixed(2);
     const price = ask;
@@ -192,12 +193,14 @@ function handleHeartbeat(heartbeat) {
       if(error){
         console.log(error)
       }
-      console.log(data)
+      // console.log(data)
     })
-    ethPositions.spendCash(parseFloat(price)*parseFloat(size));
+    ethPositions.spendCash(parseFloat(price)*size);
   }
   if(fsm.state === 'reduce' && canSell){
+  // if(fsm.state === 'reduce'){
     // const price = (ask - spread*.1).toFixed(2);
+    console.log('selling more shares')
     const price = bid;
     authedClient.sell({
       price,
@@ -207,10 +210,11 @@ function handleHeartbeat(heartbeat) {
       if(error){
         console.log(error.data)
       }
-      console.log(data)
+      // console.log(data)
     })
   }
   console.log(`Cash 2: ${ethPositions.cash} @ ${time}`)
+  console.log(`ETH 2: ${ethPositions.getTotalPosition()} @ ${time}`)
   // console.log(`Cash: ${ethPositions.cash}`)
 }
 
@@ -218,33 +222,79 @@ function handleOpenOrder(order) {
   ethPositions.addPendingOrder(order);
 }
 
+
+// { type: 'done',
+//   side: 'buy',
+//   order_id: 'cb2f2db4-7fc7-405d-a839-5807f02e5589',
+//   reason: 'filled',
+//   product_id: 'ETH-USD',
+//   price: '379.64000000',
+//   remaining_size: '0.00000000',
+//   sequence: 3247430598,
+//   user_id: '56134d7dd656900f34000310',
+//   profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+//   time: '2018-04-06T02:23:10.707000Z' }
 function handleDoneOrder(order) {
-  const { price, size } = order;
+  const { price } = order;
   if(order.side === "sell"){
-    ethPositions.addSellPosition(order);
-    let fill_fees = order.fill_fees ? 0 : parseFloat(order.fill_fees);
-    ethPositions.addCash(parseFloat(price)*parseFloat(size) - fill_fees);
+    ethPositions.addSellPosition(Object.assign({},order,{size:.01}));
+    // let fill_fees = order.fill_fees ? 0 : parseFloat(order.fill_fees);
+    if(!price || !size) return;
+    ethPositions.addCash(parseFloat(price)*parseFloat(size));
   }
   if(order.side === "buy"){
-    ethPositions.addBuyPosition(order);
+    ethPositions.addBuyPosition(Object.assign({},order,{size:.01}));
   }
 }
+
+// { type: 'match',
+//   trade_id: 31735110,
+//   maker_order_id: '2f8ddc3c-5444-46f2-8166-9e5e18f99204',
+//   taker_order_id: 'cb2f2db4-7fc7-405d-a839-5807f02e5589',
+//   side: 'sell',
+//   size: '0.01000000',
+//   price: '379.64000000',
+//   product_id: 'ETH-USD',
+//   taker_user_id: '56134d7dd656900f34000310',
+//   user_id: '56134d7dd656900f34000310',
+//   taker_profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+//   profile_id: 'd18e4765-3946-459c-bb98-f828ae84ba0f',
+//   sequence: 3247430597,
+//   time: '2018-04-06T02:23:10.707000Z' }
+function handleMatchOrder(order) {
+  const { price } = order;
+  if(!price || !size) return;
+  if(order.side === "sell"){
+    ethPositions.addSellPosition(Object.assign({},order,{size:.01}));
+    // let fill_fees = order.fill_fees ? 0 : parseFloat(order.fill_fees);
+    ethPositions.addCash(parseFloat(price)*parseFloat(size));
+  }
+  if(order.side === "buy"){
+    ethPositions.addBuyPosition(Object.assign({},order,{size:.01}));
+  }
+}
+
 
 const ethPositions = new Inventory();
 const agentState = new StateChecks(ethPositions);
 
 
 authedWebsocket.on('message', data => {
+  console.log(data)
   if(data.type === "open"){
     handleOpenOrder(data)
   }
   if(data.type === "done"){
     handleDoneOrder(data)
   }
+
+  if(data.type === "match"){
+    handleMatchOrder(data)
+  }
 });
 
 authedWebsocket.on('error', err => {
-  console.log(err)
+  console.log(err.data)
 });
 
 
@@ -262,5 +312,5 @@ publicWebsocket.on('message', data => {
 });
 
 publicWebsocket.on('error', err => {
-  console.log(err)
+  console.log(err.data)
 });
