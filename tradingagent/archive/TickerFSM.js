@@ -1,6 +1,5 @@
 const authedWebsocket = require('./authedWebSocket.js');
 const publicWebsocket = require('./publicWebSocket.js');
-const authedClient = require('./authedClient.js');
 const Inventory = require('./Inventory.js');
 const StateChecks = require('./StateChecks.js');
 const ActionChecks = require('./ActionChecks.js');
@@ -181,37 +180,16 @@ function handleHeartbeat(heartbeat) {
   if(fsm.state === 'increase' && canBuy){
     console.log('buying more shares')
     const price = MarketPrices.getAvgBidPrice();
-    authedClient.buy({
-      price,
-      size,
-      product_id,
-    }, (error, response, data) => {
-      if(error){
-        console.log(error)
-      }
-      // console.log(data)
-    })
-    ethPositions.spendCash(parseFloat(price)*size);
+    tradeActions.buy(price);
   }
   if(fsm.state === 'reduce' && canSell){
-  // if(fsm.state === 'reduce'){
-    // const price = (ask - spread*.1).toFixed(2);
     console.log('selling more shares')
-    const price = bid;
-    authedClient.sell({
-      price,
-      size,
-      product_id,
-    }, (error, response, data) => {
-      if(error){
-        console.log(error.data)
-      }
-      // console.log(data)
-    })
+    const price = MarketPrices.getAvgAskPrice();
+    tradeActions.sell(price);
+
   }
   console.log(`Cash 2: ${ethPositions.cash} @ ${time}`)
   console.log(`ETH 2: ${ethPositions.getTotalPosition()} @ ${time}`)
-  // console.log(`Cash: ${ethPositions.cash}`)
 }
 
 function handleOpenOrder(order) {

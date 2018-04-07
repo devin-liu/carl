@@ -9,8 +9,8 @@ class MarketPrices extends TransactionParser {
     this.asks = null; // market WTS & higher price
     this.bids = null; // market WTB & lower price
     this.spread = null;
-    this.lastAsk = null;
-    this.lastBid = null;
+    // this.lastAsk = null;
+    // this.lastBid = null;
   }
 
   getFirstBidPrice() {
@@ -49,7 +49,12 @@ class MarketPrices extends TransactionParser {
     const { asks, bids } = orderBook;
     this.asks = asks;
     this.bids = bids;
-    this.spread = this.getFirstAskSize() - this.getFirstBidSize();
+  }
+
+  updateTicker({best_ask, best_bid, spread}) {
+    this.best_ask = best_ask;
+    this.best_bid = best_bid;
+    this.spread = spread;
   }
 }
 
