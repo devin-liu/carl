@@ -18,7 +18,7 @@ authedWebsocket.on('error', err => {
   console.log(err.data)
 });
 
-publicWebsocket.on('message', this.publicSocketHandler.handleAuthorizedMessage);
+publicWebsocket.on('message', this.publicSocketHandler.handlePublicMessage);
 publicWebsocket.on('error', err => {
   console.log(err.data)
 });
