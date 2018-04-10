@@ -1,6 +1,5 @@
 const { Pool, Client } = require('pg')
-// const connectionString = 'postgresql://localhost/postgres'
-const connectionString = 'postgresql://localhost:5432/gdax';
+const connectionString = process.env.GDAX_CONNECTION_STRING;
 
 // const pool = new Pool({
 //   connectionString: connectionString,

@@ -10,3 +10,15 @@ const ZeroEx = require('0x.js');
 // }
 
 // getAddresses();
+
+async function testThis() {
+  const resolved = await hiThere();
+  console.log(resolved)
+  return resolved;
+}
+
+function hiThere(){
+  return Promise.resolve('hi there')
+}
+
+testThis();
